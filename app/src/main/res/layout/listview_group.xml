@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@android:color/holo_green_light">
+    <ImageButton
+        android:id="@+id/btn_edit"
+        style="@android:style/Widget.DeviceDefault.ImageButton"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0"
+        android:contentDescription="@string/button_edit"
+        android:src="@android:drawable/ic_menu_edit" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/pwd_group_id"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:maxLines="1"
+            android:layout_weight="1"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/pwd_group_name"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:gravity="center"/>
+    </LinearLayout>
+    <ImageButton
+        android:id="@+id/btn_delete"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0"
+        android:contentDescription="@string/button_delete"
+        android:src="@android:drawable/ic_menu_delete" />
+
+</LinearLayout>
