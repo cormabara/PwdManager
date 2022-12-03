@@ -15,4 +15,6 @@ class PwdGroup() {
         name = name_
 
     }
+
+    fun setPwdName(v_: String) { name = v_ }
 }

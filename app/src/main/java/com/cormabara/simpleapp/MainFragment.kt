@@ -1,10 +1,10 @@
 package com.cormabara.simpleapp
 
-import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.Toast
@@ -45,30 +45,36 @@ class MainFragment : Fragment() {
         itemsListView = binding.idItemsList
         itemsAdapter = PwdItemAdapter(context as MainActivity,pwdCnfFile.ItemList())
         itemsListView.adapter = itemsAdapter
-
         groupsListView = binding.idGroupsList
         groupsAdapter = PwdGroupAdapter(context as MainActivity,pwdCnfFile.GroupList())
         groupsListView.adapter = groupsAdapter
+
+        itemsListView.setOnItemClickListener(OnItemClickListener { parent, view, position, id ->
+            val selectedItem = parent.getItemAtPosition(position) as PwdItem
+            Toast.makeText(context, "Click on item $selectedItem", Toast.LENGTH_SHORT).show()
+            // add this bundle when you move to another fragment.
+        })
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //val btn = (activity as MainActivity)?.btnAddItem()
-        //btn?.setOnClickListener {
-        //    Toast.makeText(context, "You clicked me.", Toast.LENGTH_SHORT).show()
-        //    pwdCnfFile.AddGroup("grp")
-        //    itemsAdapter!!.notifyDataSetChanged()
-        //}
-        // get reference to button
-        //btnAddItem = findViewById<ImageButton>(com.cormabara.simpleapp.R.id.btn_add_item)
-        //val btnAddGroup = findViewById<ImageButton>(com.cormabara.simpleapp.R.id.btn_add_group)
-        //btnAddGroup.setOnClickListener {
-        //    Toast.makeText(this@MainActivity, "You clicked me.", Toast.LENGTH_SHORT).show()
-        //    pwdCnfFile.AddGroup("grp")
-        //    groupsAdapter!!.notifyDataSetChanged()
-        //}
+        (activity as MainActivity?)!!.supportActionBar?.setTitle("pippo")
+
+        val btnAddItem = (activity as MainActivity).findViewById<ImageButton>(R.id.btn_add_item)
+        btnAddItem?.setOnClickListener {
+            Toast.makeText(context, "You clicked me.", Toast.LENGTH_SHORT).show()
+            pwdCnfFile.AddItem("grp")
+            itemsAdapter!!.notifyDataSetChanged()
+        }
+
+        val btnAddGroup = (activity as MainActivity).findViewById<ImageButton>(R.id.btn_add_group)
+        btnAddGroup?.setOnClickListener {
+            Toast.makeText(context, "You clicked me.", Toast.LENGTH_SHORT).show()
+            pwdCnfFile.AddGroup("grp")
+            groupsAdapter!!.notifyDataSetChanged()
+        }
     }
 
     override fun onDestroyView() {

@@ -6,12 +6,14 @@ class PwdItem() {
     var name: String
     var username: String
     var password: String
+    var groupId: String
 
     init {
         id = ""
         name = ""
         username = ""
         password = ""
+        groupId = ""
     }
 
     constructor(id_: String, name_: String = "name", username_: String = "username", password_: String = "password") : this() {
@@ -19,6 +21,7 @@ class PwdItem() {
         name = name_
         username = username_
         password = password_
+        groupId = ""
 
     }
 
@@ -37,5 +40,8 @@ class PwdItem() {
         set(value_) { password = value_ }
 
      */
-
+    fun setPwdName(v_: String) { name = v_ }
+    fun setPwdUsername(v_: String) {username = v_}
+    fun setPwdPassword(v_: String) {password = v_}
+    fun setPwdGroup(v_: String) {groupId = v_}
 }

@@ -26,6 +26,15 @@ class PwdCnfFile() {
     fun GroupList(): ArrayList<PwdGroup>  {
         return groupList
     }
+
+    fun FindGroupById(grpid_: String) : PwdGroup
+    {
+        for (grp in groupList) {
+            if (grp.id == grpid_) return grp
+        }
+        return groupList[0]
+    }
+
     fun AddGroup(name_: String = "name", username_: String = "username", password_: String = "password"): PwdGroup
     {
         var pwdGroup = PwdGroup("gr_" + (groupList.size+1),name_)

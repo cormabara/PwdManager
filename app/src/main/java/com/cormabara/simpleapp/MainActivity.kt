@@ -1,22 +1,21 @@
 package com.cormabara.simpleapp
 
-import android.annotation.SuppressLint
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.snackbar.Snackbar
+import android.view.*
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.*
+import com.cormabara.simpleapp.databinding.ActivityMainBinding
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.google.android.material.snackbar.Snackbar
 import java.io.File
 
-import com.cormabara.simpleapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private val cnfPwdFn = "pwd_data.json"
     lateinit var pwdCnfFile: PwdCnfFile
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,10 +110,10 @@ class MainActivity : AppCompatActivity() {
         if (pwdFile.exists()) {
             try {
                 val string = pwdFile.readText()
-                Log.i("PwdCnfFile", string)
+                Log.i("PwdCnfFile.kt", string)
 
                 pwdCnfFile = mapper.readValue(string)
-                Log.i("PwdCnfFile", pwdFile.readText())
+                Log.i("PwdCnfFile.kt", pwdFile.readText())
 
             } catch (e: Exception) {
                 pwdFile.delete()
@@ -134,9 +134,8 @@ class MainActivity : AppCompatActivity() {
         val pwdFile = File(filesDir, cnfPwdFn)
         val mapper = jacksonObjectMapper()
         val myStr = mapper.writeValueAsString(pwdCnfFile)
-        Log.i("PwdCnfFile",myStr)
+        Log.i("PwdCnfFile.kt",myStr)
         pwdFile.writeText(myStr)
         // mapper.writeValue(file, pwdCnfData)
     }
-
 }
