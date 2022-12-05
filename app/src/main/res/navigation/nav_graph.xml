@@ -6,25 +6,10 @@
     app:startDestination="@id/StartFragment">
 
     <fragment
-        android:id="@+id/EditFragment"
-        android:name="com.cormabara.simpleapp.EditFragment"
-        android:label="@string/edit_fragment_label"
-        tools:layout="@layout/fragment_edit">
-
-        <action
-            android:id="@+id/action_EditFragment_to_MainFragment"
-            app:destination="@id/MainFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/MainFragment"
         android:name="com.cormabara.simpleapp.MainFragment"
         android:label="@string/main_fragment_label"
-        tools:layout="@layout/fragment_main">
-
-        <action
-            android:id="@+id/action_MainFragment_to_EditFragment"
-            app:destination="@id/EditFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_main"/>
     <fragment
         android:id="@+id/StartFragment"
         android:name="com.cormabara.simpleapp.StartFragment"

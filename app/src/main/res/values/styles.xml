@@ -13,7 +13,16 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
     </style>
-
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/purple_200</item>
+        <item name="android:textColorSecondary">@color/black_text_color_1</item>
+        <item name="android:background">@color/teal_700</item>
+    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">@color/black_text_color_1</item>
+        <item name="android:textColor">@color/purple_200</item>
+        <item name="android:background">@color/teal_700</item>
+    </style>
 </resources>
 
 
