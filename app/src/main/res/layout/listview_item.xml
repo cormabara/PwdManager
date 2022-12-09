@@ -9,7 +9,9 @@
         android:layout_height="match_parent"
         android:layout_weight="0"
         android:contentDescription="@string/button_edit"
-        android:src="@android:drawable/ic_menu_edit" />
+        android:src="@android:drawable/ic_menu_edit"
+        android:alpha="0.25"
+        android:background="@drawable/rounded_corner"/>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
@@ -21,14 +23,16 @@
             android:layout_height="fill_parent"
             android:maxLines="1"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:gravity="center"
+            style="@style/TextPwdItem"/>
         <TextView
             android:id="@+id/pwd_item_name"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:maxLines="1"
-            android:gravity="center"/>
+            android:gravity="center"
+            style="@style/TextPwdItem"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
@@ -56,6 +60,9 @@
         android:layout_height="match_parent"
         android:layout_weight="0"
         android:contentDescription="@string/button_delete"
-        android:src="@android:drawable/ic_menu_delete" />
+        android:src="@android:drawable/ic_menu_delete"
+        android:alpha="0.25"
+        android:radius="5dp"
+        android:background="@drawable/rounded_corner"/>
 
 </LinearLayout>

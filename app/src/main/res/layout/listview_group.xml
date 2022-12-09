@@ -9,26 +9,30 @@
         android:layout_height="match_parent"
         android:layout_weight="0"
         android:contentDescription="@string/button_edit"
-        android:src="@android:drawable/ic_menu_edit" />
+        android:src="@android:drawable/ic_menu_edit"
+        android:alpha="0.25"
+        android:background="@drawable/rounded_corner"/>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/pwd_group_id"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:maxLines="1"
-            android:layout_weight="1"
-            android:gravity="center"/>
-        <TextView
             android:id="@+id/pwd_group_name"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:maxLines="1"
-            android:gravity="center"/>
+            android:gravity="center"
+            style="@style/TextPwdGrp"/>
+        <TextView
+            android:id="@+id/pwd_group_id"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:maxLines="1"
+            android:layout_weight="1"
+            android:gravity="center"
+            style="@style/TextPwdGrp"/>
     </LinearLayout>
     <ImageButton
         android:id="@+id/btn_delete"
@@ -36,6 +40,8 @@
         android:layout_height="match_parent"
         android:layout_weight="0"
         android:contentDescription="@string/button_delete"
-        android:src="@android:drawable/ic_menu_delete" />
+        android:src="@android:drawable/ic_menu_delete"
+        android:alpha="0.25"
+        android:background="@drawable/rounded_corner"/>
 
 </LinearLayout>
