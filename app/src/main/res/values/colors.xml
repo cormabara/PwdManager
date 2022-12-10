@@ -9,6 +9,8 @@
     <color name="colorAccent">#40B3FF</color>
 
     <color name="black_background">#444444</color>
+    <color name="black_background_grad1">#353535</color>
+    <color name="black_background_grad2">#272727</color>
     <color name="black_text_color_1">#6DA3FF</color>
     <color name="text_light_1">#668B9C</color>
     <color name="text_dark_1">#214455</color>
