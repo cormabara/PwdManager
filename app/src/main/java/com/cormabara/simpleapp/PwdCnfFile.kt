@@ -35,9 +35,8 @@ class PwdCnfFile() {
         return groupList[0]
     }
 
-    fun AddGroup(name_: String = "name", username_: String = "username", password_: String = "password"): PwdGroup
-    {
-        var pwdGroup = PwdGroup("gr_" + (groupList.size+1),name_)
+    fun AddGroup(name_: String = "name", username_: String = "username", password_: String = "password"): PwdGroup {
+        var pwdGroup = PwdGroup("gr_" + (groupList.size + 1), name_)
         groupList.add(pwdGroup)
         return pwdGroup
     }
@@ -59,8 +58,6 @@ fun PwdCnfFileInit(file_: File) : PwdCnfFile
         } catch (e: Exception) {
             file_.delete()
             pwdCnfFile = PwdCnfFile()
-            pwdCnfFile.AddItem("item1", "username1", "password1")
-            pwdCnfFile.AddItem("item2", "username2", "password2")
         }
     } else {
         pwdCnfFile = PwdCnfFile()

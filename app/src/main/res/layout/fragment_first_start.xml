@@ -18,21 +18,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="30dp"
+            android:text="Insert password"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
         <EditText
-            android:id="@+id/text_password"
+            android:id="@+id/text_password_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
             android:lines="1"
             android:minHeight="48dp"
             android:inputType="textPassword"
+            android:textAlignment="center"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="30dp"
+            android:text="Confirm"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/text_password_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:minHeight="48dp"
             android:textAlignment="center" />
+
         <Button
             android:id="@+id/btn_submit"
-            android:text="Submit"
-            android:textAllCaps="false"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:textAllCaps="false" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

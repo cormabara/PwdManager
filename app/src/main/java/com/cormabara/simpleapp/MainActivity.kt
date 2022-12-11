@@ -26,8 +26,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appCnfFile: AppCnfFile
 
     private val cnfPwdFn = "pwd_data.json"
+    private val cnfPwdFnCrypt = "pwd_data_crypt.json"
     lateinit var pwdCnfFile: PwdCnfFile
 
+    var mainPassword: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,58 +86,60 @@ class MainActivity : AppCompatActivity() {
         appClose()
     }
 
+
+
     private fun appInit() {
         val appFile = File(filesDir , cnfAppFn)
         Log.i("MainActivity", "Loading configuration files")
         appCnfFile = AppCnfFile(appFile)
 
-        val cnfPwdFile = File(filesDir,cnfPwdFn)
-        pwdCnfFile = PwdCnfFileInit(cnfPwdFile)
-
-        val fileTest = File(filesDir,"pippo.txt")
-        val fileTestCrypt = File(filesDir,"pippo_crypt.txt")
-        val text = "pippo fa la pizza e la fa bene devo allungare la frase per verificare esception"
-
-        fileTest.writeText(text)
-        PwdCrypt.FileEncrypt("turbopino",text,fileTestCrypt)
-        val str = fileTest.readText()
-        val str_crypted = fileTestCrypt.readText()
-        var str_decrypted = PwdCrypt.FileDecrypt("turbopino",fileTestCrypt)
-        Log.i("MainActivity-str", str)
-        Log.i("MainActivity-strcrypt", str)
-        val str_cypt_2 = fileTest.readText()
-
-        val mapper = jacksonObjectMapper()
-        val pwdFile = File(filesDir, cnfPwdFn)
-        if (pwdFile.exists()) {
-            try {
-                val string = pwdFile.readText()
-                Log.i("PwdCnfFile.kt", string)
-
-                pwdCnfFile = mapper.readValue(string)
-                Log.i("PwdCnfFile.kt", pwdFile.readText())
-
-            } catch (e: Exception) {
-                pwdFile.delete()
-                pwdCnfFile = PwdCnfFile()
-                pwdCnfFile.AddItem("item1", "username1", "password1")
-                pwdCnfFile.AddItem("item2", "username2", "password2")
-            }
-        } else {
-            pwdCnfFile = PwdCnfFile()
-            pwdCnfFile.AddItem("item1", "username1", "password1")
-            pwdCnfFile.AddItem("item2", "username2", "password2")
-        }
         Log.i("MainActivity", "Application init is done")
     }
 
-    private fun appClose()
+    fun loadPwdData()
+    {
+        val cnfPwdFile = File(filesDir,cnfPwdFn)
+        // pwdCnfFile = PwdCnfFileInit(cnfPwdFile)
+
+        val mapper = jacksonObjectMapper()
+        val pwdFile = File(filesDir, cnfPwdFn)
+        val pwdFileCrypt = File(filesDir, cnfPwdFnCrypt)
+        if (pwdFile.exists() && pwdFileCrypt.exists()) {
+            try {
+                val str1 = pwdFile.readText()
+                Log.i("PwdCnfFile.kt", str1)
+                pwdCnfFile = mapper.readValue(str1)
+
+                val str2 = PwdCrypt.FileDecrypt(mainPassword,pwdFileCrypt)
+                Log.i("pwd data 1", str1)
+                Log.i("pwd data 2", str2)
+            } catch (e: Exception) {
+                pwdFile.delete()
+                pwdCnfFile = PwdCnfFile()
+            }
+        } else {
+            pwdCnfFile = PwdCnfFile()
+        }
+    }
+
+    fun savePwdData()
     {
         val pwdFile = File(filesDir, cnfPwdFn)
+        val pwdFileCrypt = File(filesDir,cnfPwdFnCrypt)
         val mapper = jacksonObjectMapper()
         val myStr = mapper.writeValueAsString(pwdCnfFile)
         Log.i("PwdCnfFile.kt",myStr)
         pwdFile.writeText(myStr)
-        // mapper.writeValue(file, pwdCnfData)
+        PwdCrypt.FileEncrypt(mainPassword,myStr,pwdFileCrypt)
+    }
+
+    fun CheckPwdData() :Boolean
+    {
+        return File(filesDir,cnfPwdFnCrypt).exists()
+    }
+
+    private fun appClose()
+    {
+        savePwdData()
     }
 }

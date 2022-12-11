@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/StartFragment">
+    app:startDestination="@id/firstStartFragment">
 
     <fragment
         android:id="@+id/MainFragment"
@@ -18,6 +18,17 @@
 
         <action
             android:id="@+id/action_StartFragment_to_MainFragment"
+            app:destination="@id/MainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/firstStartFragment"
+        android:name="com.cormabara.simpleapp.FirstStartFragment"
+        android:label="FirstStartFragment" >
+        <action
+            android:id="@+id/action_firstStartFragment_to_StartFragment"
+            app:destination="@id/StartFragment" />
+        <action
+            android:id="@+id/action_firstStartFragment_to_MainFragment"
             app:destination="@id/MainFragment" />
     </fragment>
 

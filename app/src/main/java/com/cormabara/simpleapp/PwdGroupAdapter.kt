@@ -38,7 +38,7 @@ class PwdGroupAdapter(private val context: Context, private val arrayList: java.
         val btnEdit = rowView.findViewById(R.id.btn_edit) as ImageButton
         btnEdit.setOnClickListener {
             val selectedItem = getItem(position) as PwdGroup
-            showEditDialog("pippo",selectedItem)
+            editGroupDialog(context,"Insert Group Data",selectedItem)
         }
         return rowView
     }
@@ -51,24 +51,5 @@ class PwdGroupAdapter(private val context: Context, private val arrayList: java.
     }
     override fun getItemId(position: Int): Long {
         return position.toLong()
-    }
-    private fun showEditDialog(title: String, group: PwdGroup) {
-        val dialog = Dialog(context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.dialog_edit_group)
-
-        var txt_name: EditText = dialog.findViewById(R.id.txt_name)
-        txt_name.setText(group.name)
-
-        val btn_ok = dialog.findViewById(R.id.btn_ok) as Button
-        val btn_cancel = dialog.findViewById(R.id.btn_cancel) as Button
-        btn_ok.setOnClickListener {
-            group.setPwdName(txt_name.text.toString())
-            dialog.dismiss()
-            notifyDataSetChanged()
-        }
-        btn_cancel.setOnClickListener { dialog.dismiss() }
-        dialog.show()
     }
 }
