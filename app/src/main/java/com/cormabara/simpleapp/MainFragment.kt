@@ -31,11 +31,13 @@ class MainFragment : Fragment() {
     private lateinit var groupsListView: ListView
 
     private lateinit var pwdCnfFile: PwdCnfFile
-
+    private lateinit var my_activity: MainActivity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        my_activity = (context as MainActivity)
 
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         // init view model

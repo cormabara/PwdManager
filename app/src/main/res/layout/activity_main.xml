@@ -30,6 +30,7 @@
                     android:contentDescription="@string/action_exit"
                     android:minWidth="48dp"
                     android:minHeight="48dp"
+                    android:scaleType="fitCenter"
                     app:srcCompat="@mipmap/ic_shutdown_foreground" />
 
                 <ImageButton
@@ -40,6 +41,7 @@
                     android:contentDescription="@string/add_group"
                     android:minWidth="48dp"
                     android:minHeight="48dp"
+                    android:scaleType="fitCenter"
                     app:srcCompat="@mipmap/ic_add_group_foreground" />
 
                 <ImageButton
@@ -50,6 +52,7 @@
                     android:contentDescription="@string/add_item"
                     android:minWidth="48dp"
                     android:minHeight="48dp"
+                    android:scaleType="fitCenter"
                     app:srcCompat="@mipmap/ic_add_item_foreground" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -66,7 +69,9 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/action_exit"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        app:srcCompat="@mipmap/img_clear_foreground" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

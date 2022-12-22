@@ -4,13 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.cormabara.simpleapp.databinding.FragmentMainBinding
 import com.cormabara.simpleapp.databinding.FragmentFirstStartBinding
 
 class FirstStartFragment : Fragment() {
@@ -36,7 +32,7 @@ class FirstStartFragment : Fragment() {
             Toast.makeText(context as MainActivity, "Submit button $pwd1-$pwd2", Toast.LENGTH_SHORT).show()
             if (pwd1 == pwd2) {
                 (context as MainActivity).mainPassword = pwd1
-                (context as MainActivity).loadPwdData()
+                (context as MainActivity).createPwdData()
                 findNavController().navigate(R.id.action_firstStartFragment_to_MainFragment)
             }
             else {

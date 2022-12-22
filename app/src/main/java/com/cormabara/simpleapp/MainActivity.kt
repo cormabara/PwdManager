@@ -1,6 +1,5 @@
 package com.cormabara.simpleapp
 
-import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -13,7 +12,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.cormabara.simpleapp.databinding.ActivityMainBinding
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.google.android.material.snackbar.Snackbar
 import java.io.File
 
 
@@ -54,8 +52,15 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            val chooseDiag = ChooseDialog(this)
+            chooseDiag.show("Delete all data!","If YES all data will be deleted, are you sure?",{
+                if (it == ChooseDialog.ResponseType.YES) {
+                    Toast.makeText(this, "Clear all data", Toast.LENGTH_SHORT).show()
+                    removePwdData()
+                    navController.navigate(R.id.action_StartFragment_to_firstStartFragment)
+
+                }
+            })
         }
     }
 
@@ -96,46 +101,52 @@ class MainActivity : AppCompatActivity() {
         Log.i("MainActivity", "Application init is done")
     }
 
-    fun loadPwdData()
+    fun createPwdData()
     {
-        val cnfPwdFile = File(filesDir,cnfPwdFn)
-        // pwdCnfFile = PwdCnfFileInit(cnfPwdFile)
-
-        val mapper = jacksonObjectMapper()
-        val pwdFile = File(filesDir, cnfPwdFn)
         val pwdFileCrypt = File(filesDir, cnfPwdFnCrypt)
-        if (pwdFile.exists() && pwdFileCrypt.exists()) {
-            try {
-                val str1 = pwdFile.readText()
-                Log.i("PwdCnfFile.kt", str1)
-                pwdCnfFile = mapper.readValue(str1)
-
-                val str2 = PwdCrypt.FileDecrypt(mainPassword,pwdFileCrypt)
-                Log.i("pwd data 1", str1)
-                Log.i("pwd data 2", str2)
-            } catch (e: Exception) {
-                pwdFile.delete()
-                pwdCnfFile = PwdCnfFile()
-            }
-        } else {
-            pwdCnfFile = PwdCnfFile()
+        if (pwdFileCrypt.exists() ) {
+            pwdFileCrypt.delete()
         }
+        pwdCnfFile = PwdCnfFile()
+    }
+
+    fun loadPwdData() : Boolean
+    {
+        val mapper = jacksonObjectMapper()
+        val pwdFileCrypt = File(filesDir, cnfPwdFnCrypt)
+        if (pwdFileCrypt.exists() ) {
+            try {
+                val str2 = PwdCrypt.FileDecrypt(mainPassword,pwdFileCrypt)
+                pwdCnfFile = mapper.readValue(str2)
+            } catch (e: Exception) {
+                return false
+            }
+        }
+        else {
+            return false
+        }
+        return true
     }
 
     fun savePwdData()
     {
-        val pwdFile = File(filesDir, cnfPwdFn)
         val pwdFileCrypt = File(filesDir,cnfPwdFnCrypt)
         val mapper = jacksonObjectMapper()
         val myStr = mapper.writeValueAsString(pwdCnfFile)
         Log.i("PwdCnfFile.kt",myStr)
-        pwdFile.writeText(myStr)
         PwdCrypt.FileEncrypt(mainPassword,myStr,pwdFileCrypt)
     }
 
     fun CheckPwdData() :Boolean
     {
         return File(filesDir,cnfPwdFnCrypt).exists()
+    }
+
+    fun removePwdData() : Boolean
+    {
+        File(filesDir,cnfPwdFnCrypt).delete()
+        File(filesDir,cnfPwdFn).delete()
+        return true
     }
 
     private fun appClose()

@@ -21,15 +21,18 @@ class StartFragment : Fragment() {
     ): View {
 
         _binding = FragmentStartBinding.inflate(inflater, container, false)
+        var my_activity = (activity as MainActivity)
 
         // init view model
         // Init the item list view
         binding.btnSubmit.setOnClickListener() {
-            (context as MainActivity).mainPassword = binding.textPassword.text.toString()
+            my_activity.mainPassword = binding.textPassword.text.toString()
             val pwd = (context as MainActivity).mainPassword
-            (context as MainActivity).loadPwdData()
-            Toast.makeText(context as MainActivity, "Submit button.$pwd", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_StartFragment_to_MainFragment)
+            if ( (context as MainActivity).loadPwdData() == true)
+                findNavController().navigate(R.id.action_StartFragment_to_MainFragment)
+            else
+                Toast.makeText(context as MainActivity, "Wrong password.$pwd", Toast.LENGTH_SHORT).show()
+
         }
         return binding.root
     }

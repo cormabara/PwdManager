@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_StartFragment_to_MainFragment"
             app:destination="@id/MainFragment" />
+        <action
+            android:id="@+id/action_StartFragment_to_firstStartFragment"
+            app:destination="@id/firstStartFragment" />
     </fragment>
     <fragment
         android:id="@+id/firstStartFragment"

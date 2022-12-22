@@ -21,8 +21,4 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.SimpleApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.SimpleApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 </resources>
