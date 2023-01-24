@@ -1,12 +1,12 @@
 package com.cormabara.simpleapp
 
-import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.*
+import com.cormabara.simpleapp.data.PwdCnfFile
+import com.cormabara.simpleapp.data.PwdItem
 
 
 //Class MyAdapter
@@ -38,18 +38,15 @@ class PwdItemAdapter(private val context: Context, private val arrayList: java.u
             Toast.makeText(context, "Delete button", Toast.LENGTH_SHORT).show()
             val element = getItem(position)
             arrayList.remove(element)
-            notifyDataSetChanged()
+            this.notifyDataSetChanged()
         }
 
-        val btnEdit = rowView.findViewById(R.id.btn_edit) as ImageButton
+        val btnEdit = rowView.findViewById(R.id.btn_edit_group) as ImageButton
         btnEdit.setOnClickListener {
             val selectedItem = getItem(position) as PwdItem
-            //showEditDialog("pippo",selectedItem)
-            editItemDialog(context,"pippo",selectedItem)
-            notifyDataSetChanged()
+            editItemDialog(context,this,selectedItem)
+            this.notifyDataSetChanged()
         }
-
-        var txt_main = rowView.findViewById<TextView>(R.id.txt_username)
         return rowView
     }
 

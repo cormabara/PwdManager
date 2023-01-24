@@ -1,9 +1,7 @@
-package com.cormabara.simpleapp
+package com.cormabara.simpleapp.data
 
-import android.util.Log
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import java.io.File
+import com.cormabara.simpleapp.data.PwdGroup
+import com.cormabara.simpleapp.data.PwdItem
 
 class PwdCnfFile() {
 
@@ -35,6 +33,17 @@ class PwdCnfFile() {
         return groupList[0]
     }
 
+    /** Find all items that belongs to a group */
+    fun FindElementsByGroup(grpid_: String) : ArrayList<PwdItem>
+    {
+        var itlist = ArrayList<PwdItem>()
+        for (it in itemList) {
+            if (it.groupId == grpid_)
+                itlist.add(it)
+        }
+        return itlist
+    }
+
     fun AddGroup(name_: String = "name", username_: String = "username", password_: String = "password"): PwdGroup {
         var pwdGroup = PwdGroup("gr_" + (groupList.size + 1), name_)
         groupList.add(pwdGroup)
@@ -42,28 +51,3 @@ class PwdCnfFile() {
     }
 }
 
-fun PwdCnfFileInit(file_: File) : PwdCnfFile
-{
-    val mapper = jacksonObjectMapper()
-    var pwdCnfFile: PwdCnfFile
-
-    if (file_.exists()) {
-        try {
-            val string = file_.readText()
-            Log.i("PwdCnfFile", string)
-
-            pwdCnfFile = mapper.readValue(string)
-            Log.i("PwdCnfFile", file_.readText())
-
-        } catch (e: Exception) {
-            file_.delete()
-            pwdCnfFile = PwdCnfFile()
-        }
-    } else {
-        pwdCnfFile = PwdCnfFile()
-        pwdCnfFile.AddItem("item1", "username1", "password1")
-        pwdCnfFile.AddItem("item2", "username2", "password2")
-    }
-    Log.i("MainActivity", "Application init is done")
-    return pwdCnfFile
-}

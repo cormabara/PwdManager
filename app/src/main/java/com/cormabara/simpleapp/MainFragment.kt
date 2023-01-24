@@ -10,6 +10,8 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.cormabara.simpleapp.data.PwdCnfFile
+import com.cormabara.simpleapp.data.PwdItem
 import com.cormabara.simpleapp.databinding.FragmentMainBinding
 
 

@@ -1,4 +1,4 @@
-package com.cormabara.simpleapp
+package com.cormabara.simpleapp.data
 
 class PwdGroup() {
 

@@ -69,9 +69,9 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/action_exit"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        app:srcCompat="@mipmap/img_clear_foreground" />
+        android:src="@mipmap/img_clear_all_foreground" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -18,7 +18,9 @@
             android:id="@+id/txt_item_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:text="@string/edititemtitle"
+            android:textAlignment="center"/>
 
         <EditText
             android:id="@+id/txt_name"

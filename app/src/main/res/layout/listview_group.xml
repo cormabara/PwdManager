@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="50dp"
+    android:background="@drawable/custom_pwd_group">
     <ImageButton
-        android:id="@+id/btn_edit"
+        android:id="@+id/btn_edit_group"
         style="@android:style/Widget.DeviceDefault.ImageButton"
         android:layout_width="50dp"
         android:layout_height="match_parent"
@@ -24,14 +25,7 @@
             android:layout_weight="1"
             android:maxLines="1"
             android:gravity="center"
-            style="@style/TextPwdGrp"/>
-        <TextView
-            android:id="@+id/pwd_group_id"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:maxLines="1"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:background="#00000000"
             style="@style/TextPwdGrp"/>
     </LinearLayout>
     <ImageButton

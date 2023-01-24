@@ -1,12 +1,11 @@
 package com.cormabara.simpleapp
 
-import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.*
+import com.cormabara.simpleapp.data.PwdGroup
 
 
 //Class MyAdapter
@@ -22,11 +21,9 @@ class PwdGroupAdapter(private val context: Context, private val arrayList: java.
 
         val rowView =  inflater.inflate(R.layout.listview_group, parent, false) as LinearLayout
 
-        id = rowView.findViewById(R.id.pwd_group_id) as TextView
         name = rowView.findViewById(R.id.pwd_group_name) as TextView
         btn_delete = rowView.findViewById(R.id.btn_delete)
         val myItem = getItem(position) as PwdGroup
-        id.text = myItem.id
         name.text = myItem.name
 
         btn_delete.setOnClickListener {
@@ -35,10 +32,10 @@ class PwdGroupAdapter(private val context: Context, private val arrayList: java.
             arrayList.remove(element)
             notifyDataSetChanged()
         }
-        val btnEdit = rowView.findViewById(R.id.btn_edit) as ImageButton
+        val btnEdit = rowView.findViewById(R.id.btn_edit_group) as ImageButton
         btnEdit.setOnClickListener {
             val selectedItem = getItem(position) as PwdGroup
-            editGroupDialog(context,"Insert Group Data",selectedItem)
+            editGroupDialog(context,this,selectedItem)
         }
         return rowView
     }
