@@ -1,4 +1,4 @@
-package com.cormabara.simpleapp
+package com.cormabara.pwdmanager
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

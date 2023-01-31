@@ -1,4 +1,4 @@
-package com.cormabara.simpleapp
+package com.cormabara.pwdmanager
 
 import org.junit.Test
 

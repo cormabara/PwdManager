@@ -1,4 +1,4 @@
-package com.cormabara.simpleapp.data
+package com.cormabara.pwdmanager.data
 
 class PwdItem() {
 

@@ -1,4 +1,4 @@
-package com.cormabara.simpleapp
+package com.cormabara.pwdmanager
 
 import android.os.Bundle
 import android.util.Log
@@ -9,8 +9,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.cormabara.simpleapp.data.PwdCnfFile
-import com.cormabara.simpleapp.databinding.ActivityMainBinding
+import com.cormabara.pwdmanager.data.PwdCnfFile
+import com.cormabara.pwdmanager.databinding.ActivityMainBinding
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.File

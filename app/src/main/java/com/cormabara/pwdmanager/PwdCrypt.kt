@@ -1,9 +1,6 @@
-package com.cormabara.simpleapp
+package com.cormabara.pwdmanager
 
 import java.io.File
-import android.util.Base64.DEFAULT as def64
-import android.util.Base64.encodeToString as encodeToString64
-import android.util.Base64.decode as decode64
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec

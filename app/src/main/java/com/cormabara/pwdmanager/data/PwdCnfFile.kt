@@ -1,7 +1,4 @@
-package com.cormabara.simpleapp.data
-
-import com.cormabara.simpleapp.data.PwdGroup
-import com.cormabara.simpleapp.data.PwdItem
+package com.cormabara.pwdmanager.data
 
 class PwdCnfFile() {
 

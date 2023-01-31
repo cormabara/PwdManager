@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.SimpleApp" parent="Theme.MaterialComponents.DayNight">
+    <style name="Theme.PwdManager" parent="Theme.MaterialComponents.DayNight">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/light_1</item>
@@ -16,7 +16,7 @@
         <item name="android:background">@color/black_background</item>
     </style>
 
-    <style name="Theme.SimpleApp.NoActionBar">
+    <style name="Theme.PwdManager.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

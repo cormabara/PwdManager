@@ -1,4 +1,4 @@
-package com.cormabara.simpleapp
+package com.cormabara.pwdmanager
 
 import android.app.Dialog
 import android.content.Context
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
-import com.cormabara.simpleapp.data.PwdGroup
-import com.cormabara.simpleapp.data.PwdItem
+import com.cormabara.pwdmanager.data.PwdGroup
+import com.cormabara.pwdmanager.data.PwdItem
 
 fun editItemDialog(context: Context,adapter_ :PwdItemAdapter , item: PwdItem) {
     val dialog = Dialog(context)

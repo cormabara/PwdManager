@@ -1,4 +1,4 @@
-package com.cormabara.simpleapp
+package com.cormabara.pwdmanager
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,9 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.cormabara.simpleapp.data.PwdCnfFile
-import com.cormabara.simpleapp.data.PwdItem
-import com.cormabara.simpleapp.databinding.FragmentMainBinding
+import com.cormabara.pwdmanager.data.PwdCnfFile
+import com.cormabara.pwdmanager.data.PwdItem
+import com.cormabara.pwdmanager.databinding.FragmentMainBinding
 
 
 /**

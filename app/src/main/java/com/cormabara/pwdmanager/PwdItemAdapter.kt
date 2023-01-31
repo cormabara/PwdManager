@@ -1,12 +1,12 @@
-package com.cormabara.simpleapp
+package com.cormabara.pwdmanager
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.cormabara.simpleapp.data.PwdCnfFile
-import com.cormabara.simpleapp.data.PwdItem
+import com.cormabara.pwdmanager.data.PwdCnfFile
+import com.cormabara.pwdmanager.data.PwdItem
 
 
 //Class MyAdapter

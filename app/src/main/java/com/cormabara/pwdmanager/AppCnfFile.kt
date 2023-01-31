@@ -1,4 +1,4 @@
-package com.cormabara.simpleapp
+package com.cormabara.pwdmanager
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -30,7 +30,7 @@ class AppCnfFile(file_: File) {
     }
 
     fun Backup() {
-        val destdir = "/data/data/com.cormabara.simpleapp/files/"
+        val destdir = "/data/data/com.cormabara.pwdmanager/files/"
         if (file.exists())
             file.copyTo(File(destdir,file.name),true)
     }
