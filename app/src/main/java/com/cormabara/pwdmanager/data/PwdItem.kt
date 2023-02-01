@@ -2,19 +2,12 @@ package com.cormabara.pwdmanager.data
 
 class PwdItem() {
 
-    var id: String
-    var name: String
-    var username: String
-    var password: String
-    var groupId: String
-
-    init {
-        id = ""
-        name = ""
-        username = ""
-        password = ""
-        groupId = ""
-    }
+    var id: String = ""
+    var name: String = ""
+    var username: String = ""
+    var password: String = ""
+    var groupId: String = ""
+    var tagList: ArrayList<String> = ArrayList<String>()
 
     constructor(id_: String, name_: String = "name", username_: String = "username", password_: String = "password") : this() {
         id = id_
@@ -22,26 +15,11 @@ class PwdItem() {
         username = username_
         password = password_
         groupId = ""
-
     }
-
-    /*
-    var ItId: String
-        get() = id
-        set(value_) { id = value_ }
-    var ItName: String
-        get() = name
-        set(value_) { name = value_ }
-    var ItUsername: String
-        get() = username
-        set(value_) { username = value_ }
-    var ItPassword: String
-        get() = password
-        set(value_) { password = value_ }
-
-     */
     fun setPwdName(v_: String) { name = v_ }
     fun setPwdUsername(v_: String) {username = v_}
     fun setPwdPassword(v_: String) {password = v_}
     fun setPwdGroup(v_: String) {groupId = v_}
+    fun addTag(tag_: String) {if (tag_ !in tagList) tagList.add(tag_) }
+    fun hasTag(tag_:String): Boolean  {return (tag_ in tagList) }
 }

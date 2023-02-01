@@ -2,49 +2,67 @@ package com.cormabara.pwdmanager.data
 
 class PwdCnfFile() {
 
+    var tagList: ArrayList<String> = ArrayList()
     var itemList: ArrayList<PwdItem> = ArrayList()
-    var groupList: ArrayList<PwdGroup> = ArrayList()
 
-
-    fun ItemList(): ArrayList<PwdItem>  {
+    fun listPwdItems(): ArrayList<PwdItem>  {
         return itemList
     }
-
-    fun AddItem(name_: String = "name", username_: String = "username", password_: String = "password"): PwdItem
+    
+    /** @brief Check if an item with the "id_" identifier is already present */
+    fun checkId(id_: String) : Boolean
     {
-        var pwdItem = PwdItem("it_" + (itemList.size+1),name_,username_,password_)
+        for (it in itemList) {
+            if (it.id == id_)
+                return true;
+        }
+        return false;
+    }
+
+    fun newId() : Int
+    {
+        var newid = 1
+        val MAXIDITEMS = 200000
+        while(this.checkId("it_" + newid.toString())) {
+            newid = newid + 1
+            if (newid > MAXIDITEMS) return 0
+        }
+        return newid
+    }
+    
+    /** @brief Add a new item in the list with the auto data */
+    fun newItem(): PwdItem
+    {
+        val id = "it_" + newId().toString()
+        val name = "name_$id"
+        val username = "usr_$id"
+        val password = "pwd_$id"
+        var pwdItem = PwdItem(id,name,username,password)
         itemList.add(pwdItem)
         return pwdItem
     }
 
-
-    fun GroupList(): ArrayList<PwdGroup>  {
-        return groupList
-    }
-
-    fun FindGroupById(grpid_: String) : PwdGroup
+    fun addTag(tag_: String)
     {
-        for (grp in groupList) {
-            if (grp.id == grpid_) return grp
-        }
-        return groupList[0]
+        tagList.add(tag_)
     }
-
+    fun delTag(tag_: String)
+    {
+        tagList.remove(tag_)
+    }
+    fun checkTag(tag_: String) : Boolean
+    {
+        return tagList.contains(tag_)
+    }
     /** Find all items that belongs to a group */
-    fun FindElementsByGroup(grpid_: String) : ArrayList<PwdItem>
+    fun itemsByTag(tag_: String) : ArrayList<PwdItem>
     {
         var itlist = ArrayList<PwdItem>()
         for (it in itemList) {
-            if (it.groupId == grpid_)
+            if (it.hasTag(tag_))
                 itlist.add(it)
         }
         return itlist
-    }
-
-    fun AddGroup(name_: String = "name", username_: String = "username", password_: String = "password"): PwdGroup {
-        var pwdGroup = PwdGroup("gr_" + (groupList.size + 1), name_)
-        groupList.add(pwdGroup)
-        return pwdGroup
     }
 }
 

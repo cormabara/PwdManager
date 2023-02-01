@@ -34,15 +34,15 @@
                     app:srcCompat="@mipmap/ic_shutdown_foreground" />
 
                 <ImageButton
-                    android:id="@+id/btn_add_group"
+                    android:id="@+id/btn_find_by_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:contentDescription="@string/add_group"
+                    android:contentDescription="@string/find_by_item"
                     android:minWidth="48dp"
                     android:minHeight="48dp"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@mipmap/ic_add_group_foreground" />
+                    app:srcCompat="@mipmap/img_find_foreground" />
 
                 <ImageButton
                     android:id="@+id/btn_add_item"

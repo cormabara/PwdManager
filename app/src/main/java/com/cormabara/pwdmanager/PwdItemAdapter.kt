@@ -22,23 +22,25 @@ class PwdItemAdapter(private val context: Context, private val arrayList: java.u
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         val rowView =  inflater.inflate(R.layout.listview_item, parent, false) as LinearLayout
-        id = rowView.findViewById(R.id.pwd_item_id) as TextView
         name = rowView.findViewById(R.id.pwd_item_name) as TextView
         username = rowView.findViewById(R.id.pwd_item_username) as TextView
         password = rowView.findViewById(R.id.pwd_item_password) as TextView
 
         val myItem = getItem(position) as PwdItem
-        id.text = myItem.id
         name.text = myItem.name
         username.text = myItem.username
         password.text = myItem.password
 
         var btn_delete = rowView.findViewById(R.id.btn_delete) as ImageButton
         btn_delete.setOnClickListener {
-            Toast.makeText(context, "Delete button", Toast.LENGTH_SHORT).show()
             val element = getItem(position)
-            arrayList.remove(element)
-            this.notifyDataSetChanged()
+            val chooseDiag = ChooseDialog(context)
+            chooseDiag.show("Delete element","If YES ${element.name} will be deleted",{
+                if (it == ChooseDialog.ResponseType.YES) {
+                    arrayList.remove(element)
+                    this.notifyDataSetChanged()
+                }
+            })
         }
 
         val btnEdit = rowView.findViewById(R.id.btn_edit_group) as ImageButton
@@ -58,5 +60,10 @@ class PwdItemAdapter(private val context: Context, private val arrayList: java.u
     }
     override fun getItemId(position: Int): Long {
         return position.toLong()
+    }
+    fun addNewItem()
+    {
+        val selectedItem = (context as MainActivity).pwdCnfFile.newItem()
+        editItemDialog(context,this,selectedItem)
     }
 }

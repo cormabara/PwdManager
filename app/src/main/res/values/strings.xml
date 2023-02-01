@@ -14,4 +14,5 @@
     <string name="group">Group</string>
     <string name="username">Username</string>
     <string name="edititemtitle">Item edit</string>
+    <string name="find_by_item">Find by item</string>
 </resources>

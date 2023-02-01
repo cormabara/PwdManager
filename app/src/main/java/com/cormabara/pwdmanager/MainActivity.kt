@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         // get reference to button
         val btnExit = findViewById<ImageButton>(R.id.btn_exit)
         btnExit.setOnClickListener {
-            Toast.makeText(this@MainActivity, "You clicked me.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@MainActivity, "Exit from application.", Toast.LENGTH_SHORT).show()
             finish()
         }
 
@@ -118,6 +118,7 @@ class MainActivity : AppCompatActivity() {
         if (pwdFileCrypt.exists() ) {
             try {
                 val str2 = PwdCrypt.FileDecrypt(mainPassword,pwdFileCrypt)
+                Log.i("LogPwdDataLoad",str2)
                 pwdCnfFile = mapper.readValue(str2)
             } catch (e: Exception) {
                 return false
@@ -134,7 +135,7 @@ class MainActivity : AppCompatActivity() {
         val pwdFileCrypt = File(filesDir,cnfPwdFnCrypt)
         val mapper = jacksonObjectMapper()
         val myStr = mapper.writeValueAsString(pwdCnfFile)
-        Log.i("PwdCnfFile.kt",myStr)
+        Log.i("LogPwdDataSave",myStr)
         PwdCrypt.FileEncrypt(mainPassword,myStr,pwdFileCrypt)
     }
 

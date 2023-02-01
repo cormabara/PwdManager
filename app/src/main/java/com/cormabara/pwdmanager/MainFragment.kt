@@ -29,9 +29,6 @@ class MainFragment : Fragment() {
     private var itemsAdapter: PwdItemAdapter? = null
     private lateinit var itemsListView: ListView
 
-    private var groupsAdapter: PwdGroupAdapter? = null
-    private lateinit var groupsListView: ListView
-
     private lateinit var pwdCnfFile: PwdCnfFile
     private lateinit var my_activity: MainActivity
     override fun onCreateView(
@@ -47,11 +44,8 @@ class MainFragment : Fragment() {
         pwdCnfFile = (context as MainActivity).pwdCnfFile
         // Init the item list view
         itemsListView = binding.idItemsList
-        itemsAdapter = PwdItemAdapter(context as MainActivity,pwdCnfFile.ItemList())
+        itemsAdapter = PwdItemAdapter(context as MainActivity,pwdCnfFile.listPwdItems())
         itemsListView.adapter = itemsAdapter
-        groupsListView = binding.idGroupsList
-        groupsAdapter = PwdGroupAdapter(context as MainActivity,pwdCnfFile.GroupList())
-        groupsListView.adapter = groupsAdapter
 
         itemsListView.setOnItemClickListener(OnItemClickListener { parent, view, position, id ->
             val selectedItem = parent.getItemAtPosition(position) as PwdItem
@@ -69,15 +63,8 @@ class MainFragment : Fragment() {
         val btnAddItem = (activity as MainActivity).findViewById<ImageButton>(R.id.btn_add_item)
         btnAddItem?.setOnClickListener {
             Toast.makeText(context, "You clicked me.", Toast.LENGTH_SHORT).show()
-            pwdCnfFile.AddItem("grp")
+            itemsAdapter!!.addNewItem()
             itemsAdapter!!.notifyDataSetChanged()
-        }
-
-        val btnAddGroup = (activity as MainActivity).findViewById<ImageButton>(R.id.btn_add_group)
-        btnAddGroup?.setOnClickListener {
-            Toast.makeText(context, "You clicked me.", Toast.LENGTH_SHORT).show()
-            pwdCnfFile.AddGroup("grp")
-            groupsAdapter!!.notifyDataSetChanged()
         }
     }
 
@@ -96,7 +83,6 @@ class MainFragment : Fragment() {
     fun refresh()
     {
         itemsAdapter!!.notifyDataSetChanged()
-        groupsAdapter!!.notifyDataSetChanged()
     }
 
 }

@@ -27,13 +27,20 @@ class StartFragment : Fragment() {
         // Init the item list view
         binding.btnSubmit.setOnClickListener() {
             my_activity.mainPassword = binding.textPassword.text.toString()
+            //my_activity.mainPassword = "turbopino"
             val pwd = (context as MainActivity).mainPassword
             if ( (context as MainActivity).loadPwdData() == true)
                 findNavController().navigate(R.id.action_StartFragment_to_MainFragment)
             else
-                Toast.makeText(context as MainActivity, "Wrong password.$pwd", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context as MainActivity, "Wrong password ($pwd)", Toast.LENGTH_SHORT).show()
 
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //findNavController().navigate(R.id.action_StartFragment_to_MainFragment)
+
     }
 }

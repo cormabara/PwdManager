@@ -13,22 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ListView
-                android:id="@+id/id_groups_list"
-                android:layout_width="match_parent"
-                android:layout_height="219dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="1dp"
-                android:contentDescription="@string/pwd_groups_scroll_view"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_second"
-                app:layout_constraintVertical_bias="1.0"/>
-        </LinearLayout>
+            android:orientation="vertical"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
