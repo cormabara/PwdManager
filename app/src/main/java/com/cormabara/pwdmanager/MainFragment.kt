@@ -53,6 +53,7 @@ class MainFragment : Fragment() {
             // add this bundle when you move to another fragment.
         })
 
+
         return binding.root
     }
 
