@@ -44,7 +44,7 @@ class MainFragment : Fragment() {
         pwdCnfFile = (context as MainActivity).pwdCnfFile
         // Init the item list view
         itemsListView = binding.idItemsList
-        itemsAdapter = PwdItemAdapter(context as MainActivity,pwdCnfFile.listPwdItems())
+        itemsAdapter = PwdItemAdapter(context as MainActivity, R.layout.listview_item,pwdCnfFile.listPwdItems())
         itemsListView.adapter = itemsAdapter
 
         itemsListView.setOnItemClickListener(OnItemClickListener { parent, view, position, id ->
@@ -58,13 +58,20 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity?)!!.supportActionBar?.setTitle("pippo")
 
-        val btnAddItem = (activity as MainActivity).findViewById<ImageButton>(R.id.btn_add_item)
+        // Button to add an item to List
+        val btnAddItem = my_activity.findViewById<ImageButton>(R.id.btn_add_item)
         btnAddItem?.setOnClickListener {
             Toast.makeText(context, "You clicked me.", Toast.LENGTH_SHORT).show()
             itemsAdapter!!.addNewItem()
             itemsAdapter!!.notifyDataSetChanged()
+        }
+
+        // Button to search item by name
+        val btnFindByName = my_activity.findViewById<ImageButton>(R.id.btn_find_by_name)
+        btnFindByName.setOnClickListener {
+            Toast.makeText(context, "Find by name", Toast.LENGTH_SHORT).show()
+            itemsAdapter!!.filter.filter("name_it_1")
         }
     }
 
@@ -75,7 +82,6 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        //shoudRefreshOnResume is a global var
         Toast.makeText(context, "On resume function", Toast.LENGTH_SHORT).show()
         refresh()
     }

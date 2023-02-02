@@ -1,26 +1,32 @@
 package com.cormabara.pwdmanager
 
+import android.app.LauncherActivity.ListItem
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.LayoutRes
 import com.cormabara.pwdmanager.data.PwdCnfFile
 import com.cormabara.pwdmanager.data.PwdItem
+import java.util.*
 
+class PwdItemAdapter(private val context_: Context, @LayoutRes private val layoutResource: Int, private val arrayList_: java.util.ArrayList<PwdItem>):
+    ArrayAdapter<PwdItem>(context_,layoutResource,arrayList_),
+    Filterable {
 
-//Class MyAdapter
-class PwdItemAdapter(private val context: Context, private val arrayList: java.util.ArrayList<PwdItem>) : BaseAdapter() {
     private lateinit var id: TextView
     private lateinit var name: TextView
     private lateinit var username: TextView
     private lateinit var password: TextView
 
+    // Create a copy of the original array
+    private var originalItemList = ArrayList(arrayList_)
+    private var operativeItemList = arrayList_
     private val inflater: LayoutInflater
             = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val pwdCnfFile: PwdCnfFile = (context as MainActivity).pwdCnfFile
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val rowView =  inflater.inflate(R.layout.listview_item, parent, false) as LinearLayout
         name = rowView.findViewById(R.id.pwd_item_name) as TextView
         username = rowView.findViewById(R.id.pwd_item_username) as TextView
@@ -31,16 +37,16 @@ class PwdItemAdapter(private val context: Context, private val arrayList: java.u
         username.text = myItem.username
         password.text = myItem.password
 
-        var btn_delete = rowView.findViewById(R.id.btn_delete) as ImageButton
-        btn_delete.setOnClickListener {
+        var btnDelete = rowView.findViewById(R.id.btn_delete) as ImageButton
+        btnDelete.setOnClickListener {
             val element = getItem(position)
             val chooseDiag = ChooseDialog(context)
-            chooseDiag.show("Delete element","If YES ${element.name} will be deleted",{
+            chooseDiag.show("Delete element","If YES ${element.name} will be deleted") {
                 if (it == ChooseDialog.ResponseType.YES) {
-                    arrayList.remove(element)
+                    operativeItemList.remove(element)
                     this.notifyDataSetChanged()
                 }
-            })
+            }
         }
 
         val btnEdit = rowView.findViewById(R.id.btn_edit_group) as ImageButton
@@ -53,14 +59,63 @@ class PwdItemAdapter(private val context: Context, private val arrayList: java.u
     }
 
     override fun getCount(): Int {
-        return arrayList.size
+        return operativeItemList.size
     }
     override fun getItem(position: Int): PwdItem {
-        return arrayList[position]
+        return operativeItemList[position]
     }
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
+    override fun getFilter(): Filter {
+        return object : Filter() {
+
+            override fun performFiltering(constraint: CharSequence?): FilterResults? {
+                var constraint = constraint
+                val results = FilterResults() // Holds the results of a filtering operation in values
+                val FilteredArrList: MutableList<PwdItem> = ArrayList()
+                if (originalItemList == null) {
+                    originalItemList = ArrayList<PwdItem>(arrayList_) // saves the original data in mOriginalValues
+                }
+                /********
+                 *
+                 * If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
+                 * else does the Filtering and returns FilteredArrList(Filtered)
+                 *
+                 */
+                if (constraint == null || constraint.length == 0) {
+
+                    // set the Original result to return
+                    results.count = originalItemList.size
+                    results.values = originalItemList
+                } else {
+                    constraint = constraint.toString().lowercase(Locale.getDefault())
+                    for (i in 0 until originalItemList.size) {
+                        val data: String = originalItemList.get(i).name
+                        if (data.lowercase(Locale.getDefault()).startsWith(constraint.toString())) {
+                            FilteredArrList.add(originalItemList.get(i))
+                        }
+                    }
+                    // set the Filtered result to return
+                    results.count = FilteredArrList.size
+                    results.values = FilteredArrList
+                }
+                return results
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+                operativeItemList = results.values as ArrayList<PwdItem>
+                if (results.count > 0) {
+                    notifyDataSetChanged()
+                } else {
+                    notifyDataSetInvalidated()
+                }
+            }
+
+        }
+    }
+
+    // Add a new item into the list
     fun addNewItem()
     {
         val selectedItem = (context as MainActivity).pwdCnfFile.newItem()
