@@ -1,13 +1,16 @@
 package com.cormabara.pwdmanager
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnKeyListener
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.ImageButton
-import android.widget.ListView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.cormabara.pwdmanager.data.PwdCnfFile
@@ -69,13 +72,63 @@ class MainFragment : Fragment() {
         }
 
         // Button to search item by name
+        /*
         val btnFindByName = my_activity.findViewById<ImageButton>(R.id.btn_find_by_name)
+        val editFilterItem: EditText = my_activity.findViewById<ImageButton>(R.id.edit_filter) as EditText
         btnFindByName.setOnClickListener {
-            Toast.makeText(context, "Find by name", Toast.LENGTH_SHORT).show()
-            itemsAdapter!!.filter.filter("name_it_1")
+            itemsAdapter!!.filter.filter("")
+            editFilterItem.setText("")
+            editFilterItem.clearFocus();
         }
-    }
+        // Button to search item by name
+        editFilterItem.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                itemsAdapter!!.filter.filter(editFilterItem.text)
+                editFilterItem.clearFocus();
+            }
+        })
 
+         */
+        val searchFilter: SearchView = my_activity.findViewById<ImageButton>(R.id.search_filter) as SearchView
+        searchFilter.setQueryHint("Search for countriesâ€¦");
+
+        searchFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                itemsAdapter!!.filter.filter(p0)
+                searchFilter.clearFocus();
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                itemsAdapter!!.filter.filter(p0)
+                searchFilter.clearFocus();
+                return false
+            }
+        })
+        searchFilter.clearFocus();
+
+    }
+    /*
+    private fun setupSearchView() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            android.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                val isMatchFound = cityList.contains(p0)
+                val msg = if (isMatchFound) "Found: $p0" else getString(R.string.no_match)
+                Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                adapter.filter.filter(p0)
+                return false
+            }
+        })
+    }
+*/
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
