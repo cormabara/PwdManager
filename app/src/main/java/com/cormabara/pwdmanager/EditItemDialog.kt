@@ -4,9 +4,9 @@ import android.app.Dialog
 import android.content.Context
 import android.view.Window
 import android.widget.*
-import com.cormabara.pwdmanager.data.PwdItem
+import com.cormabara.pwdmanager.data.PwdDataItem
 
-fun editItemDialog(context: Context,adapter_ :PwdItemAdapter , item: PwdItem) {
+fun editItemDialog(context: Context,adapter_ :PwdItemAdapter , item: PwdDataItem) {
     val dialog = Dialog(context)
     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.setCancelable(false)

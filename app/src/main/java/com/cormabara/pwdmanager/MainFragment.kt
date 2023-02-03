@@ -1,20 +1,15 @@
 package com.cormabara.pwdmanager
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnKeyListener
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.cormabara.pwdmanager.data.PwdCnfFile
-import com.cormabara.pwdmanager.data.PwdItem
+import com.cormabara.pwdmanager.data.PwdDataFile
+import com.cormabara.pwdmanager.data.PwdDataItem
 import com.cormabara.pwdmanager.databinding.FragmentMainBinding
 
 
@@ -30,32 +25,29 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: CommonViewModel
 
     private var itemsAdapter: PwdItemAdapter? = null
-    private lateinit var itemsListView: ListView
 
-    private lateinit var pwdCnfFile: PwdCnfFile
-    private lateinit var my_activity: MainActivity
+    private lateinit var pwdDataFile: PwdDataFile
+    private lateinit var myActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        my_activity = (context as MainActivity)
-
+        myActivity = (context as MainActivity)
         _binding = FragmentMainBinding.inflate(inflater, container, false)
+
         // init view model
         viewModel = ViewModelProvider(requireActivity())[CommonViewModel::class.java]
-        pwdCnfFile = (context as MainActivity).pwdCnfFile
-        // Init the item list view
-        itemsListView = binding.itemsList
-        itemsAdapter = PwdItemAdapter(context as MainActivity, R.layout.listview_item,pwdCnfFile.listPwdItems())
-        itemsListView.adapter = itemsAdapter
+        pwdDataFile = (context as MainActivity).pwdDataFile
 
-        itemsListView.setOnItemClickListener(OnItemClickListener { parent, view, position, id ->
-            val selectedItem = parent.getItemAtPosition(position) as PwdItem
+        // Init the item list view
+        itemsAdapter = PwdItemAdapter(context as MainActivity, R.layout.listview_item,pwdDataFile.listPwdItems())
+        binding.itemsList.adapter = itemsAdapter
+        binding.itemsList.onItemClickListener = OnItemClickListener { parent, view, position, id ->
+            val selectedItem = parent.getItemAtPosition(position) as PwdDataItem
             Toast.makeText(context, "Click on item $selectedItem", Toast.LENGTH_SHORT).show()
-            // add this bundle when you move to another fragment.
-        })
+        }
         return binding.root
     }
 
@@ -63,14 +55,13 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Button to add an item to List
-        val btnAddItem = my_activity.findViewById<ImageButton>(R.id.btn_add_item)
+        val btnAddItem = myActivity.findViewById<ImageButton>(R.id.btn_add_item)
         btnAddItem?.setOnClickListener {
-            Toast.makeText(context, "You clicked me.", Toast.LENGTH_SHORT).show()
             itemsAdapter!!.addNewItem()
             itemsAdapter!!.notifyDataSetChanged()
         }
 
-        val searchFilter: SearchView = my_activity.findViewById<ImageButton>(R.id.search_filter) as SearchView
+        val searchFilter: SearchView = myActivity.findViewById<ImageButton>(R.id.search_filter) as SearchView
         searchFilter.setQueryHint(getString(R.string.search_item_by_name));
 
         searchFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -98,6 +89,4 @@ class MainFragment : Fragment() {
         super.onResume()
         itemsAdapter!!.notifyDataSetChanged()
     }
-
-
 }

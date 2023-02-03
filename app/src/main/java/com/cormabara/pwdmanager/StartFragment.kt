@@ -23,13 +23,10 @@ class StartFragment : Fragment() {
         _binding = FragmentStartBinding.inflate(inflater, container, false)
         var my_activity = (activity as MainActivity)
 
-        // init view model
-        // Init the item list view
         binding.btnInsPassword.setOnClickListener() {
             my_activity.mainPassword = binding.txtInsPassword.text.toString()
-            //my_activity.mainPassword = "turbopino"
             val pwd = (context as MainActivity).mainPassword
-            if ( (context as MainActivity).loadPwdData() == true)
+            if ( (context as MainActivity).pwdDataFile.loadData(pwd) == true)
                 findNavController().navigate(R.id.action_StartFragment_to_MainFragment)
             else
                 Toast.makeText(context as MainActivity, "Wrong password ($pwd)", Toast.LENGTH_SHORT).show()

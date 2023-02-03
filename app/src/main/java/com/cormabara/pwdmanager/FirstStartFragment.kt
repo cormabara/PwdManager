@@ -21,7 +21,7 @@ class FirstStartFragment : Fragment() {
     ): View {
 
         _binding = FragmentFirstStartBinding.inflate(inflater, container, false)
-        if ( (context as MainActivity).CheckPwdData() == true) {
+        if ( (context as MainActivity).pwdDataFile.CheckData() == true) {
             findNavController().navigate(R.id.action_firstStartFragment_to_StartFragment)
         }
         // init view model
@@ -32,14 +32,13 @@ class FirstStartFragment : Fragment() {
             Toast.makeText(context as MainActivity, "Submit button $pwd1-$pwd2", Toast.LENGTH_SHORT).show()
             if (pwd1 == pwd2) {
                 (context as MainActivity).mainPassword = pwd1
-                (context as MainActivity).createPwdData()
+                (context as MainActivity).pwdDataFile.newData()
                 findNavController().navigate(R.id.action_firstStartFragment_to_MainFragment)
             }
             else {
                 Toast.makeText(context as MainActivity, "Incorrect password", Toast.LENGTH_SHORT).show()
             }
         }
-
         return binding.root
     }
 }

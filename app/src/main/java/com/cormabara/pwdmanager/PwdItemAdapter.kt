@@ -1,18 +1,16 @@
 package com.cormabara.pwdmanager
 
-import android.app.LauncherActivity.ListItem
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.LayoutRes
-import com.cormabara.pwdmanager.data.PwdCnfFile
-import com.cormabara.pwdmanager.data.PwdItem
+import com.cormabara.pwdmanager.data.PwdDataItem
 import java.util.*
 
-class PwdItemAdapter(private val context_: Context, @LayoutRes private val layoutResource: Int, private val arrayList_: java.util.ArrayList<PwdItem>):
-    ArrayAdapter<PwdItem>(context_,layoutResource,arrayList_),
+class PwdItemAdapter(private val context_: Context, @LayoutRes private val layoutResource: Int, private val arrayList_: java.util.ArrayList<PwdDataItem>):
+    ArrayAdapter<PwdDataItem>(context_,layoutResource,arrayList_),
     Filterable {
 
     private lateinit var id: TextView
@@ -32,7 +30,7 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
         username = rowView.findViewById(R.id.pwd_item_username) as TextView
         password = rowView.findViewById(R.id.pwd_item_password) as TextView
 
-        val myItem = getItem(position) as PwdItem
+        val myItem = getItem(position) as PwdDataItem
         name.text = myItem.name
         username.text = myItem.username
         password.text = myItem.password
@@ -51,7 +49,7 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
 
         val btnEdit = rowView.findViewById(R.id.btn_edit_group) as ImageButton
         btnEdit.setOnClickListener {
-            val selectedItem = getItem(position) as PwdItem
+            val selectedItem = getItem(position) as PwdDataItem
             editItemDialog(context,this,selectedItem)
             this.notifyDataSetChanged()
         }
@@ -61,7 +59,7 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
     override fun getCount(): Int {
         return operativeItemList.size
     }
-    override fun getItem(position: Int): PwdItem {
+    override fun getItem(position: Int): PwdDataItem {
         return operativeItemList[position]
     }
     override fun getItemId(position: Int): Long {
@@ -73,9 +71,9 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
             override fun performFiltering(constraint: CharSequence?): FilterResults? {
                 var constraint = constraint
                 val results = FilterResults() // Holds the results of a filtering operation in values
-                val FilteredArrList: MutableList<PwdItem> = ArrayList()
+                val FilteredArrList: MutableList<PwdDataItem> = ArrayList()
                 if (originalItemList == null) {
-                    originalItemList = ArrayList<PwdItem>(arrayList_) // saves the original data in mOriginalValues
+                    originalItemList = ArrayList<PwdDataItem>(arrayList_) // saves the original data in mOriginalValues
                 }
                 /********
                  *
@@ -104,7 +102,7 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults) {
-                operativeItemList = results.values as ArrayList<PwdItem>
+                operativeItemList = results.values as ArrayList<PwdDataItem>
                 if (results.count > 0) {
                     notifyDataSetChanged()
                 } else {
@@ -118,7 +116,7 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
     // Add a new item into the list
     fun addNewItem()
     {
-        val selectedItem = (context as MainActivity).pwdCnfFile.newItem()
+        val selectedItem = (context as MainActivity).pwdDataFile.newItem()
         editItemDialog(context,this,selectedItem)
     }
 }
