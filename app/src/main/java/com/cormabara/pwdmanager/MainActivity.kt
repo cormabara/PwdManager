@@ -1,5 +1,7 @@
 package com.cormabara.pwdmanager
 
+import android.content.ClipData
+import android.content.ClipData.Item
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -32,37 +34,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i("MainActivity", "onCreate Called")
         MyLog.LInfo("Program is started")
         appInit()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
-
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        // get reference to button
-        val btnExit = findViewById<ImageButton>(R.id.btn_exit)
-        btnExit.setOnClickListener {
-            Toast.makeText(this@MainActivity, "Exit from application.", Toast.LENGTH_SHORT).show()
-            finish()
-        }
-
-
-        binding.fab.setOnClickListener { view ->
-            val chooseDiag = ChooseDialog(this)
-            chooseDiag.show("Delete all data!","If YES all data will be deleted, are you sure?",{
-                if (it == ChooseDialog.ResponseType.YES) {
-                    Toast.makeText(this, "Clear all data", Toast.LENGTH_SHORT).show()
-                    removePwdData()
-                    navController.navigate(R.id.action_StartFragment_to_firstStartFragment)
-
-                }
-            })
-        }
+        setSupportActionBar(binding.activityToolbar)
+        binding.mainTitle.text = "Pwd Manager"
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -72,26 +50,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+             R.id.action_delete_data -> {
+                 val chooseDiag = ChooseDialog(this)
+                 chooseDiag.show("Delete all data!", "If YES all data will be deleted, are you sure?") {
+                     if (it == ChooseDialog.ResponseType.YES) {
+                         Toast.makeText(this, "Clear all data", Toast.LENGTH_SHORT).show()
+                         removePwdData()
+                         findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_StartFragment_to_firstStartFragment)
+
+                     }
+                 }
+                 true
+             }
+             R.id.action_close_app -> {
+                finish()
+                 true
+             }
+             else -> {
+                 super.onOptionsItemSelected(item)
+            }
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
         appClose()
     }
-
 
 
     private fun appInit() {

@@ -26,9 +26,9 @@ class FirstStartFragment : Fragment() {
         }
         // init view model
         // Init the item list view
-        binding.btnSubmit.setOnClickListener() {
-            val pwd1 = binding.textPassword1.text.toString()
-            val pwd2 = binding.textPassword2.text.toString()
+        binding.insertPasswordConfirm.setOnClickListener() {
+            val pwd1 = binding.startPassword1.text.toString()
+            val pwd2 = binding.startPassword2.text.toString()
             Toast.makeText(context as MainActivity, "Submit button $pwd1-$pwd2", Toast.LENGTH_SHORT).show()
             if (pwd1 == pwd2) {
                 (context as MainActivity).mainPassword = pwd1

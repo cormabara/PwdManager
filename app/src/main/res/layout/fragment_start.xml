@@ -7,7 +7,6 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/ll_login_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -19,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/text_password"
+            android:id="@+id/txt_ins_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
@@ -28,7 +27,7 @@
             android:inputType="textPassword"
             android:textAlignment="center" />
         <Button
-            android:id="@+id/btn_submit"
+            android:id="@+id/btn_ins_password"
             android:text="Submit"
             android:textAllCaps="false"
             android:layout_width="wrap_content"

@@ -92,7 +92,7 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
                     constraint = constraint.toString().lowercase(Locale.getDefault())
                     for (i in 0 until originalItemList.size) {
                         val data: String = originalItemList.get(i).name
-                        if (data.lowercase(Locale.getDefault()).startsWith(constraint.toString())) {
+                        if (data.lowercase(Locale.getDefault()).contains(constraint.toString())) {
                             FilteredArrList.add(originalItemList.get(i))
                         }
                     }

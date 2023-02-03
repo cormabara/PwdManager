@@ -25,8 +25,8 @@ class StartFragment : Fragment() {
 
         // init view model
         // Init the item list view
-        binding.btnSubmit.setOnClickListener() {
-            my_activity.mainPassword = binding.textPassword.text.toString()
+        binding.btnInsPassword.setOnClickListener() {
+            my_activity.mainPassword = binding.txtInsPassword.text.toString()
             //my_activity.mainPassword = "turbopino"
             val pwd = (context as MainActivity).mainPassword
             if ( (context as MainActivity).loadPwdData() == true)

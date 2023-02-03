@@ -8,13 +8,12 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/orie"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/activity_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -23,40 +22,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <ImageButton
-                    android:id="@+id/btn_exit"
-                    android:layout_width="48dp"
+                <TextView
+                    android:id="@+id/main_title"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@null"
-                    android:contentDescription="@string/action_exit"
-                    android:minWidth="48dp"
-                    android:minHeight="48dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@mipmap/ic_shutdown_foreground" />
-
-                <SearchView
-                    android:id="@+id/search_filter"
-                    style="@style/TextInputFilter"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textAlignment="center"
-                    tools:ignore="TextViewEdits" />
-
-                <ImageButton
-                    android:id="@+id/btn_add_item"
-                    android:layout_width="48dp"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:contentDescription="@string/add_item"
-                    android:minWidth="48dp"
-                    android:minHeight="48dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@mipmap/ic_add_item_foreground" />
-
+                    style="@style/MainTitle"/>
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
@@ -83,14 +53,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         android:adjustViewBounds="true"
-        android:contentDescription="@string/action_exit"
         android:scaleType="fitCenter"
         android:src="@mipmap/img_clear_all_foreground" />
 

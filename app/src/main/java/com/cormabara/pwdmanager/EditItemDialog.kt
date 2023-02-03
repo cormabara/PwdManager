@@ -8,7 +8,6 @@ import com.cormabara.pwdmanager.data.PwdItem
 
 fun editItemDialog(context: Context,adapter_ :PwdItemAdapter , item: PwdItem) {
     val dialog = Dialog(context)
-    val pwdCnfFile = (context as MainActivity).pwdCnfFile
     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.setCancelable(false)
     dialog.setContentView(R.layout.dialog_edit_item)

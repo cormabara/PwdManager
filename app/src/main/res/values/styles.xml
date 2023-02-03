@@ -23,7 +23,36 @@
         <item name="android:textColor">#65939E</item>
         <item name="android:textSize">15dp</item>
     </style>
+    <style name="MainTitle">
+        <item name="android:textColor">#65939E</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
+    </style>
 
+    <style name="Divider">
+        <item name="android:background">?android:attr/listDivider</item> //you can give your color here. that will change all divider color in your app.
+    </style>
+    <style name="Divider.Horizontal" parent="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item> // You can change thickness here.
+
+    </style>
+
+    <style name="Divider.Vertical" parent="Divider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="SearchViewStyle">
+        <!-- Gets rid of the search icon
+        <item name="searchIcon">@drawable/ic_search</item> -->
+        <!-- Gets rid of the "underline" in the text -->
+        <item name="queryBackground">@color/white</item>
+        <!-- Gets rid of the search icon when the SearchView is expanded -->
+        <item name="searchHintIcon">@null</item>
+        <!-- The hint text that appears when the user has not typed anything -->
+        <item name="queryHint">@string/search_item_by_name</item>
+    </style>
 
 </resources>
 

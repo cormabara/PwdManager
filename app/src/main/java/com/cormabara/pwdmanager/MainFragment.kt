@@ -34,6 +34,7 @@ class MainFragment : Fragment() {
 
     private lateinit var pwdCnfFile: PwdCnfFile
     private lateinit var my_activity: MainActivity
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,7 +47,7 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[CommonViewModel::class.java]
         pwdCnfFile = (context as MainActivity).pwdCnfFile
         // Init the item list view
-        itemsListView = binding.idItemsList
+        itemsListView = binding.itemsList
         itemsAdapter = PwdItemAdapter(context as MainActivity, R.layout.listview_item,pwdCnfFile.listPwdItems())
         itemsListView.adapter = itemsAdapter
 
@@ -55,8 +56,6 @@ class MainFragment : Fragment() {
             Toast.makeText(context, "Click on item $selectedItem", Toast.LENGTH_SHORT).show()
             // add this bundle when you move to another fragment.
         })
-
-
         return binding.root
     }
 
@@ -71,28 +70,8 @@ class MainFragment : Fragment() {
             itemsAdapter!!.notifyDataSetChanged()
         }
 
-        // Button to search item by name
-        /*
-        val btnFindByName = my_activity.findViewById<ImageButton>(R.id.btn_find_by_name)
-        val editFilterItem: EditText = my_activity.findViewById<ImageButton>(R.id.edit_filter) as EditText
-        btnFindByName.setOnClickListener {
-            itemsAdapter!!.filter.filter("")
-            editFilterItem.setText("")
-            editFilterItem.clearFocus();
-        }
-        // Button to search item by name
-        editFilterItem.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                itemsAdapter!!.filter.filter(editFilterItem.text)
-                editFilterItem.clearFocus();
-            }
-        })
-
-         */
         val searchFilter: SearchView = my_activity.findViewById<ImageButton>(R.id.search_filter) as SearchView
-        searchFilter.setQueryHint("Search for countriesâ€¦");
+        searchFilter.setQueryHint(getString(R.string.search_item_by_name));
 
         searchFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
@@ -104,31 +83,12 @@ class MainFragment : Fragment() {
 
             override fun onQueryTextChange(p0: String?): Boolean {
                 itemsAdapter!!.filter.filter(p0)
-                searchFilter.clearFocus();
                 return false
             }
         })
         searchFilter.clearFocus();
 
     }
-    /*
-    private fun setupSearchView() {
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            android.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                val isMatchFound = cityList.contains(p0)
-                val msg = if (isMatchFound) "Found: $p0" else getString(R.string.no_match)
-                Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
-                return false
-            }
-
-            override fun onQueryTextChange(p0: String?): Boolean {
-                adapter.filter.filter(p0)
-                return false
-            }
-        })
-    }
-*/
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -136,13 +96,8 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Toast.makeText(context, "On resume function", Toast.LENGTH_SHORT).show()
-        refresh()
-    }
-
-    fun refresh()
-    {
         itemsAdapter!!.notifyDataSetChanged()
     }
+
 
 }

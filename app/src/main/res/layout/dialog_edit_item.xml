@@ -15,11 +15,10 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txt_item_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="24sp"
-            android:text="@string/edititemtitle"
+            android:text="@string/edit_item_title"
             android:textAlignment="center"/>
 
         <EditText
@@ -51,16 +50,15 @@
             android:text="@string/password" />
 
         <Spinner
-            android:id="@+id/spn_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:width="400dp"
             android:ems="10"
-            android:hint="@string/group"
+            android:hint="@string/tags"
             android:inputType="textPersonName"
             android:minHeight="64dp"
-            android:text="@string/group" />
+            android:text="@string/tags" />
 
         <LinearLayout
             android:layout_width="match_parent"
