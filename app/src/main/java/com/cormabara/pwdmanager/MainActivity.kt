@@ -6,9 +6,10 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import com.cormabara.pwdmanager.data.PwdDataFile
+import com.cormabara.pwdmanager.managers.ManPwdData
 import com.cormabara.pwdmanager.databinding.ActivityMainBinding
-import java.io.File
+import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
+import com.cormabara.pwdmanager.managers.ManAppConfig
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,10 +17,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    private val cnfAppFn = "app_config.json"
-    private lateinit var appCnfFile: AppCnfFile
+    private lateinit var manAppConfig: ManAppConfig
 
-    lateinit var pwdDataFile: PwdDataFile
+    lateinit var manPwdData: ManPwdData
     var mainPassword: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                  chooseDiag.show("Delete all data!", "If YES all data will be deleted, are you sure?") {
                      if (it == ChooseDialog.ResponseType.YES) {
                          Toast.makeText(this, "Clear all data", Toast.LENGTH_SHORT).show()
-                         pwdDataFile.newData()
+                         manPwdData.newData()
                          findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_StartFragment_to_firstStartFragment)
 
                      }
@@ -72,16 +72,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun appInit() {
         MyLog.LInfo("Application init")
-        val appFile = File(filesDir , cnfAppFn)
-        appCnfFile = AppCnfFile(appFile)
-        pwdDataFile = PwdDataFile(filesDir)
+        manAppConfig = ManAppConfig(filesDir)
+        manPwdData = ManPwdData(filesDir)
         MyLog.LInfo("Application init is done")
     }
 
     private fun appClose()
     {
         MyLog.LInfo("Application closing")
-        pwdDataFile.saveData(mainPassword)
+        manPwdData.saveData(mainPassword)
+        manAppConfig.saveData()
         MyLog.LInfo("Application closed corectly")
     }
 }

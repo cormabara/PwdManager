@@ -6,12 +6,12 @@
 
     <fragment
         android:id="@+id/MainFragment"
-        android:name="com.cormabara.pwdmanager.MainFragment"
+        android:name="com.cormabara.pwdmanager.gui.fragments.MainFragment"
         android:label="@string/main_fragment_label"
         tools:layout="@layout/fragment_main"/>
     <fragment
         android:id="@+id/StartFragment"
-        android:name="com.cormabara.pwdmanager.StartFragment"
+        android:name="com.cormabara.pwdmanager.gui.fragments.StartFragment"
         android:label="@string/main_fragment_label"
         tools:layout="@layout/fragment_start">
 
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/firstStartFragment"
-        android:name="com.cormabara.pwdmanager.FirstStartFragment"
+        android:name="com.cormabara.pwdmanager.gui.fragments.FirstStartFragment"
         android:label="FirstStartFragment" >
         <action
             android:id="@+id/action_firstStartFragment_to_StartFragment"

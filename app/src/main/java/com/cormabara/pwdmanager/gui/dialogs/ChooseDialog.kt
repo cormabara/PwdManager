@@ -1,4 +1,4 @@
-package com.cormabara.pwdmanager
+package com.cormabara.pwdmanager.gui.dialogs
 
 import android.app.AlertDialog
 import android.content.Context

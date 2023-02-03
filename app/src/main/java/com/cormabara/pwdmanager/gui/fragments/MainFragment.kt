@@ -1,4 +1,4 @@
-package com.cormabara.pwdmanager
+package com.cormabara.pwdmanager.gui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.cormabara.pwdmanager.data.PwdDataFile
-import com.cormabara.pwdmanager.data.PwdDataItem
+import com.cormabara.pwdmanager.MainActivity
+import com.cormabara.pwdmanager.PwdItemAdapter
+import com.cormabara.pwdmanager.R
+import com.cormabara.pwdmanager.managers.ManPwdData
 import com.cormabara.pwdmanager.databinding.FragmentMainBinding
 
 
@@ -22,11 +23,10 @@ class MainFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private lateinit var viewModel: CommonViewModel
 
     private var itemsAdapter: PwdItemAdapter? = null
 
-    private lateinit var pwdDataFile: PwdDataFile
+    private lateinit var manPwdData: ManPwdData
     private lateinit var myActivity: MainActivity
 
     override fun onCreateView(
@@ -37,15 +37,14 @@ class MainFragment : Fragment() {
         myActivity = (context as MainActivity)
         _binding = FragmentMainBinding.inflate(inflater, container, false)
 
-        // init view model
-        viewModel = ViewModelProvider(requireActivity())[CommonViewModel::class.java]
-        pwdDataFile = (context as MainActivity).pwdDataFile
+        // init password data manager
+        manPwdData = (context as MainActivity).manPwdData
 
         // Init the item list view
-        itemsAdapter = PwdItemAdapter(context as MainActivity, R.layout.listview_item,pwdDataFile.listPwdItems())
+        itemsAdapter = PwdItemAdapter(context as MainActivity, R.layout.listview_item,manPwdData.listPwdItems())
         binding.itemsList.adapter = itemsAdapter
         binding.itemsList.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-            val selectedItem = parent.getItemAtPosition(position) as PwdDataItem
+            val selectedItem = parent.getItemAtPosition(position) as ManPwdData.PwdItem
             Toast.makeText(context, "Click on item $selectedItem", Toast.LENGTH_SHORT).show()
         }
         return binding.root

@@ -1,4 +1,4 @@
-package com.cormabara.pwdmanager
+package com.cormabara.pwdmanager.gui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.cormabara.pwdmanager.MainActivity
+import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.databinding.FragmentStartBinding
 
 class StartFragment : Fragment() {
@@ -26,7 +28,7 @@ class StartFragment : Fragment() {
         binding.btnInsPassword.setOnClickListener() {
             my_activity.mainPassword = binding.txtInsPassword.text.toString()
             val pwd = (context as MainActivity).mainPassword
-            if ( (context as MainActivity).pwdDataFile.loadData(pwd) == true)
+            if ( (context as MainActivity).manPwdData.loadData(pwd) == true)
                 findNavController().navigate(R.id.action_StartFragment_to_MainFragment)
             else
                 Toast.makeText(context as MainActivity, "Wrong password ($pwd)", Toast.LENGTH_SHORT).show()
