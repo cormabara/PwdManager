@@ -1,8 +1,6 @@
 package com.cormabara.pwdmanager.data
 
 import android.util.Log
-import android.widget.Toast
-import com.cormabara.pwdmanager.MainActivity
 import com.cormabara.pwdmanager.MyLog
 import com.cormabara.pwdmanager.PwdCrypt
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper

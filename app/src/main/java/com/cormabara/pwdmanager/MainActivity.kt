@@ -1,7 +1,6 @@
 package com.cormabara.pwdmanager
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
