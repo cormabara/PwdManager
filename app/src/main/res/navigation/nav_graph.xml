@@ -8,7 +8,11 @@
         android:id="@+id/MainFragment"
         android:name="com.cormabara.pwdmanager.gui.fragments.MainFragment"
         android:label="@string/main_fragment_label"
-        tools:layout="@layout/fragment_main"/>
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_MainFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
+    </fragment>
     <fragment
         android:id="@+id/StartFragment"
         android:name="com.cormabara.pwdmanager.gui.fragments.StartFragment"
@@ -31,6 +35,15 @@
             app:destination="@id/StartFragment" />
         <action
             android:id="@+id/action_firstStartFragment_to_MainFragment"
+            app:destination="@id/MainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.cormabara.pwdmanager.gui.fragments.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_MainFragment"
             app:destination="@id/MainFragment" />
     </fragment>
 
