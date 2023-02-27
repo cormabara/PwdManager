@@ -3,8 +3,14 @@ package com.cormabara.pwdmanager.gui.lib
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import com.cormabara.pwdmanager.MyLog
 import com.cormabara.pwdmanager.R
+import com.cormabara.pwdmanager.databinding.BinaryOptionBinding
+
 
 class BinaryOption @JvmOverloads constructor(
     context: Context,
@@ -12,21 +18,34 @@ class BinaryOption @JvmOverloads constructor(
     defStyle: Int = 0,
     defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
-
+    private lateinit var binding: BinaryOptionBinding
     init {
-        LayoutInflater.from(context)
-            .inflate(R.layout.binary_option, this, true)
+
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        binding = BinaryOptionBinding.inflate(inflater,this)
+        binding.optionTitle.text = "option text"
+        binding.option1.text = "opt_1"
+        binding.option2.text = "opt_2"
         orientation = VERTICAL
 
-        attrs?.let {
-            val typedArray = context.obtainStyledAttributes(it,
-                R.styleable.binary_option_attributes, 0, 0)
-            val title = resources.getText(typedArray
-                .getResourceId(R.styleable
-                    .binary_option_attributes_binary_option_title,
-                    R.string.setting_title))
-
-            typedArray.recycle()
-        }
+        // Get radio group selected item using on checked change listener
+        binding.optionGrp.setOnCheckedChangeListener(
+            RadioGroup.OnCheckedChangeListener { group, checkedId ->
+                val radio: RadioButton = findViewById(checkedId)
+                MyLog.LInfo(" On checked change :"+"${radio.text}")
+            }
+        )
+    }
+    // Get the selected radio button text using radio button on click listener
+    fun radio_button_click(view: View) {
+        // Get the clicked radio button instance
+        val radio: RadioButton = findViewById(binding.optionGrp.checkedRadioButtonId)
+        MyLog.LInfo("On click : ${radio.text}")
+    }
+    fun configure(title_: String, opt1_: String, opt2_: String)
+    {
+        binding.optionTitle.text = title_
+        binding.option1.text = opt1_
+        binding.option2.text = opt2_
     }
 }
