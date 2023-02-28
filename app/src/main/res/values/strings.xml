@@ -22,5 +22,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="setting_gui_theme">Gui Theme</string>
     <string name="setting_title">Application Settings</string>
+    <string name="bnt_setting_save">Save Settings</string>
 
 </resources>

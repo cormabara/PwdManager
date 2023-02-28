@@ -25,6 +25,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_border"/>
+        <com.cormabara.pwdmanager.gui.lib.BinaryOption
+            android:id="@+id/find_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_border"/>
 
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/ic_add_item_foreground"
+            android:background="@null"
+            android:contentDescription="@string/bnt_setting_save"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:scaleType="fitCenter"/>
     </LinearLayout>
 </FrameLayout>

@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="RadioButton"
             android:textColor="@color/light_1"
-            />
+            android:onClick="radio_button_click"/>
 
         <RadioButton
             android:id="@+id/option_2"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:text="RadioButton"
             android:textColor="@color/light_1"
-            />
+            android:onClick="radio_button_click"/>
     </RadioGroup>
 
 </merge>
