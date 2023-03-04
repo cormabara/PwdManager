@@ -1,15 +1,18 @@
 package com.cormabara.pwdmanager
 
 import android.os.Bundle
-import android.view.*
-import android.widget.*
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import com.cormabara.pwdmanager.managers.ManPwdData
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.cormabara.pwdmanager.databinding.ActivityMainBinding
 import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
 import com.cormabara.pwdmanager.managers.ManAppConfig
+import com.cormabara.pwdmanager.managers.ManPwdData
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var manAppConfig: ManAppConfig
+    lateinit var manAppConfig: ManAppConfig
 
     lateinit var manPwdData: ManPwdData
     var mainPassword: String = ""
@@ -28,9 +31,13 @@ class MainActivity : AppCompatActivity() {
         appInit()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        setSupportActionBar(binding.activityToolbar)
         binding.mainTitle.text = "Pwd Manager"
+
+        val toolbar = binding.activityToolbar
+        setSupportActionBar(toolbar)
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -67,6 +74,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        return navController.navigateUp(appBarConfiguration)
+                || super.onSupportNavigateUp()
+    }
 
     override fun onStop() {
         super.onStop()
@@ -87,5 +99,13 @@ class MainActivity : AppCompatActivity() {
         manPwdData.saveData(mainPassword)
         manAppConfig.saveData()
         MyLog.LInfo("Application closed corectly")
+    }
+
+    fun showUpButton() {
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
+    fun hideUpButton() {
+        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
     }
 }

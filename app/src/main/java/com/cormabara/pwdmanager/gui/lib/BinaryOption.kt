@@ -6,10 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
-import android.widget.RadioGroup
-import androidx.lifecycle.MutableLiveData
 import com.cormabara.pwdmanager.MyLog
-import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.databinding.BinaryOptionBinding
 
 
@@ -65,5 +62,22 @@ class BinaryOption @JvmOverloads constructor(
         binding.optionTitle.text = title_
         binding.option1.text = opt1_
         binding.option2.text = opt2_
+    }
+
+    fun getActive() : String
+    {
+        val radio: RadioButton = findViewById(binding.optionGrp.checkedRadioButtonId)
+        return radio.text.toString()
+    }
+    fun setActive(val_: String)
+    {
+        val rg = binding.optionGrp
+        for (rbPosition in 0 until rg.childCount) {
+            val rb = rg.getChildAt(rbPosition) as RadioButton
+            if (rb.text == val_) {
+                //do stuff for example rb.isChecked = true
+                rb.isChecked = true
+            }
+        }
     }
 }

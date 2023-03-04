@@ -27,9 +27,10 @@ fun editItemDialog(context: Context,adapter_ :PwdItemAdapter , item: ManPwdData.
         item.setPwdName(txt_name.text.toString())
         item.setPwdPassword(txt_password.text.toString())
         item.setPwdUsername(txt_username.text.toString())
-        //item.setPwdGroup(spn_group.selectedItem.toString())
+
         dialog.dismiss()
         adapter_.notifyDataSetChanged()
+        (context as MainActivity).manPwdData.saveData((context as MainActivity).mainPassword)
     }
     btncancel.setOnClickListener { dialog.dismiss() }
     dialog.show()

@@ -32,6 +32,7 @@
             android:background="@drawable/custom_border"/>
 
         <ImageButton
+            android:id="@+id/btn_save_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@mipmap/ic_add_item_foreground"

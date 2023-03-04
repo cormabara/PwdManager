@@ -44,6 +44,7 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
                 if (it == ChooseDialog.ResponseType.YES) {
                     operativeItemList.remove(element)
                     this.notifyDataSetChanged()
+                    (context as MainActivity).manPwdData.saveData((context as MainActivity).mainPassword)
                 }
             }
         }

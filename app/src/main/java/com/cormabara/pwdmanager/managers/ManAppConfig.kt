@@ -47,6 +47,7 @@ class ManAppConfig(path_: File) {
     }
 
     fun saveData() {
+        MyLog.LInfo(appCnfMapper.writeValueAsString(appData))
         appCnfMapper.writeValue(configFile, appData)
     }
 

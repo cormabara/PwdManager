@@ -47,6 +47,8 @@ class MainFragment : Fragment() {
             val selectedItem = parent.getItemAtPosition(position) as ManPwdData.PwdItem
             Toast.makeText(context, "Click on item $selectedItem", Toast.LENGTH_SHORT).show()
         }
+        (activity as MainActivity).hideUpButton();
+
         return binding.root
     }
 
