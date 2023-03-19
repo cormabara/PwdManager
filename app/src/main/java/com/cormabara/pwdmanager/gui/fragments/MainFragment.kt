@@ -4,14 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
+import android.widget.ImageButton
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.cormabara.pwdmanager.MainActivity
-import com.cormabara.pwdmanager.PwdItemAdapter
 import com.cormabara.pwdmanager.R
-import com.cormabara.pwdmanager.managers.ManPwdData
 import com.cormabara.pwdmanager.databinding.FragmentMainBinding
+import com.cormabara.pwdmanager.gui.lib.PwdItemAdapter
+import com.cormabara.pwdmanager.lib.MyLog
+import com.cormabara.pwdmanager.managers.ManPwdData
 
 
 /**
@@ -34,6 +38,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        MyLog.LDebug("MainFragment on create view")
         myActivity = (context as MainActivity)
         _binding = FragmentMainBinding.inflate(inflater, container, false)
 
@@ -43,11 +48,11 @@ class MainFragment : Fragment() {
         // Init the item list view
         itemsAdapter = PwdItemAdapter(context as MainActivity, R.layout.listview_item,manPwdData.listPwdItems())
         binding.itemsList.adapter = itemsAdapter
-        binding.itemsList.onItemClickListener = OnItemClickListener { parent, view, position, id ->
+        binding.itemsList.onItemClickListener = OnItemClickListener { parent, _, position, _ ->
             val selectedItem = parent.getItemAtPosition(position) as ManPwdData.PwdItem
             Toast.makeText(context, "Click on item $selectedItem", Toast.LENGTH_SHORT).show()
         }
-        (activity as MainActivity).hideUpButton();
+        (activity as MainActivity).hideUpButton()
 
         return binding.root
     }
@@ -62,14 +67,14 @@ class MainFragment : Fragment() {
             itemsAdapter!!.notifyDataSetChanged()
         }
 
-        val searchFilter: SearchView = myActivity.findViewById<ImageButton>(R.id.search_filter) as SearchView
-        searchFilter.setQueryHint(getString(R.string.search_item_by_name));
+        val searchFilter: SearchView = myActivity.findViewById(R.id.search_filter)
+        searchFilter.queryHint = getString(R.string.search_item_by_name)
 
         searchFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 itemsAdapter!!.filter.filter(p0)
-                searchFilter.clearFocus();
+                searchFilter.clearFocus()
                 return false
             }
 
@@ -78,7 +83,7 @@ class MainFragment : Fragment() {
                 return false
             }
         })
-        searchFilter.clearFocus();
+        searchFilter.clearFocus()
 
     }
     override fun onDestroyView() {
@@ -88,6 +93,18 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        MyLog.LDebug("MainFragment on resume")
         itemsAdapter!!.notifyDataSetChanged()
+        //reloadfrag()
+    }
+
+    fun reloadData() {
+        MyLog.LInfo("mainfragment reload data")
+        itemsAdapter?.changeData(manPwdData.listPwdItems())
+    }
+
+    fun reloadfrag() {
+        val ft: FragmentTransaction = parentFragmentManager.beginTransaction()
+        ft.detach(this).attach(this).commit()
     }
 }

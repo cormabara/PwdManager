@@ -1,18 +1,27 @@
 package com.cormabara.pwdmanager.managers
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Environment
 import android.util.Log
-import com.cormabara.pwdmanager.MyLog
-import com.cormabara.pwdmanager.PwdCrypt
+import androidx.core.content.ContextCompat.startActivity
+import com.cormabara.pwdmanager.lib.MyLog
+import com.cormabara.pwdmanager.lib.PwdCrypt
+import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
+import com.cormabara.pwdmanager.gui.dialogs.MsgDialog
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.File
 
+
 class ManPwdData(path_: File) {
 
     private lateinit var dataPath: File
-    private lateinit var dataFile: File
+    private var dataFile: File
+    private var dataFileBkp: File
     private val cnfPwdFnCrypt = "pwd_data_crypt.json"
-
+    private val cnfPwdFnCryptBkp = "pwd_data_crypt_bkp.json"
     class PwdItem() {
 
         var id: String = ""
@@ -42,6 +51,7 @@ class ManPwdData(path_: File) {
 
     init {
         dataFile = File(path_,cnfPwdFnCrypt)
+        dataFileBkp = File(path_,cnfPwdFnCryptBkp)
     }
 
     /** @brief FOrce dele deletion of the pwd data */
@@ -51,23 +61,41 @@ class ManPwdData(path_: File) {
         }
     }
 
-    /** @brief Decrypt and load the pwd data, if are not present
-     *  create an empty one */
-    fun loadData (password_: String) : Boolean {
-        if (dataFile.exists()) {
+    private fun loadLow(file_: File, password_: String): Boolean
+    {
+        if (file_.exists()) {
             try {
                 val mapper = jacksonObjectMapper()
-                val str2 = PwdCrypt.FileDecrypt(password_, dataFile)
+                val str2 = PwdCrypt.FileDecrypt(password_, file_)
                 MyLog.LInfo(str2)
                 internal_data = mapper.readValue(str2)
+                // IF the operation ok the file is safe so make a backup copy
+                dataFile.copyTo(dataFileBkp,true)
                 return true
             } catch (e: Exception) {
-                MyLog.LError("Exception loading the data file")
+                MyLog.LError("Exception loading the data file ${file_.absoluteFile}, trying backup")
+                return false
             }
-        } else {
-            internal_data = PwdData()
         }
+        MyLog.LError("Data file ${file_.absoluteFile} is missing")
         return false
+    }
+
+    /** @brief Decrypt and load the pwd data, if are not present
+     *  create an empty one */
+    fun loadData (context: Context, password_: String) : Boolean {
+        var retval = false
+        if (!loadLow(dataFile,password_)) {
+            val chooseDiag = ChooseDialog(context)
+            chooseDiag.show("Cannot recover data", "Try to recover the backup?") {
+            if (it == ChooseDialog.ResponseType.YES)
+                retval = loadLow(dataFileBkp,password_)
+            }
+        }
+        else
+            retval = true
+
+        return retval
     }
 
     /** @brief Save all the pwd data with encrypt by "passwd_" */
@@ -91,6 +119,41 @@ class ManPwdData(path_: File) {
         val mapper = jacksonObjectMapper()
         val myStr = mapper.writeValueAsString(internal_data)
         return myStr
+    }
+
+    /** @brief This function exports the data by email */
+    fun exportData(context: Context, mail_: String)
+    {
+        val dpath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        var filen = "${dpath}/${dataFile.name}"
+        MyLog.LInfo("Destination File ${filen}.")
+
+
+        var file = File(filen)
+        dataFile.copyTo(file,true)
+        if (!file.exists())
+            MyLog.LInfo("File ${file.name} not present")
+
+        val path: Uri = Uri.fromFile(file)
+        val emailIntent = Intent(Intent.ACTION_SEND)
+        // set the type to 'email'
+        emailIntent.type = "vnd.android.cursor.dir/email"
+        val to = arrayOf(mail_)
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, to)
+        // the attachment
+        MyLog.LInfo("Email attachment ${path}")
+        emailIntent.putExtra(Intent.EXTRA_STREAM, path)
+        // the mail subject
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Pwd Manager backup")
+        startActivity(context,Intent.createChooser(emailIntent, "Send email..."),null)
+    }
+    /** @brief This function import data from file */
+    fun importData(context_: Context,file_: File, password_: String)
+    {
+        if (!loadLow(file_,password_)) {
+            MsgDialog(context_,"Cannot recover data", "Try to recover the backup?");
+        }
+        saveData(password_)
     }
 
     fun listPwdItems(): ArrayList<PwdItem>  {
@@ -128,6 +191,11 @@ class ManPwdData(path_: File) {
         var pwdItem = PwdItem(id,name,username,password)
         internal_data.itemList.add(pwdItem)
         return pwdItem
+    }
+    /** @brief Add a new item in the list with the auto data */
+    fun delItem(pi_: PwdItem)
+    {
+        internal_data.itemList.remove(pi_)
     }
 
     fun addTag(tag_: String)

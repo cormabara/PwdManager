@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
-import com.cormabara.pwdmanager.MyLog
+import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.databinding.BinaryOptionBinding
 
 

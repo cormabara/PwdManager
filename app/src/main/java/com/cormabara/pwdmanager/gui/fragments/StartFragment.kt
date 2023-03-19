@@ -28,7 +28,7 @@ class StartFragment : Fragment() {
         binding.btnInsPassword.setOnClickListener() {
             my_activity.mainPassword = binding.txtInsPassword.text.toString()
             val pwd = (context as MainActivity).mainPassword
-            if ( (context as MainActivity).manPwdData.loadData(pwd) == true)
+            if ( (context as MainActivity).manPwdData.loadData(context as MainActivity,pwd) == true)
                 findNavController().navigate(R.id.action_StartFragment_to_MainFragment)
             else
                 Toast.makeText(context as MainActivity, "Wrong password ($pwd)", Toast.LENGTH_SHORT).show()

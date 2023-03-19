@@ -2,11 +2,14 @@ package com.cormabara.pwdmanager.gui.lib
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.ListView
-import com.cormabara.pwdmanager.MyLog
+import android.widget.Spinner
+import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.databinding.ListOptionBinding
 
 
@@ -35,14 +38,18 @@ class ListOption @JvmOverloads constructor(
         binding = ListOptionBinding.inflate(inflater,this)
         binding.optionListTitle.text = "option text"
         orientation = VERTICAL
-
-        // Get radio group selected item using on checked change listener
-        //binding.optionList.setOnCheckedChangeListener { group, checkedId ->
-        //}
     }
 
     fun configure(title_: String, options_: Array<String>)
     {
+        var aa = ArrayAdapter(context, android.R.layout.simple_spinner_item, options_)
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        with(binding.optionList)
+        {
+            adapter = aa
+            gravity = Gravity.CENTER
+        }
+
     }
 
     fun getActive() : String

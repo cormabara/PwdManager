@@ -28,6 +28,21 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20dp</item>
     </style>
+    <style name="setting_element">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:radius">20dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:strokeWidth">1</item>
+        <item name="android:strokeColor">#CCCCCC</item>
+        <item name="android:background">@drawable/custom_border</item>
+    </style>
+    <style name="setting_element_title">
+        <item name="android:textColor">@color/light_1</item>>
+        <item name="android:textSize">20sp</item>
+    </style>
 
     <style name="Divider">
         <item name="android:background">?android:attr/listDivider</item> //you can give your color here. that will change all divider color in your app.

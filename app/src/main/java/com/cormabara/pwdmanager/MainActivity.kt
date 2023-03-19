@@ -1,18 +1,27 @@
 package com.cormabara.pwdmanager
 
+import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.cormabara.pwdmanager.databinding.ActivityMainBinding
 import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
+import com.cormabara.pwdmanager.gui.fragments.MainFragment
+import com.cormabara.pwdmanager.lib.MyFileUtils
+import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.managers.ManAppConfig
 import com.cormabara.pwdmanager.managers.ManPwdData
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +35,11 @@ class MainActivity : AppCompatActivity() {
     var mainPassword: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val requiredPermissions1 = arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE)
+        ActivityCompat.requestPermissions(this, requiredPermissions1, 0);
+        val requiredPermissions2 = arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE)
+        ActivityCompat.requestPermissions(this, requiredPermissions2, 0);
+
         super.onCreate(savedInstanceState)
         MyLog.LInfo("Program is started")
         appInit()
@@ -63,14 +77,41 @@ class MainActivity : AppCompatActivity() {
              R.id.action_close_app -> {
                 finish()
                  true
-             }
-             R.id.action_settings -> {
+            }
+            R.id.action_settings -> {
                  findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_MainFragment_to_settingFragment)
                  true
-             }
-             else -> {
-                 super.onOptionsItemSelected(item)
             }
+            R.id.action_export_data -> {
+                manPwdData.exportData(this,manAppConfig.userMail)
+                true
+            }
+            R.id.action_import_data -> {
+                val intent = Intent()
+                    .setType("*/*")
+                    .setAction(Intent.ACTION_GET_CONTENT)
+                    .addCategory(Intent.CATEGORY_OPENABLE)
+                    .putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+                startActivityForResult(Intent.createChooser(intent, "Select a file"), 111)
+                return true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data_: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data_)
+        if (requestCode == 111 && resultCode == RESULT_OK) {
+            val fileUri: Uri? = data_?.data   // The URI with the location of the file
+            val file = File(fileUri?.let { MyFileUtils.getPath(this, it) })
+            manPwdData.importData(this, file, mainPassword)
+            val navHostFragment: NavHostFragment =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+
+            val f2 = navHostFragment.childFragmentManager.findFragmentById(R.id.MainFragmentPippo)
+            (navHostFragment.childFragmentManager.fragments[0] as MainFragment?)?.reloadData()
         }
     }
 

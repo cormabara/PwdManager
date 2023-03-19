@@ -1,6 +1,6 @@
 package com.cormabara.pwdmanager.managers
 
-import com.cormabara.pwdmanager.MyLog
+import com.cormabara.pwdmanager.lib.MyLog
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.File
@@ -23,6 +23,7 @@ class ManAppConfig(path_: File) {
         var language: Languages = Languages.IT
         var searchMode: SearchMode = SearchMode.CONTAINS
         var guiTheme: GuiTheme = GuiTheme.DARK
+        var mail: String = "usermail@mail.com"
     }
     private val configFileName = "app_config.json"
     private val appCnfMapper = jacksonObjectMapper()
@@ -62,5 +63,8 @@ class ManAppConfig(path_: File) {
     var guiTheme: GuiTheme
         get() = appData.guiTheme
         set(value) {appData.guiTheme = value}
+    var userMail: String
+        get() = appData.mail
+        set(value) {appData.mail = value}
 }
 

@@ -1,4 +1,4 @@
-package com.cormabara.pwdmanager
+package com.cormabara.pwdmanager.lib
 
 import java.io.File
 import javax.crypto.Cipher

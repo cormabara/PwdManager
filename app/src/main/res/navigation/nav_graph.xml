@@ -5,7 +5,7 @@
     app:startDestination="@id/firstStartFragment">
 
     <fragment
-        android:id="@+id/MainFragment"
+        android:id="@+id/MainFragmentPippo"
         android:name="com.cormabara.pwdmanager.gui.fragments.MainFragment"
         android:label="@string/main_fragment_label"
         tools:layout="@layout/fragment_main">
@@ -21,7 +21,7 @@
 
         <action
             android:id="@+id/action_StartFragment_to_MainFragment"
-            app:destination="@id/MainFragment" />
+            app:destination="@id/MainFragmentPippo" />
         <action
             android:id="@+id/action_StartFragment_to_firstStartFragment"
             app:destination="@id/firstStartFragment" />
@@ -35,7 +35,7 @@
             app:destination="@id/StartFragment" />
         <action
             android:id="@+id/action_firstStartFragment_to_MainFragment"
-            app:destination="@id/MainFragment" />
+            app:destination="@id/MainFragmentPippo" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -44,7 +44,7 @@
         tools:layout="@layout/fragment_setting" >
         <action
             android:id="@+id/action_settingFragment_to_MainFragment"
-            app:destination="@id/MainFragment" />
+            app:destination="@id/MainFragmentPippo" />
     </fragment>
 
 </navigation>

@@ -22,8 +22,7 @@
             android:layout_width="192dp"
             android:layout_height="wrap_content"
             android:text="RadioButton"
-            android:textColor="@color/light_1"
-            android:onClick="radio_button_click"/>
+            style="@style/setting_element_title"/>
 
         <RadioButton
             android:id="@+id/option_2"

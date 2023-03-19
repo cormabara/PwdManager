@@ -1,4 +1,4 @@
-package com.cormabara.pwdmanager
+package com.cormabara.pwdmanager.gui.lib
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.LayoutRes
+import com.cormabara.pwdmanager.MainActivity
+import com.cormabara.pwdmanager.R
+import com.cormabara.pwdmanager.editItemDialog
 import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
 import com.cormabara.pwdmanager.managers.ManPwdData
 import java.util.*
@@ -42,6 +45,7 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
             val chooseDiag = ChooseDialog(context)
             chooseDiag.show("Delete element","If YES ${element.name} will be deleted") {
                 if (it == ChooseDialog.ResponseType.YES) {
+                    (context as MainActivity).manPwdData.delItem(element)
                     operativeItemList.remove(element)
                     this.notifyDataSetChanged()
                     (context as MainActivity).manPwdData.saveData((context as MainActivity).mainPassword)
@@ -121,4 +125,8 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
         val selectedItem = (context as MainActivity).manPwdData.newItem()
         editItemDialog(context,this,selectedItem)
     }
-}
+    fun changeData(datas: ArrayList<ManPwdData.PwdItem>) {
+        originalItemList = datas
+        operativeItemList = datas
+        notifyDataSetChanged()
+    }}
