@@ -64,25 +64,29 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-             R.id.action_delete_data -> {
-                 val chooseDiag = ChooseDialog(this)
-                 chooseDiag.show("Delete all data!", "If YES all data will be deleted, are you sure?") {
-                     if (it == ChooseDialog.ResponseType.YES) {
-                         Toast.makeText(this, "Clear all data", Toast.LENGTH_SHORT).show()
-                         manPwdData.newData()
-                         findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_newPasswordFragment)
+            R.id.action_delete_data -> {
+                val chooseDiag = ChooseDialog(this)
+                chooseDiag.show("Delete all data!", "If YES all data will be deleted, are you sure?") {
+                    if (it == ChooseDialog.ResponseType.YES) {
+                        Toast.makeText(this, "Clear all data", Toast.LENGTH_SHORT).show()
+                        manPwdData.newData()
+                        findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_newPasswordFragment)
 
-                     }
-                 }
-                 true
-             }
-             R.id.action_close_app -> {
+                    }
+                }
+                true
+            }
+            R.id.action_restore_backup -> {
+
+                true
+            }
+            R.id.action_close_app -> {
                 finish()
-                 true
+                true
             }
             R.id.action_settings -> {
-                 findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_settingFragment)
-                 true
+                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_settingFragment)
+                true
             }
             R.id.action_export_data -> {
                 manPwdData.exportData(this,manAppConfig.userMail)
@@ -116,7 +120,6 @@ class MainActivity : AppCompatActivity() {
             val navHostFragment: NavHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
 
-            val f2 = navHostFragment.childFragmentManager.findFragmentById(R.id.MainFragment)
             (navHostFragment.childFragmentManager.fragments[0] as MainFragment?)?.reloadData()
         }
     }

@@ -30,4 +30,5 @@
     <string name="add_tag">Add Tag</string>
     <string name="insert_password">Insert password</string>
     <string name="binary_option_title">TextView</string>
+    <string name="restore_backup">Restore Backup</string>
 </resources>

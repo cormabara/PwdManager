@@ -16,7 +16,7 @@ import com.cormabara.pwdmanager.managers.ManPwdData
 
 class CheckTag(n_: String,c_: Boolean) {
     var name: String = n_
-    var checked: Boolean = c_
+//    var checked: Boolean = c_
 }
 
 fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item: ManPwdData.PwdItem) {
@@ -45,6 +45,7 @@ fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item: ManPwdData
                 if (event == null || !event.isShiftPressed) {
                     // the user is done typing.
                     (context as MainActivity).manPwdData.addTag(txt_tag.text.toString())
+                    item.addTag(txt_tag.text.toString());
                     //val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                     //if (imm != null)
                     //    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -62,7 +63,6 @@ fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item: ManPwdData
     var listview = dialog.findViewById<ListView>(R.id.list_view_tags)
     listview.adapter = adapter
 
-
     val btnok = dialog.findViewById(R.id.btn_ok) as Button
     val btncancel = dialog.findViewById(R.id.btn_cancel) as Button
     btnok.setOnClickListener {
@@ -72,7 +72,7 @@ fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item: ManPwdData
 
         dialog.dismiss()
         adapter_.notifyDataSetChanged()
-        (context as MainActivity).manPwdData.saveData((context as MainActivity).mainPassword)
+        context.manPwdData.saveData(context.mainPassword)
     }
     btncancel.setOnClickListener { dialog.dismiss() }
     dialog.show()

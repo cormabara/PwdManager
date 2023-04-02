@@ -40,6 +40,7 @@ class ManPwdData(path_: File) {
         fun setPwdUsername(v_: String) {username = v_}
         fun setPwdPassword(v_: String) {password = v_}
         fun addTag(tag_: String) {if (tag_ !in tagList) tagList.add(tag_) }
+        fun delTag(tag_: String) {if (tag_ in tagList) tagList.remove(tag_) }
         fun hasTag(tag_:String): Boolean  {return (tag_ in tagList) }
     }
 
@@ -54,7 +55,7 @@ class ManPwdData(path_: File) {
         dataFileBkp = File(path_,cnfPwdFnCryptBkp)
     }
 
-    /** @brief FOrce dele deletion of the pwd data */
+    /** @brief Force the deletion of the pwd data */
     fun newData () {
         if (dataFile.exists() ) {
             dataFile.delete()
@@ -223,7 +224,7 @@ class ManPwdData(path_: File) {
     }
     fun addTag(tag_: String)
     {
-        if ( internal_data.tagList.find{name -> name == tag_ } == null )
+        if(tag_ !in  internal_data.tagList)
             internal_data.tagList.add(tag_)
     }
     fun delTag(tag_: String)

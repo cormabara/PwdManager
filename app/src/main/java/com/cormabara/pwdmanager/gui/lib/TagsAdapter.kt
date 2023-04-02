@@ -11,7 +11,7 @@ import com.cormabara.pwdmanager.CheckTag
 import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.managers.ManPwdData
 
-class TagListAdapter(private val dataSet: ArrayList<CheckTag>, private val item: ManPwdData.PwdItem, mContext: Context) :
+class TagListAdapter(private val dataSet: ArrayList<CheckTag>, private val pwdItem: ManPwdData.PwdItem, mContext: Context) :
     ArrayAdapter<CheckTag>(mContext, R.layout.listview_tag,dataSet) {
 
     private class ViewHolder {
@@ -46,7 +46,14 @@ class TagListAdapter(private val dataSet: ArrayList<CheckTag>, private val item:
 
         val item: CheckTag = getItem(position)
         viewHolder.txtName.text = item.name
-        viewHolder.checkBox.isChecked = item.checked
+        viewHolder.checkBox.isChecked = pwdItem.hasTag(item.name)
+
+        viewHolder.checkBox.setOnCheckedChangeListener { btn_, isChecked ->
+            if (isChecked)
+                pwdItem.addTag(btn_.text.toString())
+            else
+                pwdItem.delTag(btn_.text.toString())
+        }
         return result
     }
 }

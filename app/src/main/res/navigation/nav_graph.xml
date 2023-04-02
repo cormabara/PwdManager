@@ -15,6 +15,9 @@
     <action
         android:id="@+id/action_to_newPasswordFragment"
         app:destination="@id/newPasswordFragment" />
+    <action
+        android:id="@+id/action_to_mainFragment"
+        app:destination="@id/MainFragment" />
 
     <fragment
         android:id="@+id/MainFragment"
@@ -27,27 +30,17 @@
         android:name="com.cormabara.pwdmanager.gui.fragments.InsPasswordFragment"
         android:label="@string/app_title"
         tools:layout="@layout/fragment_ins_password">
-
-        <action
-            android:id="@+id/action_StartFragment_to_MainFragment"
-            app:destination="@id/MainFragment" />
     </fragment>
     <fragment
         android:id="@+id/newPasswordFragment"
         android:name="com.cormabara.pwdmanager.gui.fragments.NewPasswordFragment"
         android:label="FirstStartFragment" >
-        <action
-            android:id="@+id/action_firstStartFragment_to_MainFragment"
-            app:destination="@id/MainFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.cormabara.pwdmanager.gui.fragments.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" >
-        <action
-            android:id="@+id/action_settingFragment_to_MainFragment"
-            app:destination="@id/MainFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"

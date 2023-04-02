@@ -41,7 +41,7 @@ class SettingFragment : Fragment() {
             cnf.searchMode = enumValueOf(binding.findOption.getActive())
             cnf.userMail = binding.userEmail.text.toString()
             cnf.saveData()
-            findNavController().navigate(R.id.action_settingFragment_to_MainFragment)
+            findNavController().navigate(R.id.action_to_mainFragment)
         }
         return binding.root
     }

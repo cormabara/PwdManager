@@ -3,8 +3,11 @@ package com.cormabara.pwdmanager.gui.lib
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
+import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.findNavController
 import com.cormabara.pwdmanager.MainActivity
@@ -34,43 +37,84 @@ class MainPasswordControl @JvmOverloads constructor(
                 false
             ) ?: false;
         }
+
         if (insertNewPassword) {
             binding.startPassword2.visibility = VISIBLE
             binding.titleConfirmPassword.visibility = VISIBLE
             binding.insertPasswordConfirm.setOnClickListener() {
-                val pwd1 = binding.startPassword1.text.toString()
-                val pwd2 = binding.startPassword2.text.toString()
-                Toast.makeText(
-                    context as MainActivity,
-                    "Submit button $pwd1-$pwd2",
-                    Toast.LENGTH_SHORT
-                ).show()
-                if (pwd1 == pwd2) {
-                    context.mainPassword = pwd1
-                    context.manPwdData.newData()
-                    findNavController().navigate(R.id.action_firstStartFragment_to_MainFragment)
-                } else {
-                    Toast.makeText(
-                        context,
-                        "Incorrect password",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                newAndGo()
             }
+            binding.startPassword2.setOnEditorActionListener(
+                TextView.OnEditorActionListener { v, actionId, event ->
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                        actionId == EditorInfo.IME_ACTION_DONE ||
+                        actionId == EditorInfo.IME_ACTION_NEXT ||
+                        event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER
+                    ) {
+                        if (event == null || !event.isShiftPressed) {
+                            newAndGo()
+                            return@OnEditorActionListener true // consume.
+                        }
+                    }
+                    false // pass on to other listeners.
+                }
+            )
         }
         else {
             binding.startPassword2.visibility = GONE;
             binding.titleConfirmPassword.visibility = GONE
+
+            binding.startPassword1.setOnEditorActionListener(
+                TextView.OnEditorActionListener { v, actionId, event ->
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                        actionId == EditorInfo.IME_ACTION_DONE ||
+                        actionId == EditorInfo.IME_ACTION_NEXT ||
+                        event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER
+                    ) {
+                        if (event == null || !event.isShiftPressed) {
+                            loadAndGo()
+                            return@OnEditorActionListener true // consume.
+                        }
+                    }
+                    false // pass on to other listeners.
+                }
+            )
+
             binding.insertPasswordConfirm.setOnClickListener() {
-                (context as MainActivity).mainPassword = binding.startPassword1.text.toString()
-                val pwd = (context as MainActivity).mainPassword
-                if (context.manPwdData.loadData(context,pwd))
-                    findNavController().navigate(R.id.action_StartFragment_to_MainFragment)
-                else
-                    Toast.makeText(context, "Wrong password ($pwd)", Toast.LENGTH_SHORT).show()
+                loadAndGo()
             }
         }
     }
 
+    private fun loadAndGo()
+    {
+        val pwd = binding.startPassword1.text.toString()
+        (context as MainActivity).mainPassword = pwd
+        if ( (context as MainActivity).manPwdData.loadData(context,pwd))
+            findNavController().navigate(R.id.action_to_mainFragment)
+        else
+            Toast.makeText(context, "Wrong password ($pwd)", Toast.LENGTH_SHORT).show()
+    }
 
+    private fun newAndGo()
+    {
+        val pwd1 = binding.startPassword1.text.toString()
+        val pwd2 = binding.startPassword2.text.toString()
+        Toast.makeText(
+            context as MainActivity,
+            "Submit button $pwd1-$pwd2",
+            Toast.LENGTH_SHORT
+        ).show()
+        if (pwd1 == pwd2) {
+            (context as MainActivity).mainPassword = pwd1
+            (context as MainActivity).manPwdData.newData()
+            findNavController().navigate(R.id.action_to_mainFragment)
+        } else {
+            Toast.makeText(
+                context,
+                "Incorrect password",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 }
