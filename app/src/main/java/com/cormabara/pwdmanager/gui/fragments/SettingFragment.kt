@@ -42,7 +42,6 @@ class SettingFragment : Fragment() {
             cnf.userMail = binding.userEmail.text.toString()
             cnf.saveData()
             findNavController().navigate(R.id.action_settingFragment_to_MainFragment)
-
         }
         return binding.root
     }

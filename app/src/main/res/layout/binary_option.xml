@@ -7,7 +7,7 @@
         android:id="@+id/option_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="@string/binary_option_title"
         android:textColor="@color/light_1"
         android:textSize="20sp"/>
 
@@ -21,16 +21,13 @@
             android:id="@+id/option_1"
             android:layout_width="192dp"
             android:layout_height="wrap_content"
-            android:text="RadioButton"
-            style="@style/setting_element_title"/>
+            style="@style/setting_option"/>
 
         <RadioButton
             android:id="@+id/option_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton"
-            android:textColor="@color/light_1"
-            android:onClick="radio_button_click"/>
+            style="@style/setting_option"/>
     </RadioGroup>
 
 </merge>

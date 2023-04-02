@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:minHeight="64dp"
+            android:selectAllOnFocus="true"
             android:text="@string/username" />
 
         <EditText
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:minHeight="64dp"
+            android:selectAllOnFocus="true"
             android:text="@string/username" />
 
         <EditText
@@ -45,20 +45,28 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/password"
-            android:inputType="textPersonName"
-            android:minHeight="64dp"
+            android:selectAllOnFocus="true"
             android:text="@string/password" />
 
-        <Spinner
+        <EditText
+            android:id="@+id/txt_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/add_tag"
+            android:inputType="textPersonName"
+            android:text="@string/add_tag"
+            android:selectAllOnFocus="true"
+            style="@style/tag_insert"/>
+        <ListView
+            android:id="@+id/list_view_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:width="400dp"
             android:ems="10"
             android:hint="@string/tags"
             android:inputType="textPersonName"
-            android:minHeight="64dp"
-            android:text="@string/tags" />
+            style="@style/tag_element"/>
 
         <LinearLayout
             android:layout_width="match_parent"

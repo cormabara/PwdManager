@@ -20,17 +20,7 @@ class ListOption @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
 
-    private lateinit var binding: ListOptionBinding
-
-    interface ListOptionListener {
-        fun onOptionChanged(option_: String)
-    }
-    private var  clistener: ListOptionListener? = null
-
-    // Assign the listener implementing events interface that will receive the events
-    public fun setCustomObjectListener(listener_: ListOptionListener) {
-        this.clistener = listener_
-    }
+    private var binding: ListOptionBinding
 
     init {
 
@@ -49,15 +39,5 @@ class ListOption @JvmOverloads constructor(
             adapter = aa
             gravity = Gravity.CENTER
         }
-
-    }
-
-    fun getActive() : String
-    {
-        return ""
-    }
-
-    fun setActive(val_: String)
-    {
     }
 }

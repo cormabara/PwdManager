@@ -54,11 +54,13 @@
             android:id="@+id/btn_save_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/ic_add_item_foreground"
+            app:srcCompat="@mipmap/ic_save_and_close_foreground"
             android:background="@null"
             android:contentDescription="@string/bnt_setting_save"
             android:minWidth="48dp"
             android:minHeight="48dp"
+            android:maxWidth="48dp"
+            android:maxHeight="48dp"
             android:scaleType="fitCenter"/>
     </LinearLayout>
 </FrameLayout>

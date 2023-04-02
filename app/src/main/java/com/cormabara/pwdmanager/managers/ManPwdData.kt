@@ -28,7 +28,7 @@ class ManPwdData(path_: File) {
         var name: String = ""
         var username: String = ""
         var password: String = ""
-        var tagList: ArrayList<String> = ArrayList<String>()
+        var tagList: ArrayList<String> = ArrayList()
 
         constructor(id_: String, name_: String = "name", username_: String = "username", password_: String = "password") : this() {
             id = id_
@@ -87,13 +87,15 @@ class ManPwdData(path_: File) {
         var retval = false
         if (!loadLow(dataFile,password_)) {
             val chooseDiag = ChooseDialog(context)
-            chooseDiag.show("Cannot recover data", "Try to recover the backup?") {
+            chooseDiag.show("Cannot recover data", "Try to recover the last backup?") {
             if (it == ChooseDialog.ResponseType.YES)
                 retval = loadLow(dataFileBkp,password_)
             }
         }
         else
             retval = true
+
+        purgeTags()
 
         return retval
     }
@@ -198,9 +200,31 @@ class ManPwdData(path_: File) {
         internal_data.itemList.remove(pi_)
     }
 
+    fun findTagInItems(tag_: String): Boolean
+    {
+        for (item in internal_data.itemList) {
+            if (item.tagList.find { name -> name == tag_ } != null)
+                return true
+        }
+        return false
+    }
+
+    fun purgeTags()
+    {
+        var todel = ArrayList<String>()
+        for (tag in internal_data.tagList) {
+            if (findTagInItems(tag) == false) {
+                MyLog.LInfo("tag '${tag}' is no more used, deleted")
+                todel.add(tag)
+            }
+        }
+        for (tag in todel)
+            delTag(tag)
+    }
     fun addTag(tag_: String)
     {
-        internal_data.tagList.add(tag_)
+        if ( internal_data.tagList.find{name -> name == tag_ } == null )
+            internal_data.tagList.add(tag_)
     }
     fun delTag(tag_: String)
     {
@@ -210,6 +234,7 @@ class ManPwdData(path_: File) {
     {
         return internal_data.tagList.contains(tag_)
     }
+    fun getTags(): ArrayList<String> {return internal_data.tagList}
 
     /** Find all items that belongs to a group */
     fun itemsByTag(tag_: String) : ArrayList<PwdItem>

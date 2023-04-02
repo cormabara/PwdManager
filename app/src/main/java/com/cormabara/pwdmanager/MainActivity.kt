@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,6 +17,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.cormabara.pwdmanager.databinding.ActivityMainBinding
 import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
+import com.cormabara.pwdmanager.gui.fragments.AboutFragment
 import com.cormabara.pwdmanager.gui.fragments.MainFragment
 import com.cormabara.pwdmanager.lib.MyFileUtils
 import com.cormabara.pwdmanager.lib.MyLog
@@ -68,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                      if (it == ChooseDialog.ResponseType.YES) {
                          Toast.makeText(this, "Clear all data", Toast.LENGTH_SHORT).show()
                          manPwdData.newData()
-                         findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_StartFragment_to_firstStartFragment)
+                         findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_newPasswordFragment)
 
                      }
                  }
@@ -79,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                  true
             }
             R.id.action_settings -> {
-                 findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_MainFragment_to_settingFragment)
+                 findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_settingFragment)
                  true
             }
             R.id.action_export_data -> {
@@ -93,6 +95,10 @@ class MainActivity : AppCompatActivity() {
                     .addCategory(Intent.CATEGORY_OPENABLE)
                     .putExtra(Intent.EXTRA_LOCAL_ONLY, true)
                 startActivityForResult(Intent.createChooser(intent, "Select a file"), 111)
+                return true
+            }
+            R.id.action_about -> {
+                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_aboutFragment)
                 return true
             }
             else -> {
@@ -110,7 +116,7 @@ class MainActivity : AppCompatActivity() {
             val navHostFragment: NavHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
 
-            val f2 = navHostFragment.childFragmentManager.findFragmentById(R.id.MainFragmentPippo)
+            val f2 = navHostFragment.childFragmentManager.findFragmentById(R.id.MainFragment)
             (navHostFragment.childFragmentManager.fragments[0] as MainFragment?)?.reloadData()
         }
     }
