@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PasswordManager</string>
+    <string name="username">utente</string>
+    <string name="action_about">Informazioni</string>
+    <string name="restore_backup">Ripristina backup</string>
+    <string name="add_tag">Aggiungi Tag</string>
+    <string name="edit_item_title">edita elemento</string>
+    <string name="action_add_item">Cancella item</string>
+    <string name="search_item_by_name">Cerca per nome</string>
+
+    <string name="action_clear_all_data">Cancella tutto</string>
+    <string name="action_import_data">Importa dati</string>
+    <string name="action_export_data">Esporta dati</string>
+    <string name="action_close_app">Esci</string>
+    <string name="action_settings">Opzioni</string>
+    <string name="action_change_password">Cambia password</string>
+    <string name="action_save_all">Salva tutto</string>
+
+    <string name="setting_title">Configurazione applicazione</string>
+    <string name="setting_gui_theme">Tema UI</string>
+    <string name="setting_find_mode">Modalità di ricerca</string>
+    <string name="setting_language">Lingua</string>
+
+    <string name="bnt_setting_save">Salva configurazione</string>
+    <string name="user_email">E-Mail utente</string>
+    <string name="insert_password">Inserire password</string>
+
+    <string name="err_import_data">Cannot import data</string>
+
+</resources>

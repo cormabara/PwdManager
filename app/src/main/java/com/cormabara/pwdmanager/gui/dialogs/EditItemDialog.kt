@@ -1,23 +1,15 @@
 package com.cormabara.pwdmanager
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.view.KeyEvent
 import android.view.Window
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.TextView.OnEditorActionListener
 import com.cormabara.pwdmanager.gui.lib.PwdItemAdapter
 import com.cormabara.pwdmanager.gui.lib.TagListAdapter
 import com.cormabara.pwdmanager.managers.ManPwdData
-
-
-class CheckTag(n_: String,c_: Boolean) {
-    var name: String = n_
-//    var checked: Boolean = c_
-}
 
 fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item: ManPwdData.PwdItem) {
     val dialog = Dialog(context)
@@ -57,9 +49,7 @@ fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item: ManPwdData
     )
 
     var taglist = (context as MainActivity).manPwdData.getTags()
-    var ctaglist: ArrayList<CheckTag> = ArrayList()
-    for (tag in taglist) ctaglist.add(CheckTag(tag,false))
-    var adapter = TagListAdapter(ctaglist, item,context)
+    var adapter = TagListAdapter(taglist, item,context)
     var listview = dialog.findViewById<ListView>(R.id.list_view_tags)
     listview.adapter = adapter
 
@@ -72,7 +62,7 @@ fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item: ManPwdData
 
         dialog.dismiss()
         adapter_.notifyDataSetChanged()
-        context.manPwdData.saveData(context.mainPassword)
+        context.manPwdData.save(context.mainPassword)
     }
     btncancel.setOnClickListener { dialog.dismiss() }
     dialog.show()

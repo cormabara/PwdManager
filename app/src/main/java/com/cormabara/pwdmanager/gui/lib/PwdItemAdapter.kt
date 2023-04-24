@@ -48,7 +48,7 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
                     (context as MainActivity).manPwdData.delItem(element)
                     operativeItemList.remove(element)
                     this.notifyDataSetChanged()
-                    (context as MainActivity).manPwdData.saveData((context as MainActivity).mainPassword)
+                    (context as MainActivity).manPwdData.save((context as MainActivity).mainPassword)
                 }
             }
         }

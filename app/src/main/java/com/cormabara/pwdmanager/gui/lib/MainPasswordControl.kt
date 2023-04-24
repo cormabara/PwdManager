@@ -90,7 +90,7 @@ class MainPasswordControl @JvmOverloads constructor(
     {
         val pwd = binding.startPassword1.text.toString()
         (context as MainActivity).mainPassword = pwd
-        if ( (context as MainActivity).manPwdData.loadData(context,pwd))
+        if ( (context as MainActivity).manPwdData.load(context,pwd))
             findNavController().navigate(R.id.action_to_mainFragment)
         else
             Toast.makeText(context, "Wrong password ($pwd)", Toast.LENGTH_SHORT).show()

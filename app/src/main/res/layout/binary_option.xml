@@ -7,7 +7,6 @@
         android:id="@+id/option_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/binary_option_title"
         android:textColor="@color/light_1"
         android:textSize="20sp"/>
 

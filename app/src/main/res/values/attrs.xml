@@ -3,7 +3,6 @@
     <declare-styleable name="ctrl_pwd_item_attributes">
         <attr name="pwd_item_name" format="reference" />
     </declare-styleable>
-
     <declare-styleable name="binary_option_attributes">
         <attr name="binary_option_title" format="reference" />
     </declare-styleable>

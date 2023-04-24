@@ -6,16 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
-import android.widget.TextView
-import com.cormabara.pwdmanager.CheckTag
 import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.managers.ManPwdData
 
-class TagListAdapter(private val dataSet: ArrayList<CheckTag>, private val pwdItem: ManPwdData.PwdItem, mContext: Context) :
-    ArrayAdapter<CheckTag>(mContext, R.layout.listview_tag,dataSet) {
+class TagListAdapter(private val dataSet: ArrayList<String>, private val pwdItem: ManPwdData.PwdItem, mContext: Context) :
+    ArrayAdapter<String>(mContext, R.layout.listview_tag,dataSet) {
 
     private class ViewHolder {
-        lateinit var txtName: TextView
         lateinit var checkBox: CheckBox
     }
 
@@ -23,8 +20,8 @@ class TagListAdapter(private val dataSet: ArrayList<CheckTag>, private val pwdIt
         return dataSet.size
     }
 
-    override fun getItem(position: Int): CheckTag {
-        return dataSet[position] as CheckTag
+    override fun getItem(position: Int): String {
+        return dataSet[position] as String
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup ): View
@@ -35,8 +32,8 @@ class TagListAdapter(private val dataSet: ArrayList<CheckTag>, private val pwdIt
         if (convertView == null) {
             viewHolder = ViewHolder()
             convertView = LayoutInflater.from(parent.context).inflate(R.layout.listview_tag, parent, false)
-            viewHolder.txtName = convertView.findViewById(R.id.txtName)
             viewHolder.checkBox = convertView.findViewById(R.id.checkBox)
+            viewHolder.checkBox.setOnCheckedChangeListener(null)
             result = convertView
             convertView.tag = viewHolder
         } else {
@@ -44,16 +41,17 @@ class TagListAdapter(private val dataSet: ArrayList<CheckTag>, private val pwdIt
             result = convertView
         }
 
-        val item: CheckTag = getItem(position)
-        viewHolder.txtName.text = item.name
-        viewHolder.checkBox.isChecked = pwdItem.hasTag(item.name)
+        val item: String = getItem(position)
+        viewHolder.checkBox.text = item
+        viewHolder.checkBox.isChecked = pwdItem.hasTag(item)
 
         viewHolder.checkBox.setOnCheckedChangeListener { btn_, isChecked ->
-            if (isChecked)
-                pwdItem.addTag(btn_.text.toString())
+            if (btn_.isChecked)
+                pwdItem.addTag((btn_ as CheckBox).text.toString())
             else
                 pwdItem.delTag(btn_.text.toString())
         }
         return result
     }
+
 }

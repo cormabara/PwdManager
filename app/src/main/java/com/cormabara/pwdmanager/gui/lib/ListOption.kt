@@ -5,10 +5,8 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.LinearLayout
-import android.widget.ListView
-import android.widget.Spinner
+import android.widget.*
+import androidx.core.view.get
 import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.databinding.ListOptionBinding
 
@@ -21,9 +19,8 @@ class ListOption @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
 
     private var binding: ListOptionBinding
-
+    private lateinit var aa: ArrayAdapter<String>
     init {
-
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         binding = ListOptionBinding.inflate(inflater,this)
         binding.optionListTitle.text = "option text"
@@ -32,7 +29,7 @@ class ListOption @JvmOverloads constructor(
 
     fun configure(title_: String, options_: Array<String>)
     {
-        var aa = ArrayAdapter(context, android.R.layout.simple_spinner_item, options_)
+        aa = ArrayAdapter(context, android.R.layout.simple_spinner_item, options_)
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         with(binding.optionList)
         {
@@ -40,4 +37,14 @@ class ListOption @JvmOverloads constructor(
             gravity = Gravity.CENTER
         }
     }
+    fun getSelected() : String
+    {
+        return binding.optionList.selectedItem as String
+    }
+
+    fun setSelected(val_: String)
+    {
+        binding.optionList.setSelection(aa.getPosition(val_))
+    }
+
 }

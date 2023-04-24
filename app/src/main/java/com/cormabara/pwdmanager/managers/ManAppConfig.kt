@@ -63,6 +63,9 @@ class ManAppConfig(path_: File) {
     var guiTheme: GuiTheme
         get() = appData.guiTheme
         set(value) {appData.guiTheme = value}
+    var language: Languages
+        get() = appData.language
+        set(value) {appData.language = value}
     var userMail: String
         get() = appData.mail
         set(value) {appData.mail = value}

@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import androidx.core.content.ContextCompat.startActivity
+import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.lib.PwdCrypt
 import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
@@ -39,7 +40,7 @@ class ManPwdData(path_: File) {
         fun setPwdName(v_: String) { name = v_ }
         fun setPwdUsername(v_: String) {username = v_}
         fun setPwdPassword(v_: String) {password = v_}
-        fun addTag(tag_: String) {if (tag_ !in tagList) tagList.add(tag_) }
+        fun addTag(tag_: String) {if ( (tag_.isNotEmpty()) && (tag_ !in tagList) ) tagList.add(tag_) }
         fun delTag(tag_: String) {if (tag_ in tagList) tagList.remove(tag_) }
         fun hasTag(tag_:String): Boolean  {return (tag_ in tagList) }
     }
@@ -55,14 +56,7 @@ class ManPwdData(path_: File) {
         dataFileBkp = File(path_,cnfPwdFnCryptBkp)
     }
 
-    /** @brief Force the deletion of the pwd data */
-    fun newData () {
-        if (dataFile.exists() ) {
-            dataFile.delete()
-        }
-    }
-
-    private fun loadLow(file_: File, password_: String): Boolean
+    private fun loadDataLow(file_: File, password_: String): Boolean
     {
         if (file_.exists()) {
             try {
@@ -70,8 +64,6 @@ class ManPwdData(path_: File) {
                 val str2 = PwdCrypt.FileDecrypt(password_, file_)
                 MyLog.LInfo(str2)
                 internal_data = mapper.readValue(str2)
-                // IF the operation ok the file is safe so make a backup copy
-                dataFile.copyTo(dataFileBkp,true)
                 return true
             } catch (e: Exception) {
                 MyLog.LError("Exception loading the data file ${file_.absoluteFile}, trying backup")
@@ -82,48 +74,59 @@ class ManPwdData(path_: File) {
         return false
     }
 
+    /** @brief Force the deletion of the pwd data */
+    fun newData () {
+        if (dataFile.exists() ) {
+            dataFile.delete()
+        }
+    }
+
     /** @brief Decrypt and load the pwd data, if are not present
      *  create an empty one */
-    fun loadData (context: Context, password_: String) : Boolean {
+    fun load (context: Context, password_: String) : Boolean {
         var retval = false
-        if (!loadLow(dataFile,password_)) {
+        if (!loadDataLow(dataFile,password_)) {
             val chooseDiag = ChooseDialog(context)
             chooseDiag.show("Cannot recover data", "Try to recover the last backup?") {
             if (it == ChooseDialog.ResponseType.YES)
-                retval = loadLow(dataFileBkp,password_)
+                retval = loadDataLow(dataFileBkp,password_)
             }
         }
-        else
+        else {
             retval = true
-
+        }
         purgeTags()
-
         return retval
     }
 
-    /** @brief Save all the pwd data with encrypt by "passwd_" */
-    fun saveData(passwd_: String)
+    /** @brief Save all the pwd data with encrypt by "passwd_". If save is ok create 
+     * also a backup copy */
+    fun save(passwd_: String, updateBackup_: Boolean = false): Boolean
     {
-        val mapper = jacksonObjectMapper()
-        val myStr = mapper.writeValueAsString(internal_data)
-        Log.i("LogPwdDataSave",myStr)
-        PwdCrypt.FileEncrypt(passwd_,myStr,dataFile)
+        try {
+            val mapper = jacksonObjectMapper()
+            val myStr = mapper.writeValueAsString(internal_data)
+            Log.i("ManPwdData", myStr)
+            PwdCrypt.FileEncrypt(passwd_, myStr, dataFile)
+            // If the operation ok the file is safe so make a backup copy
+            if (updateBackup_)
+                dataFile.copyTo(dataFileBkp, true)
+            return true
+        } catch (e: Exception) {
+            MyLog.LError("Exception saving the data file ${dataFile.absoluteFile}")
+        }
+        return false
     }
 
+    fun restoreBackupData(context_: Context,passwd_: String) : Boolean {
+        return importData(context_,dataFileBkp,passwd_)
+    }
     /** @brief Function to check if pwd data are present or not */
     fun CheckData() :Boolean
     {
         return dataFile.exists()
     }
-
-    /** @brief This function return a string for the backup of the pwd data */
-    fun backupData(): String
-    {
-        val mapper = jacksonObjectMapper()
-        val myStr = mapper.writeValueAsString(internal_data)
-        return myStr
-    }
-
+    
     /** @brief This function exports the data by email */
     fun exportData(context: Context, mail_: String)
     {
@@ -151,12 +154,13 @@ class ManPwdData(path_: File) {
         startActivity(context,Intent.createChooser(emailIntent, "Send email..."),null)
     }
     /** @brief This function import data from file */
-    fun importData(context_: Context,file_: File, password_: String)
+    fun importData(context_: Context,file_: File, password_: String) : Boolean
     {
-        if (!loadLow(file_,password_)) {
-            MsgDialog(context_,"Cannot recover data", "Try to recover the backup?");
+        if (!loadDataLow(file_,password_)) {
+            MsgDialog(context_, "ERROR", context_.getString(R.string.err_import_data))
+            return false
         }
-        saveData(password_)
+        return save(password_)
     }
 
     fun listPwdItems(): ArrayList<PwdItem>  {

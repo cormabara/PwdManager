@@ -29,18 +29,20 @@ class SettingFragment : Fragment() {
         val cnf = (context as MainActivity).manAppConfig
         // Inflate the layout for this fragment
         val binding =  FragmentSettingBinding.inflate(inflater, container, false)
-        binding.themeOption.configure("Theme",ManAppConfig.GuiTheme.DARK.toString(),ManAppConfig.GuiTheme.LIGHT.toString())
+        binding.themeOption.configure(getString(R.string.setting_gui_theme),ManAppConfig.GuiTheme.DARK.toString(),ManAppConfig.GuiTheme.LIGHT.toString())
         binding.themeOption.setActive(cnf.guiTheme.toString())
-        binding.findOption.configure("Find",ManAppConfig.SearchMode.CONTAINS.toString(),ManAppConfig.SearchMode.START_WITH.toString())
+        binding.findOption.configure(getString(R.string.setting_find_mode),ManAppConfig.SearchMode.CONTAINS.toString(),ManAppConfig.SearchMode.START_WITH.toString())
         binding.findOption.setActive(cnf.searchMode.toString())
-        binding.languageOption.configure("Language",getNames<ManAppConfig.Languages>().toTypedArray())
-        binding.findOption.setActive(cnf.searchMode.toString())
+        binding.languageOption.configure(getString(R.string.setting_language),getNames<ManAppConfig.Languages>().toTypedArray())
+        binding.languageOption.setSelected(cnf.language.toString())
         binding.userEmail.setText(cnf.userMail)
         binding.btnSaveSettings.setOnClickListener {
             cnf.guiTheme  = enumValueOf(binding.themeOption.getActive())
             cnf.searchMode = enumValueOf(binding.findOption.getActive())
+            cnf.language = enumValueOf(binding.languageOption.getSelected())
             cnf.userMail = binding.userEmail.text.toString()
             cnf.saveData()
+            (context as MainActivity).setAppLocale(cnf.language.toString())
             findNavController().navigate(R.id.action_to_mainFragment)
         }
         return binding.root
