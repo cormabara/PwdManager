@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".gui.fragments.SettingFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_title"
+            android:textAlignment="center"
+            android:textColor="@color/black_text_color_1"
+            android:textSize="24sp"/>
+        <com.cormabara.pwdmanager.gui.lib.BinaryOption
+            android:id="@+id/theme_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/setting_element"/>
+        <com.cormabara.pwdmanager.gui.lib.BinaryOption
+            android:id="@+id/find_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/setting_element"/>
+        <com.cormabara.pwdmanager.gui.lib.ListOption
+            android:id="@+id/language_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/setting_element"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            style="@style/setting_element">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/user_email"
+                style="@style/setting_element_title"/>
+            <EditText
+                android:id="@+id/user_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
+        </LinearLayout>
+        <ImageButton
+            android:id="@+id/btn_save_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/img_save_and_close_foreground"
+            android:background="@null"
+            android:contentDescription="@string/bnt_setting_save"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:maxWidth="48dp"
+            android:maxHeight="48dp"
+            android:scaleType="fitCenter"/>
+    </LinearLayout>
+</FrameLayout>
