@@ -23,9 +23,13 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18dp</item>
     </style>
-    <style name="TextPwdItem" parent="TextAppearance.AppCompat">
+    <style name="TextPwdItem_User" parent="TextAppearance.AppCompat">
         <item name="android:textColor">#65939E</item>
-        <item name="android:textSize">15dp</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+    <style name="TextPwdItem_Password" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">#65939E</item>
+        <item name="android:textSize">14dp</item>
     </style>
 
     <style name="MainTitle">

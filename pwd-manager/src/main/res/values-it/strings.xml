@@ -5,7 +5,7 @@
     <string name="action_about">Informazioni</string>
     <string name="restore_backup">Ripristina backup</string>
     <string name="add_tag">Aggiungi Tag</string>
-    <string name="edit_item_title">edita elemento</string>
+    <string name="edit_item_title">MODIFICA</string>
     <string name="action_add_item">Cancella item</string>
     <string name="search_item_by_name">Cerca per nome</string>
 

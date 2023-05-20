@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_change_password -> {
-                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_newPasswordFragment)
+                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_changePasswordFragment)
                 manPwdData.save(mainPassword,true)
                 true
             }

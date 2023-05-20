@@ -14,13 +14,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:text="@string/edit_item_title"
-            android:textAlignment="center"/>
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/edit_item_title"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                android:alpha="0.25"
+                android:background="@drawable/rounded_corner"
+                android:contentDescription="@string/button_delete"
+                android:padding="5dp"
+                android:radius="5dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/img_delete_foreground" />
+        </LinearLayout>
         <EditText
             android:id="@+id/txt_name"
             android:layout_width="match_parent"

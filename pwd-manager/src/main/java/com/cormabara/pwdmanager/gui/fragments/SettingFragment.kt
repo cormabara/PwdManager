@@ -43,6 +43,7 @@ class SettingFragment : Fragment() {
             cnf.userMail = binding.userEmail.text.toString()
             cnf.saveData()
             (context as MainActivity).setAppLocale(cnf.language.toString())
+            MyLog.LInfo("New language ${cnf.language.toString()}")
             findNavController().navigate(R.id.action_to_mainFragment)
         }
         return binding.root

@@ -18,6 +18,9 @@
     <action
         android:id="@+id/action_to_mainFragment"
         app:destination="@id/MainFragment" />
+    <action
+        android:id="@+id/action_to_changePasswordFragment"
+        app:destination="@id/changePasswordFragment" />
 
     <fragment
         android:id="@+id/MainFragment"
@@ -35,6 +38,11 @@
         android:id="@+id/newPasswordFragment"
         android:name="com.cormabara.pwdmanager.gui.fragments.NewPasswordFragment"
         android:label="FirstStartFragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.cormabara.pwdmanager.gui.fragments.ChangePasswordFragment"
+        android:label="ChangePasswordFragment" >
     </fragment>
     <fragment
         android:id="@+id/settingFragment"

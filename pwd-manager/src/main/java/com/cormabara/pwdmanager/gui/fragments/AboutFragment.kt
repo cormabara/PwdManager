@@ -33,10 +33,15 @@ class AboutFragment : Fragment() {
         val buildName = BuildConfig.VERSION_NAME
         val pkgName = (activity as MainActivity).applicationContext.packageName
 
+
         binding.aboutTitle.text = getString(R.string.app_title)
 
+        var appinfo = "App: $pkgName - Version: $buildName"
+        binding.aboutAppinfo.text = appinfo
+
         var str = "App: $pkgName \n"
-        str += "Build: $buildName - $buildCode\n"
+        str += "BuildCode: $buildCode\n"
+        str += "Github: https://github.com/cormabara/PwdManager\n"
         binding.aboutInfo.text = str
         return binding.root
     }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ImageButton
 import android.widget.SearchView
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.cormabara.pwdmanager.MainActivity
 import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.databinding.FragmentMainBinding
+import com.cormabara.pwdmanager.editItemDialog
 import com.cormabara.pwdmanager.gui.lib.PwdItemAdapter
 import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.managers.ManPwdData
@@ -52,6 +54,16 @@ class MainFragment : Fragment() {
             val selectedItem = parent.getItemAtPosition(position) as ManPwdData.PwdItem
             Toast.makeText(context, "Click on item $selectedItem", Toast.LENGTH_SHORT).show()
         }
+        binding.itemsList.setLongClickable(true);
+
+        binding.itemsList.setOnItemLongClickListener(AdapterView.OnItemLongClickListener { arg0, arg1, pos, id -> // TODO Auto-generated method stub
+            MyLog.LInfo("long clicked pos: $pos")
+            val selectedItem = itemsAdapter!!.getItem(pos) as ManPwdData.PwdItem
+            editItemDialog(context as MainActivity, itemsAdapter!!,selectedItem)
+            itemsAdapter!!.notifyDataSetChanged()
+            true
+        })
+
         (activity as MainActivity).hideUpButton()
 
         return binding.root

@@ -9,7 +9,7 @@
     <string name="password">Password</string>
     <string name="tags">Tags</string>
     <string name="username">Username</string>
-    <string name="edit_item_title">Item edit</string>
+    <string name="edit_item_title">EDIT</string>
     <string name="search_item_by_name">Search item by name</string>
 
     <string name="action_clear_all_data">Clear all data</string>

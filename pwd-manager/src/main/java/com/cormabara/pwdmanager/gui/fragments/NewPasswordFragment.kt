@@ -20,9 +20,8 @@ class NewPasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNewPasswordBinding.inflate(inflater, container, false)
-
-        if ((context as MainActivity).manPwdData.CheckData() == true) {
-            //findNavController().navigate(R.id.action_firstStartFragment_to_StartFragment)
+        val manPwdData = (context as MainActivity).manPwdData
+        if (manPwdData.CheckData() == true) {
             findNavController().navigate(R.id.action_to_insPasswordFragment)
         }
         return binding.root

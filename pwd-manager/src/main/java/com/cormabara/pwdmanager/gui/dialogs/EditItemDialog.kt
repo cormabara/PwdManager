@@ -7,6 +7,7 @@ import android.view.Window
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import android.widget.TextView.OnEditorActionListener
+import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
 import com.cormabara.pwdmanager.gui.lib.PwdItemAdapter
 import com.cormabara.pwdmanager.gui.lib.TagListAdapter
 import com.cormabara.pwdmanager.managers.ManPwdData
@@ -17,6 +18,18 @@ fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item: ManPwdData
     dialog.setCancelable(false)
     dialog.setContentView(R.layout.dialog_edit_item)
 
+    var btnDelete = dialog.findViewById(R.id.btn_delete) as ImageButton
+    btnDelete.setOnClickListener {
+        val chooseDiag = ChooseDialog(context)
+        chooseDiag.show("Delete element","If YES ${item.name} will be deleted") {
+            if (it == ChooseDialog.ResponseType.YES) {
+                (context as MainActivity).manPwdData.delItem(item)
+                (context as MainActivity).manPwdData.save((context as MainActivity).mainPassword)
+                dialog.dismiss()
+                adapter_.notifyDataSetChanged()
+            }
+        }
+    }
 
     var txt_name: EditText = dialog.findViewById(R.id.txt_name)
     txt_name.setText(item.name)
