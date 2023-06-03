@@ -20,11 +20,12 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.cormabara.pwdmanager.databinding.ActivityMainBinding
 import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
 import com.cormabara.pwdmanager.gui.fragments.MainFragment
-import com.cormabara.pwdmanager.lib.MyFileUtils
 import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.managers.ManAppConfig
 import com.cormabara.pwdmanager.managers.ManPwdData
-import java.io.File
+import java.io.BufferedReader
+import java.io.FileOutputStream
+import java.io.InputStreamReader
 import java.util.*
 
 
@@ -37,7 +38,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var manPwdData: ManPwdData
     var mainPassword: String = ""
-
+    val IMPORT_CODE = 111
+    val EXPORT_CODE = 222
     override fun onCreate(savedInstanceState: Bundle?) {
         val requiredPermissions1 = arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE)
         ActivityCompat.requestPermissions(this, requiredPermissions1, 0);
@@ -99,18 +101,34 @@ class MainActivity : AppCompatActivity() {
                 findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_settingFragment)
                 true
             }
-            R.id.action_export_data -> {
-                manPwdData.exportData(this,manAppConfig.userMail)
-                true
-            }
             R.id.action_import_data -> {
                 val intent = Intent()
                     .setType("*/*")
                     .setAction(Intent.ACTION_GET_CONTENT)
                     .addCategory(Intent.CATEGORY_OPENABLE)
                     .putExtra(Intent.EXTRA_LOCAL_ONLY, true)
-                startActivityForResult(Intent.createChooser(intent, "Select a file"), 111)
+                startActivityForResult(Intent.createChooser(intent, "Select a file"),
+                    IMPORT_CODE)
                 return true
+            }
+            R.id.action_export_data -> {
+                // manPwdData.exportData(this,manAppConfig.userMail)
+                val intent = Intent()
+                try {
+                    intent.action = Intent.ACTION_CREATE_DOCUMENT
+                    intent.addCategory(Intent.CATEGORY_OPENABLE)
+                    intent.type = "*/*" //not needed, but maybe usefull
+                    intent.putExtra(Intent.EXTRA_TITLE,"PwdManager-backup")
+                    MyLog.LInfo("export intent ready, start activity")
+                    startActivityForResult(Intent.createChooser(intent, "Select a file"),
+                        EXPORT_CODE)
+                    MyLog.LInfo("export activity done")
+                }
+                catch (e: Exception) {
+                    MyLog.LError("Error exporting files");
+                    Toast.makeText(this, "Error exporting file", Toast.LENGTH_SHORT).show()
+                }
+                true
             }
             R.id.action_save_all -> {
                 return manPwdData.save(mainPassword,true)
@@ -127,14 +145,30 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data_: Intent?) {
         super.onActivityResult(requestCode, resultCode, data_)
-        if (requestCode == 111 && resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             val fileUri: Uri? = data_?.data   // The URI with the location of the file
-            val file = File(fileUri?.let { MyFileUtils.getPath(this, it) })
-            manPwdData.importData(this, file, mainPassword)
-            val navHostFragment: NavHostFragment =
-                supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+            MyLog.LInfo("File Uri: $fileUri")
+            if (requestCode == IMPORT_CODE ) {
+                // Data import
+                if (fileUri != null) {
+                    manPwdData.importDataFromUri(this,fileUri,mainPassword)
+                }
+                val navHostFragment: NavHostFragment =
+                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+                    as NavHostFragment
+                (navHostFragment.childFragmentManager.fragments[0] as MainFragment?)?.reloadData()
+            }
+            else if (requestCode == EXPORT_CODE) {
+                // Data export
+                if (fileUri != null) {
+                    manPwdData.exportDataToUri(this, fileUri,mainPassword)
+                    Toast.makeText(this, "Data exported to: $fileUri", Toast.LENGTH_SHORT).show()
+                }
+                val navHostFragment: NavHostFragment =
+                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
 
-            (navHostFragment.childFragmentManager.fragments[0] as MainFragment?)?.reloadData()
+                (navHostFragment.childFragmentManager.fragments[0] as MainFragment?)?.reloadData()
+            }
         }
     }
 

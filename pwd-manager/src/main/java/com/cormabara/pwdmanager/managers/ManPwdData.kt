@@ -1,11 +1,8 @@
 package com.cormabara.pwdmanager.managers
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
-import android.os.Environment
 import android.util.Log
-import androidx.core.content.ContextCompat.startActivity
 import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.lib.PwdCrypt
@@ -13,7 +10,7 @@ import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
 import com.cormabara.pwdmanager.gui.dialogs.MsgDialog
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import java.io.File
+import java.io.*
 
 
 class ManPwdData(path_: File) {
@@ -126,36 +123,35 @@ class ManPwdData(path_: File) {
     {
         return dataFile.exists()
     }
-    
+
+
     /** @brief This function exports the data by email */
-    fun exportData(context: Context, mail_: String)
-    {
-        val dpath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        var filen = "${dpath}/${dataFile.name}"
-        MyLog.LInfo("Destination File ${filen}.")
-
-
-        var file = File(filen)
-        dataFile.copyTo(file,true)
-        if (!file.exists())
-            MyLog.LInfo("File ${file.name} not present")
-
-        val path: Uri = Uri.fromFile(file)
-        val emailIntent = Intent(Intent.ACTION_SEND)
-        // set the type to 'email'
-        emailIntent.type = "vnd.android.cursor.dir/email"
-        val to = arrayOf(mail_)
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, to)
-        // the attachment
-        MyLog.LInfo("Email attachment ${path}")
-        emailIntent.putExtra(Intent.EXTRA_STREAM, path)
-        // the mail subject
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Pwd Manager backup")
-        startActivity(context,Intent.createChooser(emailIntent, "Send email..."),null)
+    fun exportDataToUri(context: Context, uri_: Uri,password_: String) {
+        save(password_)
+        context.contentResolver.openFileDescriptor(uri_, "w")?.use { it ->
+            FileOutputStream(it.fileDescriptor).use {
+                var content = dataFile.inputStream().readBytes()
+                it.write(content,0,content.size)
+            }
+        }
     }
+
+    fun importDataFromUri(context_: Context, uri_: Uri,password_: String)
+    {
+        context_.contentResolver.openInputStream(uri_)?.use { inputStream ->
+            var content = inputStream.readBytes()
+            dataFile.outputStream().write(content,0,content.size)
+        }
+        loadDataLow(dataFile,password_)
+    }
+
     /** @brief This function import data from file */
     fun importData(context_: Context,file_: File, password_: String) : Boolean
     {
+        if (!loadDataLow(file_,password_)) {
+            MsgDialog(context_, "ERROR", context_.getString(R.string.err_import_data))
+            return false
+        }
         if (!loadDataLow(file_,password_)) {
             MsgDialog(context_, "ERROR", context_.getString(R.string.err_import_data))
             return false

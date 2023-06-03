@@ -1,5 +1,7 @@
 package com.cormabara.pwdmanager.managers
 
+import android.content.Context
+import android.net.Uri
 import com.cormabara.pwdmanager.lib.MyLog
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -69,5 +71,21 @@ class ManAppConfig(path_: File) {
     var userMail: String
         get() = appData.mail
         set(value) {appData.mail = value}
+
+    fun exportData(context_: Context, uri_: Uri)
+    {
+        try {
+            MyLog.LInfo("Exporting data")
+            //val selectedFilePath: String? = MyFileUtils.getPath(context_, uri_)
+            //MyLog.LInfo("File Uri: $selectedFilePath")
+            //val file = selectedFilePath?.let { File(it) }
+            MyLog.LInfo("appData: $appData")
+            //if (file != null) {
+            //    file.writeBytes(appData.toString().toByteArray())
+            //}
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
 }
 
