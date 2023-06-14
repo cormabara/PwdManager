@@ -37,7 +37,7 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
         username = rowView.findViewById(R.id.pwd_item_username) as TextView
         password = rowView.findViewById(R.id.pwd_item_password) as TextView
 
-        val myItem = getItem(position) as ManPwdData.PwdItem
+        val myItem = getItem(position)
         name.text = myItem.name
         username.text = myItem.username
         password.text = myItem.password
@@ -57,14 +57,12 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
     override fun getFilter(): Filter {
         return object : Filter() {
 
-            override fun performFiltering(constraint: CharSequence?): FilterResults? {
-                var constraint = constraint
+            override fun performFiltering(constraint_: CharSequence?): FilterResults? {
+                var constraint = constraint_
                 val results = FilterResults() // Holds the results of a filtering operation in values
                 val FilteredArrList: MutableList<ManPwdData.PwdItem> = ArrayList()
 
-                if (originalItemList == null) {
-                    originalItemList = ArrayList(arrayList_) // saves the original data in mOriginalValues
-                }
+                originalItemList = ArrayList(arrayList_) // saves the original data in mOriginalValues
 
                 if (constraint == null || constraint.length == 0) {
 
@@ -108,8 +106,7 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
     // Add a new item into the list
     fun addNewItem()
     {
-        val selectedItem = (context as MainActivity).manPwdData.newItem()
-        editItemDialog(context,this,selectedItem)
+        editItemDialog(context,this,null)
     }
     fun changeData(datas: ArrayList<ManPwdData.PwdItem>) {
         originalItemList = datas

@@ -12,7 +12,13 @@ import com.cormabara.pwdmanager.gui.lib.PwdItemAdapter
 import com.cormabara.pwdmanager.gui.lib.TagListAdapter
 import com.cormabara.pwdmanager.managers.ManPwdData
 
-fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item: ManPwdData.PwdItem) {
+fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item_: ManPwdData.PwdItem?) {
+    var create = false
+    var item = item_
+    if (item == null) {
+        item = (context as MainActivity).manPwdData.createItem()
+        create = true
+    }
     val dialog = Dialog(context)
     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.setCancelable(false)
@@ -24,7 +30,7 @@ fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item: ManPwdData
         chooseDiag.show("Delete element","If YES ${item.name} will be deleted") {
             if (it == ChooseDialog.ResponseType.YES) {
                 (context as MainActivity).manPwdData.delItem(item)
-                (context as MainActivity).manPwdData.save((context as MainActivity).mainPassword)
+                context.manPwdData.save(context.mainPassword)
                 dialog.dismiss()
                 adapter_.notifyDataSetChanged()
             }
@@ -42,11 +48,11 @@ fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item: ManPwdData
 
     var txt_tag = dialog.findViewById<EditText>(R.id.txt_tag)
     txt_tag.setOnEditorActionListener(
-        OnEditorActionListener { v, actionId, event ->
+        OnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                   actionId == EditorInfo.IME_ACTION_DONE ||
                   actionId == EditorInfo.IME_ACTION_NEXT ||
-                  event != null && event.action === KeyEvent.ACTION_DOWN && event.keyCode === KeyEvent.KEYCODE_ENTER) {
+                  event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
                 if (event == null || !event.isShiftPressed) {
                     // the user is done typing.
                     (context as MainActivity).manPwdData.addTag(txt_tag.text.toString())
@@ -74,6 +80,8 @@ fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item: ManPwdData
         item.setPwdUsername(txt_username.text.toString())
 
         dialog.dismiss()
+        if (create)
+            context.manPwdData.addItem(item)
         adapter_.notifyDataSetChanged()
         context.manPwdData.save(context.mainPassword)
     }

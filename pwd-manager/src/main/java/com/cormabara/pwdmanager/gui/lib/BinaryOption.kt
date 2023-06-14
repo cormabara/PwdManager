@@ -41,7 +41,7 @@ class BinaryOption @JvmOverloads constructor(
     // Get radio group selected item using on checked change listener
     binding.optionGrp.setOnCheckedChangeListener { group, checkedId ->
         val radio: RadioButton = findViewById(checkedId)
-        MyLog.LInfo(" On checked change :" + "${radio.text}")
+        MyLog.logInfo(" On checked change :" + "${radio.text}")
         clistener?.onOptionChanged(radio.text as String)
     }
     binding.option1.setOnClickListener { view ->
@@ -55,7 +55,7 @@ class BinaryOption @JvmOverloads constructor(
     fun radio_button_click(view: View) {
         /* Get the clicked radio button instance */
         val radio: RadioButton = findViewById(binding.optionGrp.checkedRadioButtonId)
-        MyLog.LInfo("On click : ${radio.text}")
+        MyLog.logInfo("On click : ${radio.text}")
     }
     fun configure(title_: String, opt1_: String, opt2_: String)
     {

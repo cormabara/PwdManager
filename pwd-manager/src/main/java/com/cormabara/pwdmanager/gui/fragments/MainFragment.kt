@@ -40,7 +40,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        MyLog.LDebug("MainFragment on create view")
+        MyLog.logDebug("MainFragment on create view")
         myActivity = (context as MainActivity)
         _binding = FragmentMainBinding.inflate(inflater, container, false)
 
@@ -56,9 +56,9 @@ class MainFragment : Fragment() {
         }
         binding.itemsList.setLongClickable(true);
 
-        binding.itemsList.setOnItemLongClickListener(AdapterView.OnItemLongClickListener { arg0, arg1, pos, id -> // TODO Auto-generated method stub
-            MyLog.LInfo("long clicked pos: $pos")
-            val selectedItem = itemsAdapter!!.getItem(pos) as ManPwdData.PwdItem
+        binding.itemsList.setOnItemLongClickListener(AdapterView.OnItemLongClickListener { _, _, pos, _ -> // TODO Auto-generated method stub
+            MyLog.logInfo("long clicked pos: $pos")
+            val selectedItem = itemsAdapter!!.getItem(pos)
             editItemDialog(context as MainActivity, itemsAdapter!!,selectedItem)
             itemsAdapter!!.notifyDataSetChanged()
             true
@@ -105,13 +105,13 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        MyLog.LDebug("MainFragment on resume")
+        MyLog.logDebug("MainFragment on resume")
         itemsAdapter!!.notifyDataSetChanged()
         //reloadfrag()
     }
 
     fun reloadData() {
-        MyLog.LInfo("mainfragment reload data")
+        MyLog.logInfo("mainfragment reload data")
         itemsAdapter?.changeData(manPwdData.listPwdItems())
     }
 

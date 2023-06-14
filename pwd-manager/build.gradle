@@ -12,7 +12,7 @@ android {
         minSdk 25
         targetSdk 33
         versionCode 1
-        versionName "1.0.2-beta"
+        versionName "1.0.3-beta02"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -20,12 +20,12 @@ android {
             minifyEnabled true
             //isShrinkResources = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            //isDebuggable = false
+            debuggable true
         }
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            //isDebuggable = true
+            debuggable true
         }
     }
     compileOptions {
@@ -49,8 +49,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
 
@@ -64,6 +64,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.12.1'
     implementation "org.jetbrains.kotlin:kotlin-script-runtime:1.7.20"
     implementation 'io.github.microutils:kotlin-logging-jvm:2.0.11'
+    implementation "io.getstream:stream-log:1.1.4"
+    implementation("io.getstream:stream-log:1.1.4")
+    debugImplementation("io.getstream:stream-log-file:1.1.4")
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.6'
 
     def nav_version = "2.5.3"

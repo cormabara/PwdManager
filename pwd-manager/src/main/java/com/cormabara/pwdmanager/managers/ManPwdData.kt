@@ -45,6 +45,12 @@ class ManPwdData(path_: File) {
     class PwdData() {
         var tagList: ArrayList<String> = ArrayList()
         var itemList: ArrayList<PwdItem> = ArrayList()
+
+        fun clear()
+        {
+            tagList.clear()
+            itemList.clear()
+        }
     }
     private var internal_data: PwdData = PwdData()
 
@@ -59,20 +65,21 @@ class ManPwdData(path_: File) {
             try {
                 val mapper = jacksonObjectMapper()
                 val str2 = PwdCrypt.FileDecrypt(password_, file_)
-                MyLog.LInfo(str2)
+                MyLog.logInfo(str2)
                 internal_data = mapper.readValue(str2)
                 return true
             } catch (e: Exception) {
-                MyLog.LError("Exception loading the data file ${file_.absoluteFile}, trying backup")
+                MyLog.logError("Exception loading the data file ${file_.absoluteFile}, trying backup")
                 return false
             }
         }
-        MyLog.LError("Data file ${file_.absoluteFile} is missing")
+        MyLog.logError("Data file ${file_.absoluteFile} is missing")
         return false
     }
 
     /** @brief Force the deletion of the pwd data */
     fun newData () {
+        internal_data.clear()
         if (dataFile.exists() ) {
             dataFile.delete()
         }
@@ -110,13 +117,17 @@ class ManPwdData(path_: File) {
                 dataFile.copyTo(dataFileBkp, true)
             return true
         } catch (e: Exception) {
-            MyLog.LError("Exception saving the data file ${dataFile.absoluteFile}")
+            MyLog.logError("Exception saving the data file ${dataFile.absoluteFile}")
         }
         return false
     }
 
     fun restoreBackupData(context_: Context,passwd_: String) : Boolean {
         return importData(context_,dataFileBkp,passwd_)
+    }
+
+    fun saveBackupData(context_: Context,passwd_: String) : Boolean {
+        return true
     }
     /** @brief Function to check if pwd data are present or not */
     fun CheckData() :Boolean
@@ -185,15 +196,19 @@ class ManPwdData(path_: File) {
     }
     
     /** @brief Add a new item in the list with the auto data */
-    fun newItem(): PwdItem
+    fun createItem(): PwdItem
     {
         val id = "it_" + newId().toString()
         val name = "name_$id"
         val username = "usr_$id"
         val password = "pwd_$id"
         var pwdItem = PwdItem(id,name,username,password)
-        internal_data.itemList.add(pwdItem)
         return pwdItem
+    }
+
+    fun addItem(item_: PwdItem)
+    {
+        internal_data.itemList.add(item_)
     }
     /** @brief Add a new item in the list with the auto data */
     fun delItem(pi_: PwdItem)
@@ -215,7 +230,7 @@ class ManPwdData(path_: File) {
         var todel = ArrayList<String>()
         for (tag in internal_data.tagList) {
             if (findTagInItems(tag) == false) {
-                MyLog.LInfo("tag '${tag}' is no more used, deleted")
+                MyLog.logInfo("tag '${tag}' is no more used, deleted")
                 todel.add(tag)
             }
         }

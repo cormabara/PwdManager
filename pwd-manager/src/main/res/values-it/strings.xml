@@ -27,5 +27,6 @@
     <string name="insert_password">Inserire password</string>
 
     <string name="err_import_data">Cannot import data</string>
+    <string name="create_backup">Create Backup</string>
 
 </resources>

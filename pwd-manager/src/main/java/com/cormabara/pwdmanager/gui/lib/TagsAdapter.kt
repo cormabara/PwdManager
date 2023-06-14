@@ -21,12 +21,12 @@ class TagListAdapter(private val dataSet: ArrayList<String>, private val pwdItem
     }
 
     override fun getItem(position: Int): String {
-        return dataSet[position] as String
+        return dataSet[position]
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup ): View
+    override fun getView(position: Int, convertView_: View?, parent: ViewGroup ): View
     {
-        var convertView = convertView
+        var convertView = convertView_
         val viewHolder: ViewHolder
         val result: View
         if (convertView == null) {
@@ -45,7 +45,7 @@ class TagListAdapter(private val dataSet: ArrayList<String>, private val pwdItem
         viewHolder.checkBox.text = item
         viewHolder.checkBox.isChecked = pwdItem.hasTag(item)
 
-        viewHolder.checkBox.setOnCheckedChangeListener { btn_, isChecked ->
+        viewHolder.checkBox.setOnCheckedChangeListener { btn_, _ ->
             if (btn_.isChecked)
                 pwdItem.addTag((btn_ as CheckBox).text.toString())
             else

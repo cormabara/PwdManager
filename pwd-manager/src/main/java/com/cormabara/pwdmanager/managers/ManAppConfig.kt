@@ -38,7 +38,7 @@ class ManAppConfig(path_: File) {
             try {
                 appData = appCnfMapper.readValue(configFile)
             } catch (e: Exception) {
-                MyLog.LError("Exception loading the data file")
+                MyLog.logError("Exception loading the data file")
                 appData = AppConfigData()
             }
         }
@@ -46,11 +46,11 @@ class ManAppConfig(path_: File) {
             appData = AppConfigData()
         }
         saveData()
-        MyLog.LInfo("Data info: " + appCnfMapper.writeValueAsString(appData))
+        MyLog.logInfo("Data info: " + appCnfMapper.writeValueAsString(appData))
     }
 
     fun saveData() {
-        MyLog.LInfo(appCnfMapper.writeValueAsString(appData))
+        MyLog.logInfo(appCnfMapper.writeValueAsString(appData))
         appCnfMapper.writeValue(configFile, appData)
     }
 
@@ -75,11 +75,11 @@ class ManAppConfig(path_: File) {
     fun exportData(context_: Context, uri_: Uri)
     {
         try {
-            MyLog.LInfo("Exporting data")
+            MyLog.logInfo("Exporting data")
             //val selectedFilePath: String? = MyFileUtils.getPath(context_, uri_)
             //MyLog.LInfo("File Uri: $selectedFilePath")
             //val file = selectedFilePath?.let { File(it) }
-            MyLog.LInfo("appData: $appData")
+            MyLog.logInfo("appData: $appData")
             //if (file != null) {
             //    file.writeBytes(appData.toString().toByteArray())
             //}

@@ -23,9 +23,6 @@ import com.cormabara.pwdmanager.gui.fragments.MainFragment
 import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.managers.ManAppConfig
 import com.cormabara.pwdmanager.managers.ManPwdData
-import java.io.BufferedReader
-import java.io.FileOutputStream
-import java.io.InputStreamReader
 import java.util.*
 
 
@@ -38,15 +35,21 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var manPwdData: ManPwdData
     var mainPassword: String = ""
+
+
     val IMPORT_CODE = 111
     val EXPORT_CODE = 222
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val requiredPermissions1 = arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE)
         ActivityCompat.requestPermissions(this, requiredPermissions1, 0);
         val requiredPermissions2 = arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE)
         ActivityCompat.requestPermissions(this, requiredPermissions2, 0);
         super.onCreate(savedInstanceState)
-        MyLog.LInfo("Program is started")
+        MyLog.logOpen(this)
+        MyLog.logInfo("Program is started")
         appInit()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -77,6 +80,15 @@ class MainActivity : AppCompatActivity() {
 
                     }
                 }
+                true
+            }
+            R.id.action_create_backup -> {
+                // CReate a backup of actual dataset
+                manPwdData.saveBackupData(this,mainPassword)
+                val navHostFragment: NavHostFragment =
+                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+
+                (navHostFragment.childFragmentManager.fragments[0] as MainFragment?)?.reloadData()
                 true
             }
             R.id.action_restore_backup -> {
@@ -112,20 +124,19 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.action_export_data -> {
-                // manPwdData.exportData(this,manAppConfig.userMail)
                 val intent = Intent()
                 try {
                     intent.action = Intent.ACTION_CREATE_DOCUMENT
                     intent.addCategory(Intent.CATEGORY_OPENABLE)
                     intent.type = "*/*" //not needed, but maybe usefull
                     intent.putExtra(Intent.EXTRA_TITLE,"PwdManager-backup")
-                    MyLog.LInfo("export intent ready, start activity")
+                    MyLog.logInfo("export intent ready, start activity")
                     startActivityForResult(Intent.createChooser(intent, "Select a file"),
                         EXPORT_CODE)
-                    MyLog.LInfo("export activity done")
+                    MyLog.logInfo("export activity done")
                 }
                 catch (e: Exception) {
-                    MyLog.LError("Error exporting files");
+                    MyLog.logError("Error exporting files");
                     Toast.makeText(this, "Error exporting file", Toast.LENGTH_SHORT).show()
                 }
                 true
@@ -147,7 +158,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data_)
         if (resultCode == RESULT_OK) {
             val fileUri: Uri? = data_?.data   // The URI with the location of the file
-            MyLog.LInfo("File Uri: $fileUri")
+            MyLog.logInfo("File Uri: $fileUri")
             if (requestCode == IMPORT_CODE ) {
                 // Data import
                 if (fileUri != null) {
@@ -185,19 +196,19 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun appInit() {
-        MyLog.LInfo("Application init")
+        MyLog.logInfo("Application init")
         manAppConfig = ManAppConfig(filesDir)
         manPwdData = ManPwdData(filesDir)
         setAppLocale(manAppConfig.language.toString())
-        MyLog.LInfo("Application init is done")
+        MyLog.logInfo("Application init is done")
     }
 
     private fun appClose()
     {
-        MyLog.LInfo("Application closing")
+        MyLog.logInfo("Application closing")
         manPwdData.save(mainPassword,true)
         manAppConfig.saveData()
-        MyLog.LInfo("Application closed corectly")
+        MyLog.logInfo("Application closed corectly")
     }
 
     fun showUpButton() {
