@@ -12,7 +12,7 @@ android {
         minSdk 25
         targetSdk 33
         versionCode 1
-        versionName "1.0.3-beta02"
+        versionName "1.0.3-beta03"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -21,6 +21,14 @@ android {
             //isShrinkResources = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             debuggable true
+        }
+        applicationVariants.all{
+            variant ->
+                variant.outputs.each{
+                    output->
+                        def name = "pwd-manager-(${variant.versionName}).apk"
+                        output.outputFileName = name
+                }
         }
         debug {
             minifyEnabled false

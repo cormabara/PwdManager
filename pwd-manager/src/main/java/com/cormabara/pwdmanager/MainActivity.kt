@@ -5,11 +5,13 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
@@ -19,15 +21,18 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.cormabara.pwdmanager.databinding.ActivityMainBinding
 import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
+import com.cormabara.pwdmanager.gui.dialogs.backupDialog
 import com.cormabara.pwdmanager.gui.fragments.MainFragment
 import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.managers.ManAppConfig
 import com.cormabara.pwdmanager.managers.ManPwdData
+import java.io.File
 import java.util.*
+import kotlin.script.dependencies.Environment
 
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity()
+{
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -35,19 +40,19 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var manPwdData: ManPwdData
     var mainPassword: String = ""
-
+    lateinit var backupPath: String
 
     val IMPORT_CODE = 111
     val EXPORT_CODE = 222
 
-
-
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         val requiredPermissions1 = arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE)
         ActivityCompat.requestPermissions(this, requiredPermissions1, 0);
         val requiredPermissions2 = arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE)
         ActivityCompat.requestPermissions(this, requiredPermissions2, 0);
         super.onCreate(savedInstanceState)
+        backupPath = this.filesDir.absoluteFile.toString() + "/backup"
         MyLog.logOpen(this)
         MyLog.logInfo("Program is started")
         appInit()
@@ -68,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_delete_data -> {
@@ -83,21 +89,11 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_create_backup -> {
-                // CReate a backup of actual dataset
-                manPwdData.saveBackupData(this,mainPassword)
-                val navHostFragment: NavHostFragment =
-                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-
-                (navHostFragment.childFragmentManager.fragments[0] as MainFragment?)?.reloadData()
+                backupDialog(this,true)
                 true
             }
             R.id.action_restore_backup -> {
-                // Restore the backup data from the backup file
-                manPwdData.restoreBackupData(this,mainPassword)
-                val navHostFragment: NavHostFragment =
-                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-
-                (navHostFragment.childFragmentManager.fragments[0] as MainFragment?)?.reloadData()
+                backupDialog(this,false)
                 true
             }
             R.id.action_change_password -> {

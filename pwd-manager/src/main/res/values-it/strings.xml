@@ -16,6 +16,10 @@
     <string name="action_settings">Opzioni</string>
     <string name="action_change_password">Cambia password</string>
     <string name="action_save_all">Salva tutto</string>
+    <string name="button_edit">Btn Edit Item</string>
+    <string name="button_delete">Btn Delete Item</string>
+    <string name="password">Password</string>
+    <string name="tags">Tags</string>
 
     <string name="setting_title">Configurazione applicazione</string>
     <string name="setting_gui_theme">Tema UI</string>
@@ -28,5 +32,10 @@
 
     <string name="err_import_data">Cannot import data</string>
     <string name="create_backup">Create Backup</string>
+    <string name="dialog_backup_title" />
+    <string name="backup_list">backup list</string>
+    <string name="load">Load</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

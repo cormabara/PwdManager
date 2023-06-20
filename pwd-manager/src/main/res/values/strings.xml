@@ -35,4 +35,9 @@
     <string name="err_import_data">Cannot import data</string>
     <string name="action_save_all">Save All</string>
     <string name="create_backup">Create Backup</string>
+    <string name="dialog_backup_title">DATA BACKUP</string>
+    <string name="backup_list">backup list</string>
+    <string name="load">Load</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

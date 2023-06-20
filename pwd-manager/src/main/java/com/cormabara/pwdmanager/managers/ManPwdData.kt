@@ -2,7 +2,11 @@ package com.cormabara.pwdmanager.managers
 
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.util.Log
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import com.cormabara.pwdmanager.MainActivity
 import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.lib.PwdCrypt
@@ -11,6 +15,13 @@ import com.cormabara.pwdmanager.gui.dialogs.MsgDialog
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.*
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ManPwdData(path_: File) {
@@ -76,6 +87,20 @@ class ManPwdData(path_: File) {
         MyLog.logError("Data file ${file_.absoluteFile} is missing")
         return false
     }
+    private fun saveDataLow(file_: File, password_: String): Boolean
+    {
+        try {
+            val mapper = jacksonObjectMapper()
+            val myStr = mapper.writeValueAsString(internal_data)
+            Log.i("ManPwdData", myStr)
+            PwdCrypt.FileEncrypt(password_, myStr, file_)
+            return true
+        } catch (e: Exception) {
+            MyLog.logError("Exception saving the data file ${file_.absoluteFile}")
+        }
+        return false
+    }
+
 
     /** @brief Force the deletion of the pwd data */
     fun newData () {
@@ -122,11 +147,17 @@ class ManPwdData(path_: File) {
         return false
     }
 
-    fun restoreBackupData(context_: Context,passwd_: String) : Boolean {
-        return importData(context_,dataFileBkp,passwd_)
+    fun restoreBackupData(context_: Context,file_: File, passwd_: String) : Boolean {
+        MyLog.logInfo("Restoring ${file_.name}...")
+        return importData(context_,file_,passwd_)
     }
 
-    fun saveBackupData(context_: Context,passwd_: String) : Boolean {
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun saveBackupData(context_: Context,file_: File, passwd_: String) : Boolean {
+        if (!saveDataLow(file_, passwd_))
+            MyLog.logInfo("Fail to create backup file: $file_")
+
         return true
     }
     /** @brief Function to check if pwd data are present or not */
@@ -159,10 +190,6 @@ class ManPwdData(path_: File) {
     /** @brief This function import data from file */
     fun importData(context_: Context,file_: File, password_: String) : Boolean
     {
-        if (!loadDataLow(file_,password_)) {
-            MsgDialog(context_, "ERROR", context_.getString(R.string.err_import_data))
-            return false
-        }
         if (!loadDataLow(file_,password_)) {
             MsgDialog(context_, "ERROR", context_.getString(R.string.err_import_data))
             return false

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="2dp"
+    android:clickable="true"
+    android:longClickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/bk_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/cardview_default_elevation"
+            android:maxLines="1"
+            android:gravity="center"/>
+        <ImageButton
+            android:id="@+id/bkp_btn_delete"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:alpha="0.25"
+            android:background="@drawable/rounded_corner"
+            android:contentDescription="@string/button_delete"
+            android:padding="5dp"
+            android:radius="5dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/img_delete_foreground" />
+    </LinearLayout>
+</LinearLayout>

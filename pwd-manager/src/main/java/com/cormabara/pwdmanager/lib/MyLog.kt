@@ -50,6 +50,11 @@ object MyLog {
         }
         logInfo("This is the log : ")
         logInfo("Log path: $path")
+        logInfo("Device info:"
+                + " \n manufacturer: " + Build.MANUFACTURER
+                + " \n model: " + Build.MODEL
+                + " \n version: " + Build.VERSION.SDK_INT
+                + " \n versionRelease: " + Build.VERSION.RELEASE)
     }
 
     fun logInfo(str_: String) {

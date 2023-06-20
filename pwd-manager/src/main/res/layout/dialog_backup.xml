@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/backup_dialog_title"
+            style="@style/WinTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_backup_title"/>
+
+        <ListView
+            android:id="@+id/list_view_backup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/backup_list"
+            android:layout_below="@id/bkp_name_edit"
+            android:dividerHeight="5dp"
+            android:clickable="true"/>
+        <EditText
+            android:id="@+id/bkp_name_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/saveBtn"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="0dp"
+                android:layout_gravity="clip_horizontal|clip_vertical"
+                android:background="@android:color/white"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/save"
+                android:textColor="#0097A7"
+                android:textStyle="bold"/>
+            <Button
+                android:id="@+id/cancelBtn"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:layout_marginRight="0dp"
+                android:layout_gravity="clip_horizontal|clip_vertical"
+                android:background="@android:color/white"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/cancel"
+                android:textColor="#0097A7"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
