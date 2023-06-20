@@ -13,6 +13,9 @@ import androidx.navigation.findNavController
 import com.cormabara.pwdmanager.MainActivity
 import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.databinding.MainPasswordControlBinding
+import com.cormabara.pwdmanager.gui.dialogs.MsgDialog
+import com.cormabara.pwdmanager.gui.dialogs.showDialog
+import java.util.regex.Pattern
 
 class MainPasswordControl @JvmOverloads constructor(
     context: Context,
@@ -96,25 +99,41 @@ class MainPasswordControl @JvmOverloads constructor(
             Toast.makeText(context, "Wrong password ($pwd)", Toast.LENGTH_SHORT).show()
     }
 
+    private fun validatePassword(pwd_: String):Boolean {
+        if (pwd_.isEmpty()) {
+            showDialog(context,context.getString(R.string.password_is_empty))
+            return false;
+        }
+        else if (!Pattern.matches(pwd_,"[A-Z]")) {
+            showDialog(context, context.getString(R.string.uppercase_missing))
+            return false;
+        }
+        else if (!Pattern.matches(pwd_,"[0-9]")) {
+            showDialog(context, context.getString(R.string.number_is_missing))
+            return false;
+        }
+        else if (!Pattern.matches(pwd_,"[a-z]")) {
+            showDialog(context, context.getString(R.string.alpha_is_empty))
+            return false;
+        }
+        return true
+    }
+
     private fun newAndGo()
     {
         val pwd1 = binding.startPassword1.text.toString()
         val pwd2 = binding.startPassword2.text.toString()
-        Toast.makeText(
-            context as MainActivity,
-            "Submit button $pwd1-$pwd2",
-            Toast.LENGTH_SHORT
-        ).show()
-        if (pwd1 == pwd2) {
+        if (pwd1 != pwd2) {
+            showDialog(context,context.getString(R.string.different_password))
+        } else if (validatePassword(pwd1)) {
+            Toast.makeText(
+                context as MainActivity,
+                "$pwd1-$pwd2",
+                Toast.LENGTH_SHORT
+            ).show()
             (context as MainActivity).mainPassword = pwd1
             (context as MainActivity).manPwdData.newData()
             findNavController().navigate(R.id.action_to_mainFragment)
-        } else {
-            Toast.makeText(
-                context,
-                "Incorrect password",
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
 }
