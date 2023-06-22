@@ -48,4 +48,5 @@
     <string name="different_password">Password are different</string>
     <string name="password_bad_formed">Password is not well formed</string>
     <string name="str_null" />
+    <string name="password_too_short">Password too short</string>
 </resources>

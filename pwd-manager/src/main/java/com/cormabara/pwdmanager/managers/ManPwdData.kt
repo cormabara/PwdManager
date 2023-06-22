@@ -76,7 +76,7 @@ class ManPwdData(path_: File) {
             try {
                 val mapper = jacksonObjectMapper()
                 val str2 = PwdCrypt.FileDecrypt(password_, file_)
-                MyLog.logInfo(str2)
+                MyLog.logInfo("Data load: $str2")
                 internal_data = mapper.readValue(str2)
                 return true
             } catch (e: Exception) {
@@ -92,7 +92,7 @@ class ManPwdData(path_: File) {
         try {
             val mapper = jacksonObjectMapper()
             val myStr = mapper.writeValueAsString(internal_data)
-            Log.i("ManPwdData", myStr)
+            MyLog.logInfo("ManPwdData save: $myStr")
             PwdCrypt.FileEncrypt(password_, myStr, file_)
             return true
         } catch (e: Exception) {
@@ -135,7 +135,7 @@ class ManPwdData(path_: File) {
         try {
             val mapper = jacksonObjectMapper()
             val myStr = mapper.writeValueAsString(internal_data)
-            Log.i("ManPwdData", myStr)
+            MyLog.logInfo("Saving ManPwdData with password: $passwd_")
             PwdCrypt.FileEncrypt(passwd_, myStr, dataFile)
             // If the operation ok the file is safe so make a backup copy
             if (updateBackup_)

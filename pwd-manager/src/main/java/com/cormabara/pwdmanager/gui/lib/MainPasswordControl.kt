@@ -13,9 +13,10 @@ import androidx.navigation.findNavController
 import com.cormabara.pwdmanager.MainActivity
 import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.databinding.MainPasswordControlBinding
-import com.cormabara.pwdmanager.gui.dialogs.MsgDialog
 import com.cormabara.pwdmanager.gui.dialogs.showDialog
+import com.cormabara.pwdmanager.lib.MyLog
 import java.util.regex.Pattern
+import java.util.regex.Pattern.matches
 
 class MainPasswordControl @JvmOverloads constructor(
     context: Context,
@@ -99,23 +100,34 @@ class MainPasswordControl @JvmOverloads constructor(
             Toast.makeText(context, "Wrong password ($pwd)", Toast.LENGTH_SHORT).show()
     }
 
-    private fun validatePassword(pwd_: String):Boolean {
-        if (pwd_.isEmpty()) {
+    private fun validatePassword(pwd1_: String,pwd2_: String):Boolean {
+        val specailCharPatten = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE)
+        val UpperCasePatten = Pattern.compile("[A-Z ]")
+        val lowerCasePatten = Pattern.compile("[a-z ]")
+        val digitCasePatten = Pattern.compile("[0-9 ]")
+        if (pwd1_ != pwd2_) {
+            showDialog(context, context.getString(R.string.different_password))
+            return false
+        }
+        else if (pwd1_.isEmpty()) {
             showDialog(context,context.getString(R.string.password_is_empty))
             return false;
         }
-        else if (!Pattern.matches(pwd_,"[A-Z]")) {
+        /*
+        else if (pwd1_.length < 8) {
+            showDialog(context,context.getString(R.string.password_too_short))
+            return false;
+        }
+        else if (!UpperCasePatten.matcher(pwd1_).find()) {
             showDialog(context, context.getString(R.string.uppercase_missing))
             return false;
         }
-        else if (!Pattern.matches(pwd_,"[0-9]")) {
+        else if (!digitCasePatten.matcher(pwd1_).find()) {
             showDialog(context, context.getString(R.string.number_is_missing))
             return false;
         }
-        else if (!Pattern.matches(pwd_,"[a-z]")) {
-            showDialog(context, context.getString(R.string.alpha_is_empty))
-            return false;
-        }
+
+         */
         return true
     }
 
@@ -123,9 +135,8 @@ class MainPasswordControl @JvmOverloads constructor(
     {
         val pwd1 = binding.startPassword1.text.toString()
         val pwd2 = binding.startPassword2.text.toString()
-        if (pwd1 != pwd2) {
-            showDialog(context,context.getString(R.string.different_password))
-        } else if (validatePassword(pwd1)) {
+        MyLog.logInfo("{$pwd1-$pwd2}")
+        if (validatePassword(pwd1, pwd2)) {
             Toast.makeText(
                 context as MainActivity,
                 "$pwd1-$pwd2",
