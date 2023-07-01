@@ -13,10 +13,10 @@ import androidx.navigation.findNavController
 import com.cormabara.pwdmanager.MainActivity
 import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.databinding.MainPasswordControlBinding
-import com.cormabara.pwdmanager.gui.dialogs.showDialog
+import com.cormabara.pwdmanager.gui.dialogs.msgDialog
+import com.cormabara.pwdmanager.gui.dialogs.MsgType
 import com.cormabara.pwdmanager.lib.MyLog
 import java.util.regex.Pattern
-import java.util.regex.Pattern.matches
 
 class MainPasswordControl @JvmOverloads constructor(
     context: Context,
@@ -106,11 +106,11 @@ class MainPasswordControl @JvmOverloads constructor(
         val lowerCasePatten = Pattern.compile("[a-z ]")
         val digitCasePatten = Pattern.compile("[0-9 ]")
         if (pwd1_ != pwd2_) {
-            showDialog(context, context.getString(R.string.different_password))
+            msgDialog(context, MsgType.MSG_INFO, context.getString(R.string.different_password))
             return false
         }
         else if (pwd1_.isEmpty()) {
-            showDialog(context,context.getString(R.string.password_is_empty))
+            msgDialog(context, MsgType.MSG_INFO, context.getString(R.string.password_is_empty))
             return false;
         }
         /*
@@ -143,7 +143,7 @@ class MainPasswordControl @JvmOverloads constructor(
                 Toast.LENGTH_SHORT
             ).show()
             (context as MainActivity).mainPassword = pwd1
-            (context as MainActivity).manPwdData.newData()
+            // (context as MainActivity).manPwdData.newData()
             findNavController().navigate(R.id.action_to_mainFragment)
         }
     }

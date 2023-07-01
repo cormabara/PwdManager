@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.AdapterView.OnItemClickListener
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.NavHostFragment
 import com.cormabara.pwdmanager.MainActivity
@@ -92,15 +91,7 @@ fun backupDialog(context_: Context,save_: Boolean) {
     files_v?.mapIndexed { index, item ->
         fileNames[index] = item?.name
     }
-    var datetime: String
-    datetime = if (android.os.Build.VERSION.SDK_INT > 25) {
-        // Do something for lollipop and above versions
-        val formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss")
-        LocalDateTime.now().format(formatter)
-    } else {
-        val sdf = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")
-        sdf.format(Date())
-    }
+    val datetime = context_.getDateTime("yyyy_MM_dd_HH_mm_ss")
     val bkfilename = File("$dir/$datetime.bkp")
 
     val files: ArrayList<File> = ArrayList(listOf(*files_v))
@@ -110,8 +101,8 @@ fun backupDialog(context_: Context,save_: Boolean) {
     dialog.setCancelable(false)
     dialog.setContentView(R.layout.dialog_backup)
 
-    val title = dialog.findViewById(R.id.backup_dialog_title) as TextView
-    title.setText(R.string.dialog_backup_title)
+    //val title = dialog.findViewById(R.id.backup_title) as TextView
+    //title.setText(R.string.dialog_backup_title)
 
     val adapter = BkFilesListAdapter(context_, files)
     val listView = dialog.findViewById(R.id.list_view_backup) as ListView
@@ -140,7 +131,7 @@ fun backupDialog(context_: Context,save_: Boolean) {
     listView.isClickable = true;
     listView.isLongClickable = true;
 
-    val filetext = dialog.findViewById(R.id.bkp_name_edit) as EditText
+    val filetext = dialog.findViewById(R.id.bkp_files_list) as EditText
     filetext.setText(bkfilename.name)
     filetext.visibility = if (save_) View.VISIBLE  else View.INVISIBLE
 

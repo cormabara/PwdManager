@@ -12,29 +12,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/simple_border"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/backup_dialog_title"
-            style="@style/WinTitle"
+            android:id="@+id/backup_title"
+            style="@style/FragmentTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/dialog_backup_title"/>
+            android:layout_height="72dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:background="@drawable/simple_border"
+            android:text="@string/dialog_backup_title"
+            android:visibility="visible" />
 
         <ListView
             android:id="@+id/list_view_backup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:ems="10"
             android:hint="@string/backup_list"
-            android:layout_below="@id/bkp_name_edit"
             android:dividerHeight="5dp"
             android:clickable="true"/>
+
         <EditText
-            android:id="@+id/bkp_name_edit"
+            android:id="@+id/bkp_files_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:minHeight="72dp"
+            android:text="@string/backup_filename"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -52,19 +57,25 @@
                 android:text="@string/save"
                 android:textColor="#0097A7"
                 android:textStyle="bold"/>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <Button
                 android:id="@+id/cancelBtn"
                 style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
                 android:layout_width="100dp"
-                android:layout_height="48dp"
-                android:layout_marginRight="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="clip_horizontal|clip_vertical"
+                android:layout_marginRight="0dp"
                 android:background="@android:color/white"
                 android:clickable="true"
                 android:focusable="true"
                 android:text="@string/cancel"
                 android:textColor="#0097A7"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 

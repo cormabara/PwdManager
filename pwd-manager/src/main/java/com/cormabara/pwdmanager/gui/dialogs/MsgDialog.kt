@@ -2,26 +2,34 @@ package com.cormabara.pwdmanager.gui.dialogs
 
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.view.Window
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import com.cormabara.pwdmanager.R
 
-fun MsgDialog(context_: Context, title_: String, msg_: String) {
-    val alertDialogBuilder = AlertDialog.Builder(context_)
-    alertDialogBuilder.setTitle(title_)
-    alertDialogBuilder.setMessage(msg_)
-    alertDialogBuilder.setNegativeButton("OK", { dialogInterface: DialogInterface, i: Int -> })
-    var alertDialog = alertDialogBuilder.create()
+enum class MsgType {
+    MSG_ERROR, MSG_WARNING, MSG_INFO
 }
 
-fun showDialog(context_: Context,message_: String) {
+
+fun msgDialog(context_: Context, type: MsgType, message_: String) {
     val dialog = Dialog(context_)
     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.setCancelable(false)
     dialog.setContentView(R.layout.dialog_msg)
+    val ico = dialog.findViewById<ImageView>(R.id.dialog_msg_ico)
+    when (type) {
+        MsgType.MSG_INFO -> {
+            ico.setImageResource(R.mipmap.img_info_foreground)
+        }
+        MsgType.MSG_WARNING -> {
+            ico.setImageResource(R.mipmap.img_warning_foreground)
+        }
+        MsgType.MSG_ERROR -> {
+            ico.setImageResource(R.mipmap.img_error_foreground)
+        }
+    }
     val message = dialog.findViewById(R.id.dialog_msg_text) as TextView
     message.text = message_
     val body = dialog.findViewById(R.id.dialog_msg_body) as LinearLayout
@@ -29,5 +37,4 @@ fun showDialog(context_: Context,message_: String) {
         dialog.dismiss()
     }
     dialog.show()
-
 }

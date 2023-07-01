@@ -3,23 +3,16 @@ package com.cormabara.pwdmanager.managers
 import android.content.Context
 import android.net.Uri
 import android.os.Build
-import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.cormabara.pwdmanager.MainActivity
 import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.lib.PwdCrypt
 import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
-import com.cormabara.pwdmanager.gui.dialogs.MsgDialog
+import com.cormabara.pwdmanager.gui.dialogs.msgDialog
+import com.cormabara.pwdmanager.gui.dialogs.MsgType
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.*
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -103,34 +96,27 @@ class ManPwdData(path_: File) {
 
 
     /** @brief Force the deletion of the pwd data */
-    fun newData () {
+    fun newData() {
         internal_data.clear()
         if (dataFile.exists() ) {
             dataFile.delete()
         }
     }
 
-    /** @brief Decrypt and load the pwd data, if are not present
-     *  create an empty one */
+    /** @brief Decrypt and load the pwd data, if file is missing or decode fails
+     * return false */
     fun load (context: Context, password_: String) : Boolean {
-        var retval = false
         if (!loadDataLow(dataFile,password_)) {
-            val chooseDiag = ChooseDialog(context)
-            chooseDiag.show("Cannot recover data", "Try to recover the last backup?") {
-            if (it == ChooseDialog.ResponseType.YES)
-                retval = loadDataLow(dataFileBkp,password_)
-            }
-        }
-        else {
-            retval = true
+            msgDialog(context, MsgType.MSG_ERROR, "Fail to load data, wrong password or file corrupted")
+            return false;
         }
         purgeTags()
-        return retval
+        return true;
     }
 
     /** @brief Save all the pwd data with encrypt by "passwd_". If save is ok create 
      * also a backup copy */
-    fun save(passwd_: String, updateBackup_: Boolean = false): Boolean
+    fun save(passwd_: String): Boolean
     {
         try {
             val mapper = jacksonObjectMapper()
@@ -138,8 +124,7 @@ class ManPwdData(path_: File) {
             MyLog.logInfo("Saving ManPwdData with password: $passwd_")
             PwdCrypt.FileEncrypt(passwd_, myStr, dataFile)
             // If the operation ok the file is safe so make a backup copy
-            if (updateBackup_)
-                dataFile.copyTo(dataFileBkp, true)
+            dataFile.copyTo(dataFileBkp, true)
             return true
         } catch (e: Exception) {
             MyLog.logError("Exception saving the data file ${dataFile.absoluteFile}")
@@ -191,7 +176,7 @@ class ManPwdData(path_: File) {
     fun importData(context_: Context,file_: File, password_: String) : Boolean
     {
         if (!loadDataLow(file_,password_)) {
-            MsgDialog(context_, "ERROR", context_.getString(R.string.err_import_data))
+            msgDialog(context_, MsgType.MSG_ERROR, context_.getString(R.string.err_import_data))
             return false
         }
         return save(password_)

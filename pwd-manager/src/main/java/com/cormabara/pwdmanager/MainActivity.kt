@@ -26,9 +26,11 @@ import com.cormabara.pwdmanager.gui.fragments.MainFragment
 import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.managers.ManAppConfig
 import com.cormabara.pwdmanager.managers.ManPwdData
-import java.io.File
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.script.dependencies.Environment
+import java.util.regex.Pattern
 
 
 class MainActivity : AppCompatActivity()
@@ -98,7 +100,7 @@ class MainActivity : AppCompatActivity()
             }
             R.id.action_change_password -> {
                 findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_changePasswordFragment)
-                manPwdData.save(mainPassword,true)
+                manPwdData.save(mainPassword)
                 true
             }
             R.id.action_close_app -> {
@@ -138,7 +140,7 @@ class MainActivity : AppCompatActivity()
                 true
             }
             R.id.action_save_all -> {
-                return manPwdData.save(mainPassword,true)
+                return manPwdData.save(mainPassword)
             }
             R.id.action_about -> {
                 findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_aboutFragment)
@@ -202,7 +204,7 @@ class MainActivity : AppCompatActivity()
     private fun appClose()
     {
         MyLog.logInfo("Application closing")
-        manPwdData.save(mainPassword,true)
+        manPwdData.save(mainPassword)
         manAppConfig.saveData()
         MyLog.logInfo("Application closed corectly")
     }
@@ -222,5 +224,17 @@ class MainActivity : AppCompatActivity()
         resources.updateConfiguration(configuration, displayMetrics)
         configuration.locale = Locale(localeCode.lowercase(Locale.getDefault()))
         resources.updateConfiguration(configuration, displayMetrics)
+    }
+
+    fun getDateTime(format_: String): String {
+        var datetime: String = if (android.os.Build.VERSION.SDK_INT > 25) {
+            // Do something for lollipop and above versions
+            val formatter = DateTimeFormatter.ofPattern(format_)
+            LocalDateTime.now().format(formatter)
+        } else {
+            val sdf = SimpleDateFormat(format_)
+            sdf.format(Date())
+        }
+        return datetime
     }
 }

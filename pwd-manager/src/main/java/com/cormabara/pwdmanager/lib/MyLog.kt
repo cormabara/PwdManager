@@ -27,6 +27,7 @@ object MyLog {
                 path.mkdirs()
             }
         }
+        val ma = context_ as MainActivity
         val fileLoggerConfig = FileStreamLogger.Config(
             filesDir = path!!, // an internal file directory
             externalFilesDir = path, // an external file directory. This is an optional.
@@ -48,13 +49,13 @@ object MyLog {
         StreamLog.setValidator { priority, _ ->
             priority.level >= Priority.VERBOSE.level
         }
-        logInfo("This is the log : ")
-        logInfo("Log path: $path")
-        logInfo("Device info:"
-                + " \n manufacturer: " + Build.MANUFACTURER
-                + " \n model: " + Build.MODEL
-                + " \n version: " + Build.VERSION.SDK_INT
-                + " \n versionRelease: " + Build.VERSION.RELEASE)
+        logInfo("This is the log : ${ma.getDateTime("yyyy.MM.dd - HH:mm:ss")}")
+        logInfo("path: $path")
+        logInfo("Device info: ")
+        logInfo(" manufacturer: " + Build.MANUFACTURER)
+        logInfo(" model: " + Build.MODEL)
+        logInfo(" version: " + Build.VERSION.SDK_INT)
+        logInfo(" versionRelease: " + Build.VERSION.RELEASE)
     }
 
     fun logInfo(str_: String) {

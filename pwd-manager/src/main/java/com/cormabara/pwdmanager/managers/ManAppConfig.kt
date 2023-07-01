@@ -38,7 +38,7 @@ class ManAppConfig(path_: File) {
             try {
                 appData = appCnfMapper.readValue(configFile)
             } catch (e: Exception) {
-                MyLog.logError("Exception loading the data file")
+                MyLog.logError("Exception loading data on start")
                 appData = AppConfigData()
             }
         }
