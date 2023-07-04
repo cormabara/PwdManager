@@ -62,7 +62,7 @@
             android:id="@+id/about_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black_background"
+            android:background="@color/dark_background"
             android:backgroundTint="@color/black"
             android:backgroundTintMode="add"
             android:text="TextView" />

@@ -2,6 +2,7 @@ package com.cormabara.pwdmanager.managers
 
 import android.content.Context
 import android.net.Uri
+import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.lib.MyLog
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -86,6 +87,11 @@ class ManAppConfig(path_: File) {
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun getTheme(): Int {
+        if (guiTheme == GuiTheme.DARK) return R.style.Theme_PwdManager_Dark
+        else return R.style.Theme_PwdManager_Light
     }
 }
 

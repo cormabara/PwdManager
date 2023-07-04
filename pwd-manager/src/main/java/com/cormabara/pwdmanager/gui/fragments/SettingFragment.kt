@@ -41,6 +41,10 @@ class SettingFragment : Fragment() {
             cnf.userMail = binding.userEmail.text.toString()
             cnf.saveData()
             (context as MainActivity).setAppLocale(cnf.language.toString())
+            (context as MainActivity).application.setTheme(
+            if (cnf.guiTheme == ManAppConfig.GuiTheme.DARK) R.style.Theme_PwdManager_Dark
+            else R.style.Theme_PwdManager_Light)
+
             MyLog.logInfo("New language ${cnf.language.toString()}")
             findNavController().navigate(R.id.action_to_mainFragment)
         }

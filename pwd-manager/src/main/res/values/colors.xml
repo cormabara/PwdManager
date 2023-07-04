@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="light_1">#0376DA</color>
-    <color name="light_2">#2196F3</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#172F77</color>
-    <color name="colorPrimaryDark">#27365C</color>
 
-    <color name="black_background">#444444</color>
-    <color name="black_background_grad1">#353535</color>
-    <color name="black_background_grad2">#272727</color>
-    <color name="black_text_color_1">#6DA3FF</color>
+    <color name="dark_background">#444444</color>
+    <color name="dark_background_grad1">#353535</color>
+    <color name="dark_background_grad2">#272727</color>
+    <color name="dark_text_color_1">#6DA3FF</color>
+    <color name="dark_primary_1">#27365C</color>
+    <color name="dark_primary">#172F77</color>
+    <color name="dark_secondary">#4970B1</color>
+    <color name="dark_secondary_variant">#3B3481</color>
+    <color name="dark_1">#0376DA</color>
+    <color name="dark_2">#2196F3</color>
+    <color name="dark_on_surface">#0D274E</color>
+    <color name="dark_text_1">#ACD8FF</color>
+    <color name="dark_text_2">#65B7FF</color>
+    <color name="dark_text_3">#1A95FF</color>
+
+    <color name="light_background">#AFF3FF</color>
+    <color name="light_background_grad1">#9AE3FF</color>
+    <color name="light_background_grad2">#32B8FF</color>
+    <color name="light_primary_1">#27365C</color>
+    <color name="light_primary_2">#172F77</color>
+    <color name="light_secondary">#02245E</color>
+    <color name="light_secondary_variant">#3B3481</color>
+    <color name="light_1">#0376DA</color>
+
+    <color name="light_on_surface">#2463C3</color>
+    <color name="light_text_1">#010F19</color>
+    <color name="light_text_2">#0B3653</color>
+    <color name="light_text_3">#076D80</color>
 </resources>

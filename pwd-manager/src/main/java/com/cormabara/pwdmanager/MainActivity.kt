@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity()
         MyLog.logOpen(this)
         MyLog.logInfo("Program is started")
         appInit()
+        setTheme(manAppConfig.getTheme())
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.mainTitle.text = "Pwd Manager"

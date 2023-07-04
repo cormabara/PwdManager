@@ -50,6 +50,10 @@ class MainFragment : Fragment() {
         // Init the item list view
         itemsAdapter = PwdItemAdapter(context as MainActivity, R.layout.listview_item,manPwdData.listPwdItems())
         binding.itemsList.adapter = itemsAdapter
+        binding.itemsList.divider = null;
+        binding.itemsList.dividerHeight = 10;
+        binding.itemsList.setPadding(10,10,10,10);
+
         binding.itemsList.onItemClickListener = OnItemClickListener { parent, _, position, _ ->
             val selectedItem = parent.getItemAtPosition(position) as ManPwdData.PwdItem
             Toast.makeText(context, "Click on item $selectedItem", Toast.LENGTH_SHORT).show()

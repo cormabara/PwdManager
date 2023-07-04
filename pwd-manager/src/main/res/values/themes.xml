@@ -1,24 +1,50 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.PwdManager" parent="Theme.MaterialComponents.DayNight">
+    <style name="Theme.PwdManager.Dark" parent="Theme.MaterialComponents.DayNight">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/light_1</item>
+        <item name="colorPrimary">@color/dark_primary</item>
+        <item name="colorPrimaryVariant">@color/dark_1</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#4970B1</item>
-        <item name="colorSecondaryVariant">#3B3481</item>
+        <item name="colorSecondary">@color/dark_secondary</item>
+        <item name="colorSecondaryVariant">@color/dark_secondary_variant</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="android:toolbarStyle">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:background">@color/black_background</item>
+        <item name="android:background">@color/dark_background</item>
+        <item name="pwd_item_background">@drawable/dark_pwd_item</item>
+        <item name="colorOnSurface">@color/dark_on_surface</item>
+        <item name="android:textColor">@color/dark_text_1</item>
+        <item name="android:textColorPrimary">@color/dark_text_1</item>
+        <item name="android:textColorSecondary">@color/dark_text_2</item>
+        <item name="android:textColorTertiary">@color/dark_text_3</item>
     </style>
-
-    <style name="Theme.PwdManager.NoActionBar">
+    <style name="Theme.PwdManager.Light" parent="Theme.MaterialComponents.DayNight">
+        <item name="android:background">@color/light_background</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/light_primary_2</item>
+        <item name="colorPrimaryVariant">@color/light_1</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/light_secondary</item>
+        <item name="colorSecondaryVariant">@color/light_secondary_variant</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:toolbarStyle">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="pwd_item_background">@drawable/light_pwd_item</item>
+        <item name="colorOnSurface">@color/light_on_surface</item>
+        <item name="android:textColor">@color/light_text_1</item>
+        <item name="android:textColorPrimary">@color/light_text_1</item>
+        <item name="android:textColorSecondary">@color/light_text_2</item>
+        <item name="android:textColorTertiary">@color/light_text_3</item>
     </style>
 
 </resources>

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:text="@string/setting_title"
             android:textAlignment="center"
-            android:textColor="@color/black_text_color_1"
+            android:textColor="@color/dark_text_color_1"
             android:textSize="24sp"/>
         <com.cormabara.pwdmanager.gui.lib.BinaryOption
             android:id="@+id/theme_option"
