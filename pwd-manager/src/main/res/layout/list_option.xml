@@ -14,7 +14,7 @@
         android:id="@+id/option_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-    </Spinner>
+        android:orientation="horizontal"
+        style="@style/setting_element"/>
 
 </merge>

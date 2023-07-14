@@ -7,8 +7,7 @@
         android:id="@+id/option_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/light_1"
-        android:textSize="20sp"/>
+        style="@style/setting_element_title"/>
 
     <RadioGroup
         android:id="@+id/option_grp"

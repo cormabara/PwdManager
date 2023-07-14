@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.AdapterView.OnItemLongClickListener
 import androidx.annotation.LayoutRes
 import com.cormabara.pwdmanager.MainActivity
 import com.cormabara.pwdmanager.R
 import com.cormabara.pwdmanager.editItemDialog
-import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
 import com.cormabara.pwdmanager.managers.ManAppConfig
 import com.cormabara.pwdmanager.managers.ManPwdData
 import java.util.*
@@ -24,10 +22,12 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
     private lateinit var name: TextView
     private lateinit var username: TextView
     private lateinit var password: TextView
-
+    private var tagFilter: String = ""
+    private var strFilter: String = ""
     // Create a copy of the original array
     private var originalItemList = ArrayList(arrayList_)
     private var operativeItemList = arrayList_
+
     private val inflater: LayoutInflater
             = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -45,6 +45,19 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
         return rowView
     }
 
+    fun getTagFilter(): String {
+        return tagFilter
+    }
+    fun setTagFilter(val_: String) {
+        tagFilter = val_
+    }
+    fun getStrFilter(): String {
+        return strFilter
+    }
+    fun setStrFilter(val_: String) {
+        strFilter = val_
+    }
+
     override fun getCount(): Int {
         return operativeItemList.size
     }
@@ -58,36 +71,49 @@ class PwdItemAdapter(private val context_: Context, @LayoutRes private val layou
         return object : Filter() {
 
             override fun performFiltering(constraint_: CharSequence?): FilterResults? {
-                var constraint = constraint_
+                strFilter = constraint_.toString()
                 val results = FilterResults() // Holds the results of a filtering operation in values
-                val FilteredArrList: MutableList<ManPwdData.PwdItem> = ArrayList()
 
                 originalItemList = ArrayList(arrayList_) // saves the original data in mOriginalValues
+                var tagItemList = ArrayList(arrayList_)
+                val filteredArrList: MutableList<ManPwdData.PwdItem> = ArrayList()
+                filteredArrList.clear()
+                tagItemList.clear()
 
-                if (constraint == null || constraint.length == 0) {
-
-                    // set the Original result to return
-                    results.count = originalItemList.size
-                    results.values = originalItemList
+                if (tagFilter.isNotEmpty()) {
+                    for (it in originalItemList) {
+                        if (it.hasTag(tagFilter))
+                            tagItemList.add(it)
+                    }
                 }
                 else {
-                    constraint = constraint.toString().lowercase(Locale.getDefault())
-                    for (i in 0 until originalItemList.size) {
-                        val data: String = originalItemList.get(i).name
+                    tagItemList.addAll(originalItemList)
+                }
+
+                if (constraint_ == null || constraint_.length == 0) {
+
+                    // set the Original result to return
+                    results.count = tagItemList.size
+                    results.values = tagItemList
+                }
+                else {
+                    val constraint = strFilter
+                    for (it in tagItemList) {
+                        val data: String = it.name
                         // The filter depends on the configuration search mode
                         var result: Boolean = if ( (context_ as MainActivity).manAppConfig.searchMode == ManAppConfig.SearchMode.CONTAINS ) {
-                            data.lowercase(Locale.getDefault()).contains(constraint.toString())
+                            data.lowercase(Locale.getDefault()).contains(constraint,true)
                         } else {
-                            data.lowercase(Locale.getDefault()).startsWith(constraint.toString(),true)
+                            data.lowercase(Locale.getDefault()).startsWith(constraint,true)
                         }
 
                         if (result) {
-                            FilteredArrList.add(originalItemList[i])
+                            filteredArrList.add(it)
                         }
                     }
                     // set the Filtered result to return
-                    results.count = FilteredArrList.size
-                    results.values = FilteredArrList
+                    results.count = filteredArrList.size
+                    results.values = filteredArrList
                 }
                 return results
             }

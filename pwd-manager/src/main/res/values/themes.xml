@@ -19,9 +19,14 @@
         <item name="pwd_item_background">@drawable/dark_pwd_item</item>
         <item name="colorOnSurface">@color/dark_on_surface</item>
         <item name="android:textColor">@color/dark_text_1</item>
+
         <item name="android:textColorPrimary">@color/dark_text_1</item>
         <item name="android:textColorSecondary">@color/dark_text_2</item>
         <item name="android:textColorTertiary">@color/dark_text_3</item>
+
+        <item name="chipBackgroundColor">@color/dark_background_chip</item>
+        <item name="chipStrokeColor">@color/dark_stroke_chip</item>
+
     </style>
     <style name="Theme.PwdManager.Light" parent="Theme.MaterialComponents.DayNight">
         <item name="android:background">@color/light_background</item>
@@ -45,6 +50,10 @@
         <item name="android:textColorPrimary">@color/light_text_1</item>
         <item name="android:textColorSecondary">@color/light_text_2</item>
         <item name="android:textColorTertiary">@color/light_text_3</item>
+
+        <item name="chipBackgroundColor">@color/light_background_chip</item>
+        <item name="chipStrokeColor">@color/light_stroke_chip</item>
+
     </style>
 
 </resources>

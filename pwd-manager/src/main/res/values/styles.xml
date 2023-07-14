@@ -36,7 +36,11 @@
     <style name="TextPwdItem_Password" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14dp</item>
     </style>
-
+    <style name="Tags_Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">?attr/chipBackgroundColor</item>
+        <item name="chipStrokeColor">?attr/chipStrokeColor</item>
+        <item name="chipStrokeWidth">1dp</item>
+    </style>
     <style name="setting_element">
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:radius">14dp</item>
@@ -49,22 +53,17 @@
         <item name="android:background">@drawable/custom_border</item>
     </style>
     <style name="setting_element_title">
-        <item name="android:textColor">@color/light_1</item>>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?android:textColorPrimary</item>>
+        <item name="android:textSize">20sp</item>
     </style>
     <style name="setting_option">
-        <item name="android:textColor">@color/light_1</item>>
+        <item name="android:textColor">?android:textColorPrimary</item>>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="SearchViewStyle">
-        <!-- Gets rid of the search icon
-        <item name="searchIcon">@drawable/ic_search</item> -->
-        <!-- Gets rid of the "underline" in the text -->
         <item name="queryBackground">@color/white</item>
-        <!-- Gets rid of the search icon when the SearchView is expanded -->
         <item name="searchHintIcon">@null</item>
-        <!-- The hint text that appears when the user has not typed anything -->
         <item name="queryHint">@string/search_item_by_name</item>
     </style>
 

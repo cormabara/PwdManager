@@ -47,7 +47,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:selectAllOnFocus="true"
-            android:text="@string/username" />
+            android:text="@string/item_name" />
 
         <EditText
             android:id="@+id/txt_username"
@@ -67,29 +67,14 @@
             android:selectAllOnFocus="true"
             android:text="@string/password" />
 
-        <EditText
-            android:id="@+id/txt_tag"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/tags_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/add_tag"
-            android:inputType="textPersonName"
-            android:text="@string/add_tag"
-            android:selectAllOnFocus="true"
-            style="@style/tag_insert"/>
-        <ListView
-            android:id="@+id/list_view_tags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/tags"
-            android:inputType="textPersonName"
-            style="@style/tag_element"/>
-
+            style="@style/setting_element_title"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:clipToPadding="true"
             android:dividerPadding="20dp"
@@ -116,7 +101,6 @@
                 android:gravity="left"
                 android:text="@string/ok"
                 android:textAlignment="center"
-                android:textColor="#0097A7"
                 android:textStyle="bold" />
             <View
                 android:layout_width="0dp"
@@ -136,7 +120,6 @@
                 android:gravity="right"
                 android:text="Cancel"
                 android:textAlignment="center"
-                android:textColor="#0097A7"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

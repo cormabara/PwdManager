@@ -3,14 +3,21 @@ package com.cormabara.pwdmanager
 import android.app.Dialog
 import android.content.Context
 import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
 import android.view.Window
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import android.widget.TextView.OnEditorActionListener
+import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
+import com.cormabara.pwdmanager.gui.dialogs.inputTextDialog
 import com.cormabara.pwdmanager.gui.lib.PwdItemAdapter
-import com.cormabara.pwdmanager.gui.lib.TagListAdapter
+import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.managers.ManPwdData
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item_: ManPwdData.PwdItem?) {
     var create = false
@@ -23,6 +30,7 @@ fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item_: ManPwdDat
     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.setCancelable(false)
     dialog.setContentView(R.layout.dialog_edit_item)
+
 
     var btnDelete = dialog.findViewById(R.id.btn_delete) as ImageButton
     btnDelete.setOnClickListener {
@@ -46,31 +54,51 @@ fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item_: ManPwdDat
     var txt_username: EditText = dialog.findViewById(R.id.txt_username)
     txt_username.setText(item.username)
 
-    var txt_tag = dialog.findViewById<EditText>(R.id.txt_tag)
-    txt_tag.setOnEditorActionListener(
-        OnEditorActionListener { _, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                  actionId == EditorInfo.IME_ACTION_DONE ||
-                  actionId == EditorInfo.IME_ACTION_NEXT ||
-                  event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
-                if (event == null || !event.isShiftPressed) {
-                    // the user is done typing.
-                    (context as MainActivity).manPwdData.addTag(txt_tag.text.toString())
-                    item.addTag(txt_tag.text.toString());
-                    //val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                    //if (imm != null)
-                    //    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    return@OnEditorActionListener true // consume.
-                }
-            }
-            false // pass on to other listeners.
+    val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+    fun addNewTagChip(tags_grp_: ChipGroup, tag_: String, item_: ManPwdData.PwdItem? = null) {
+        val chip = Chip(tags_grp_.context)
+        chip.text= "${tag_}"
+        // necessary to get single selection working
+        chip.isClickable = true
+        chip.isCheckable = true
+        if ( (item_ != null) && (item_.tagList.contains(tag_)) )
+            chip.isChecked = true
+        chip.setOnClickListener {
+            MyLog.logInfo("Chip click (ischecked=${chip.isChecked}")
+            if (chip.isChecked) item_?.addTag(tag_)
+            else item?.delTag(tag_)
         }
-    )
+
+        tags_grp_.addView(chip)
+    }
 
     var taglist = (context as MainActivity).manPwdData.getTags()
-    var adapter = TagListAdapter(taglist, item,context)
-    var listview = dialog.findViewById<ListView>(R.id.list_view_tags)
-    listview.adapter = adapter
+    val tags_grp = dialog.findViewById<ChipGroup>(R.id.tags_group)
+    val plus_chip = Chip(tags_grp.context)
+    plus_chip.chipIcon = ContextCompat.getDrawable(context,R.mipmap.img_add_item_foreground)
+    plus_chip.isClickable = true
+    plus_chip.text = ""
+    plus_chip.setOnClickListener {
+        inputTextDialog(context, "Insert new tag")
+        { r, txt_ ->
+            if (r) {
+                if (txt_ != "") {
+                    val mpwdd = context.manPwdData
+                    if (!mpwdd.checkTag(txt_)) {
+                        mpwdd.addTag(txt_)
+                        item.addTag(txt_)
+                        addNewTagChip(tags_grp, txt_)
+                        MyLog.logInfo("Tag $txt_ inserted")
+                    }
+                }
+            }
+        }
+    }
+    tags_grp.addView(plus_chip)
+    for (tag in taglist) {
+        addNewTagChip(tags_grp, tag,item)
+    }
 
     val btnok = dialog.findViewById(R.id.btn_ok) as Button
     val btncancel = dialog.findViewById(R.id.btn_cancel) as Button
@@ -78,7 +106,10 @@ fun editItemDialog(context: Context, adapter_ : PwdItemAdapter, item_: ManPwdDat
         item.setPwdName(txt_name.text.toString())
         item.setPwdPassword(txt_password.text.toString())
         item.setPwdUsername(txt_username.text.toString())
-
+        for (chip in tags_grp.children ) {
+            if ( (chip as Chip).isChecked)
+                item.addTag(chip.text.toString())
+        }
         dialog.dismiss()
         if (create)
             context.manPwdData.addItem(item)

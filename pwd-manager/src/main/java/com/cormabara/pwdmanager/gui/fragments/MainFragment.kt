@@ -8,7 +8,7 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ImageButton
 import android.widget.SearchView
-import android.widget.Toast
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.cormabara.pwdmanager.MainActivity
@@ -56,7 +56,7 @@ class MainFragment : Fragment() {
 
         binding.itemsList.onItemClickListener = OnItemClickListener { parent, _, position, _ ->
             val selectedItem = parent.getItemAtPosition(position) as ManPwdData.PwdItem
-            Toast.makeText(context, "Click on item $selectedItem", Toast.LENGTH_SHORT).show()
+            MyLog.logInfo("Click on item $selectedItem")
         }
         binding.itemsList.setLongClickable(true);
 
@@ -67,6 +67,7 @@ class MainFragment : Fragment() {
             itemsAdapter!!.notifyDataSetChanged()
             true
         })
+        createTagsPopMenu(binding.btnTagFilter)
 
         (activity as MainActivity).hideUpButton()
 
@@ -89,13 +90,15 @@ class MainFragment : Fragment() {
         searchFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                itemsAdapter!!.filter.filter(p0)
+                itemsAdapter!!.setStrFilter(p0!!)
+                itemsAdapter!!.filter.filter(itemsAdapter!!.getStrFilter())
                 searchFilter.clearFocus()
                 return false
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                itemsAdapter!!.filter.filter(p0)
+                itemsAdapter!!.setStrFilter(p0!!)
+                itemsAdapter!!.filter.filter(itemsAdapter!!.getStrFilter())
                 return false
             }
         })
@@ -122,5 +125,34 @@ class MainFragment : Fragment() {
     fun reloadfrag() {
         val ft: FragmentTransaction = parentFragmentManager.beginTransaction()
         ft.detach(this).attach(this).commit()
+    }
+
+    fun createTagsPopMenu(btn_: ImageButton) {
+        // Setting onClick behavior to the button
+        btn_.setOnClickListener {
+            // Initializing the popup menu and giving the reference as current context
+            val popupMenu = PopupMenu(context as MainActivity, btn_)
+
+            // Inflating popup menu from popup_menu.xml file
+            popupMenu.menuInflater.inflate(R.menu.tag_popup_menu, popupMenu.menu)
+            for (tag in myActivity.manPwdData.getTags()) {
+                var it = popupMenu.menu.add(tag)
+                it.isCheckable = true
+                it.isChecked = itemsAdapter?.getTagFilter() == tag;
+            }
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                menuItem.isChecked = !menuItem.isChecked
+                if (menuItem.isChecked)
+                    itemsAdapter?.setTagFilter(menuItem.title.toString())
+                else
+                    itemsAdapter?.setTagFilter("")
+
+                MyLog.logInfo("You Clicked " + menuItem.title + " and checked is: " + menuItem.isChecked)
+                itemsAdapter!!.filter.filter(itemsAdapter?.getStrFilter())
+                true
+            }
+            // Showing the popup menu
+            popupMenu.show()
+        }
     }
 }

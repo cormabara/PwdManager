@@ -50,4 +50,5 @@
     <string name="str_null" />
     <string name="password_too_short">Password too short</string>
     <string name="backup_filename">BACKUP FILE</string>
+    <string name="item_name">Name</string>
 </resources>
