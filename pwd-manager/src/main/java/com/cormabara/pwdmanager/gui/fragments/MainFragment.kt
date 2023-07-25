@@ -70,7 +70,6 @@ class MainFragment : Fragment() {
         createTagsPopMenu(binding.btnTagFilter)
 
         (activity as MainActivity).hideUpButton()
-
         return binding.root
     }
 

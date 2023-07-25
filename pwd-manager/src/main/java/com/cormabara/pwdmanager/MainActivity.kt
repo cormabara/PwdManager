@@ -51,13 +51,19 @@ class MainActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?) {
         val requiredPermissions1 = arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE)
         ActivityCompat.requestPermissions(this, requiredPermissions1, 0);
-        val requiredPermissions2 = arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE)
+        val requiredPermissions2 = arrayOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         ActivityCompat.requestPermissions(this, requiredPermissions2, 0);
         super.onCreate(savedInstanceState)
-        backupPath = this.filesDir.absoluteFile.toString() + "/backup"
-        MyLog.logOpen(this)
-        MyLog.logInfo("Program is started")
-        appInit()
+        try {
+            backupPath = this.filesDir.absoluteFile.toString() + "/backup"
+            MyLog.logOpen(this)
+            MyLog.logInfo("Program is started")
+            appInit()
+        }
+        catch (exception: Exception) {
+            MyLog.logError("Exception on Log Open")
+            MyLog.logInfo(exception.toString())
+        }
         setTheme(manAppConfig.getTheme())
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -237,5 +243,13 @@ class MainActivity : AppCompatActivity()
             sdf.format(Date())
         }
         return datetime
+    }
+    override fun onBackPressed() {
+        val currentFragment = supportFragmentManager.fragments.last()
+        val mfr = currentFragment  as MainFragment
+        if ( mfr != null ) {
+            finish()
+        }
+        true
     }
 }

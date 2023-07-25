@@ -21,7 +21,10 @@ object MyLog {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun logOpen(context_: Context) {
-        val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val path1 = Environment.getExternalStorageDirectory()
+        val path2 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val path3 = context_.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+        val path = path3
         if (path != null) {
             if (!path.exists()) {
                 path.mkdirs()
