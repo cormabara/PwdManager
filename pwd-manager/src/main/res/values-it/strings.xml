@@ -21,7 +21,7 @@
     <string name="password">Password</string>
     <string name="tags">Tags</string>
 
-    <string name="setting_title">Configurazione applicazione</string>
+    <string name="setting_title">Configurazione</string>
     <string name="setting_gui_theme">Tema UI</string>
     <string name="setting_find_mode">Modalità di ricerca</string>
     <string name="setting_language">Lingua</string>
@@ -44,5 +44,6 @@
     <string name="different_password">Password are different</string>
     <string name="password_bad_formed">Password is not well formed</string>
     <string name="str_null" />
+    <string name="bnt_setting_cancel">Cancel</string>
 
 </resources>

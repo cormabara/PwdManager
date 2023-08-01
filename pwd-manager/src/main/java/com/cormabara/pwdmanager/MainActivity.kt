@@ -21,7 +21,9 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.cormabara.pwdmanager.databinding.ActivityMainBinding
 import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
+import com.cormabara.pwdmanager.gui.dialogs.aboutDialog
 import com.cormabara.pwdmanager.gui.dialogs.backupDialog
+import com.cormabara.pwdmanager.gui.dialogs.settingsDialog
 import com.cormabara.pwdmanager.gui.fragments.MainFragment
 import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.managers.ManAppConfig
@@ -30,7 +32,6 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-import java.util.regex.Pattern
 
 
 class MainActivity : AppCompatActivity()
@@ -115,7 +116,8 @@ class MainActivity : AppCompatActivity()
                 true
             }
             R.id.action_settings -> {
-                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_settingFragment)
+                settingsDialog(this)
+                // findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_settingFragment)
                 true
             }
             R.id.action_import_data -> {
@@ -150,7 +152,7 @@ class MainActivity : AppCompatActivity()
                 return manPwdData.save(mainPassword)
             }
             R.id.action_about -> {
-                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_aboutFragment)
+                aboutDialog(this)
                 return true
             }
             else -> {

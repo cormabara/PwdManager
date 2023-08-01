@@ -29,6 +29,7 @@ class ListOption @JvmOverloads constructor(
 
     fun configure(title_: String, options_: Array<String>)
     {
+        binding.optionListTitle.text = title_
         aa = ArrayAdapter(context, android.R.layout.simple_spinner_item, options_)
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         with(binding.optionList)

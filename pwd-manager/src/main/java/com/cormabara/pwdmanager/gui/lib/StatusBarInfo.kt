@@ -18,8 +18,8 @@ class StatusBarInfo @JvmOverloads constructor(
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         binding = StatusbarInfoBinding.inflate(inflater, this)
-        binding.txtStatus1.text = "tag: 45"
-        binding.txtStatus2.text = "num: 45"
-        binding.txtStatus3.text = "info"
+        binding.txtStatus1.text = "text 1: text1"
+        binding.txtStatus2.text = "text 2: text2"
+        binding.txtStatus3.text = "text 3: text3"
     }
 }

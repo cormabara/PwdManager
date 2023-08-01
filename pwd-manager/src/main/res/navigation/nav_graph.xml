@@ -52,9 +52,9 @@
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.cormabara.pwdmanager.gui.fragments.AboutFragment"
+        android:name="com.cormabara.pwdmanager.gui.dialogs.AboutDialog"
         android:label="@string/app_title"
-        tools:layout="@layout/fragment_about">
+        tools:layout="@layout/dialog_about">
     </fragment>
 
 </navigation>

@@ -9,6 +9,7 @@
         <item name="android:textColorPrimary">?android:textColorSecondary</item>
         <item name="android:textColorSecondary">?android:textColor</item>
     </style>
+
     <style name="Divider">
         <item name="android:background">?android:attr/listDivider</item> //you can give your color here. that will change all divider color in your app.
     </style>

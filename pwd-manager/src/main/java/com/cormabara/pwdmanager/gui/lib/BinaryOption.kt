@@ -31,53 +31,34 @@ class BinaryOption @JvmOverloads constructor(
 
     init {
 
-    val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    binding = BinaryOptionBinding.inflate(inflater,this)
-    binding.optionTitle.text = "option text"
-    binding.option1.text = "opt_1"
-    binding.option2.text = "opt_2"
-    orientation = VERTICAL
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        binding = BinaryOptionBinding.inflate(inflater,this)
+        binding.optionTitle.text = "option text"
+        orientation = VERTICAL
 
-    // Get radio group selected item using on checked change listener
-    binding.optionGrp.setOnCheckedChangeListener { group, checkedId ->
-        val radio: RadioButton = findViewById(checkedId)
-        MyLog.logInfo(" On checked change :" + "${radio.text}")
-        clistener?.onOptionChanged(radio.text as String)
+        binding.optionSwitch.setOnCheckedChangeListener { _, _ ->
+            if (binding.optionSwitch.isChecked) {
+                binding.optionSwitch.text = binding.optionSwitch.textOn
+            }
+            else {
+                binding.optionSwitch.text = binding.optionSwitch.textOff
+            }
+        }
     }
-    binding.option1.setOnClickListener { view ->
-        radio_button_click(view)
-    }
-    binding.option2.setOnClickListener { view ->
-        radio_button_click(view)
-    }
-}
-    // Get the selected radio button text using radio button on click listener
-    fun radio_button_click(view: View) {
-        /* Get the clicked radio button instance */
-        val radio: RadioButton = findViewById(binding.optionGrp.checkedRadioButtonId)
-        MyLog.logInfo("On click : ${radio.text}")
-    }
+
     fun configure(title_: String, opt1_: String, opt2_: String)
     {
         binding.optionTitle.text = title_
-        binding.option1.text = opt1_
-        binding.option2.text = opt2_
+        binding.optionSwitch.textOn = opt1_
+        binding.optionSwitch.textOff = opt2_
     }
 
     fun getActive() : String
     {
-        val radio: RadioButton = findViewById(binding.optionGrp.checkedRadioButtonId)
-        return radio.text.toString()
+        return binding.optionSwitch.text as String
     }
     fun setActive(val_: String)
     {
-        val rg = binding.optionGrp
-        for (rbPosition in 0 until rg.childCount) {
-            val rb = rg.getChildAt(rbPosition) as RadioButton
-            if (rb.text == val_) {
-                //do stuff for example rb.isChecked = true
-                rb.isChecked = true
-            }
-        }
+        binding.optionSwitch.isChecked = val_ == binding.optionSwitch.textOn
     }
 }
