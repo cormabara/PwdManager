@@ -30,6 +30,7 @@
     <string name="action_about">About</string>
     <string name="add_tag">Add Tag</string>
     <string name="insert_password">Insert password</string>
+    <string name="confirm_password">Confirm password</string>
     <string name="restore_backup">Restore Backup</string>
 
     <string name="err_import_data">Cannot import data</string>
