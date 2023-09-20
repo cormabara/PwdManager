@@ -2,25 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/newPasswordFragment">
-    <action
-        android:id="@+id/action_to_aboutFragment"
-        app:destination="@id/aboutFragment" />
-    <action
-        android:id="@+id/action_to_settingFragment"
-        app:destination="@id/settingFragment" />
-    <action
-        android:id="@+id/action_to_insPasswordFragment"
-        app:destination="@id/insPasswordFragment" />
-    <action
-        android:id="@+id/action_to_newPasswordFragment"
-        app:destination="@id/newPasswordFragment" />
+    app:startDestination="@id/startupFragment">
     <action
         android:id="@+id/action_to_mainFragment"
         app:destination="@id/MainFragment" />
     <action
-        android:id="@+id/action_to_changePasswordFragment"
-        app:destination="@id/changePasswordFragment" />
+        android:id="@+id/action_to_startupFragment"
+        app:destination="@id/startupFragment" />
 
     <fragment
         android:id="@+id/MainFragment"
@@ -29,32 +17,9 @@
         tools:layout="@layout/fragment_main">
     </fragment>
     <fragment
-        android:id="@+id/insPasswordFragment"
-        android:name="com.cormabara.pwdmanager.gui.fragments.InsPasswordFragment"
-        android:label="@string/app_title"
-        tools:layout="@layout/fragment_ins_password">
-    </fragment>
-    <fragment
-        android:id="@+id/newPasswordFragment"
-        android:name="com.cormabara.pwdmanager.gui.fragments.NewPasswordFragment"
-        android:label="FirstStartFragment" >
-    </fragment>
-    <fragment
-        android:id="@+id/changePasswordFragment"
-        android:name="com.cormabara.pwdmanager.gui.fragments.ChangePasswordFragment"
-        android:label="ChangePasswordFragment" >
-    </fragment>
-    <fragment
-        android:id="@+id/settingFragment"
-        android:name="com.cormabara.pwdmanager.gui.fragments.SettingFragment"
-        android:label="fragment_setting"
-        tools:layout="@layout/fragment_setting" >
-    </fragment>
-    <fragment
-        android:id="@+id/aboutFragment"
-        android:name="com.cormabara.pwdmanager.gui.dialogs.AboutDialog"
-        android:label="@string/app_title"
-        tools:layout="@layout/dialog_about">
-    </fragment>
+        android:id="@+id/startupFragment"
+        android:name="com.cormabara.pwdmanager.gui.fragments.StartupFragment"
+        android:label="fragment_startup"
+        tools:layout="@layout/fragment_startup" />
 
 </navigation>

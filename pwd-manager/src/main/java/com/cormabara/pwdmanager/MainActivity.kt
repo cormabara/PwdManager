@@ -20,10 +20,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.cormabara.pwdmanager.databinding.ActivityMainBinding
-import com.cormabara.pwdmanager.gui.dialogs.ChooseDialog
-import com.cormabara.pwdmanager.gui.dialogs.aboutDialog
-import com.cormabara.pwdmanager.gui.dialogs.backupDialog
-import com.cormabara.pwdmanager.gui.dialogs.settingsDialog
+import com.cormabara.pwdmanager.gui.dialogs.*
 import com.cormabara.pwdmanager.gui.fragments.MainFragment
 import com.cormabara.pwdmanager.lib.MyLog
 import com.cormabara.pwdmanager.managers.ManAppConfig
@@ -45,15 +42,15 @@ class MainActivity : AppCompatActivity()
     var mainPassword: String = ""
     lateinit var backupPath: String
 
-    val IMPORT_CODE = 111
-    val EXPORT_CODE = 222
+    private val importCode = 111
+    private val exportCode = 222
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         val requiredPermissions1 = arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE)
-        ActivityCompat.requestPermissions(this, requiredPermissions1, 0);
+        ActivityCompat.requestPermissions(this, requiredPermissions1, 0)
         val requiredPermissions2 = arrayOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        ActivityCompat.requestPermissions(this, requiredPermissions2, 0);
+        ActivityCompat.requestPermissions(this, requiredPermissions2, 0)
         super.onCreate(savedInstanceState)
         try {
             backupPath = this.filesDir.absoluteFile.toString() + "/backup"
@@ -68,7 +65,7 @@ class MainActivity : AppCompatActivity()
         setTheme(manAppConfig.getTheme())
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.mainTitle.text = "Pwd Manager"
+        binding.mainTitle.text = getString(R.string.app_title)
 
         val toolbar = binding.activityToolbar
         setSupportActionBar(toolbar)
@@ -92,7 +89,7 @@ class MainActivity : AppCompatActivity()
                     if (it == ChooseDialog.ResponseType.YES) {
                         Toast.makeText(this, "Clear all data", Toast.LENGTH_SHORT).show()
                         manPwdData.newData()
-                        findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_newPasswordFragment)
+                        findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_startupFragment)
 
                     }
                 }
@@ -107,8 +104,14 @@ class MainActivity : AppCompatActivity()
                 true
             }
             R.id.action_change_password -> {
-                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_changePasswordFragment)
-                manPwdData.save(mainPassword)
+                // findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_to_changePasswordFragment)
+                passwordDialog(this,PasswordMode.PWD_CHANGE) { r, txt_ ->
+                    if (r) {
+                        MyLog.logInfo("change password is valid, new password is $txt_")
+                        mainPassword = txt_
+                        manPwdData.save(mainPassword)
+                    }
+                }
                 true
             }
             R.id.action_close_app -> {
@@ -127,7 +130,7 @@ class MainActivity : AppCompatActivity()
                     .addCategory(Intent.CATEGORY_OPENABLE)
                     .putExtra(Intent.EXTRA_LOCAL_ONLY, true)
                 startActivityForResult(Intent.createChooser(intent, "Select a file"),
-                    IMPORT_CODE)
+                    importCode)
                 return true
             }
             R.id.action_export_data -> {
@@ -139,11 +142,11 @@ class MainActivity : AppCompatActivity()
                     intent.putExtra(Intent.EXTRA_TITLE,"PwdManager-backup")
                     MyLog.logInfo("export intent ready, start activity")
                     startActivityForResult(Intent.createChooser(intent, "Select a file"),
-                        EXPORT_CODE)
+                        exportCode)
                     MyLog.logInfo("export activity done")
                 }
                 catch (e: Exception) {
-                    MyLog.logError("Error exporting files");
+                    MyLog.logError("Error exporting files")
                     Toast.makeText(this, "Error exporting file", Toast.LENGTH_SHORT).show()
                 }
                 true
@@ -166,7 +169,7 @@ class MainActivity : AppCompatActivity()
         if (resultCode == RESULT_OK) {
             val fileUri: Uri? = data_?.data   // The URI with the location of the file
             MyLog.logInfo("File Uri: $fileUri")
-            if (requestCode == IMPORT_CODE ) {
+            if (requestCode == importCode ) {
                 // Data import
                 if (fileUri != null) {
                     manPwdData.importDataFromUri(this,fileUri,mainPassword)
@@ -176,7 +179,7 @@ class MainActivity : AppCompatActivity()
                     as NavHostFragment
                 (navHostFragment.childFragmentManager.fragments[0] as MainFragment?)?.reloadData()
             }
-            else if (requestCode == EXPORT_CODE) {
+            else if (requestCode == exportCode) {
                 // Data export
                 if (fileUri != null) {
                     manPwdData.exportDataToUri(this, fileUri,mainPassword)
@@ -236,7 +239,7 @@ class MainActivity : AppCompatActivity()
     }
 
     fun getDateTime(format_: String): String {
-        var datetime: String = if (android.os.Build.VERSION.SDK_INT > 25) {
+        val datetime: String = if (Build.VERSION.SDK_INT > 25) {
             // Do something for lollipop and above versions
             val formatter = DateTimeFormatter.ofPattern(format_)
             LocalDateTime.now().format(formatter)
@@ -246,12 +249,8 @@ class MainActivity : AppCompatActivity()
         }
         return datetime
     }
+
     override fun onBackPressed() {
-        val currentFragment = supportFragmentManager.fragments.last()
-        val mfr = currentFragment  as MainFragment
-        if ( mfr != null ) {
-            finish()
-        }
-        true
+        finish()
     }
 }

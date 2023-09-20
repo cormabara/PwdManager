@@ -53,4 +53,7 @@
     <string name="backup_filename">BACKUP FILE</string>
     <string name="item_name">Name</string>
     <string name="bnt_setting_cancel">Cancel</string>
+    <string name="btn_show_hide_pwd">show_hide</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

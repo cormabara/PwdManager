@@ -27,10 +27,11 @@ class PasswordControl @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
 
     private var binding: PasswordControlBinding
+    var password: String = ""
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         binding = PasswordControlBinding.inflate(inflater,this)
-        binding.txtPwd.setOnClickListener {
+        binding.txtPwd.setOnEditorActionListener (
             TextView.OnEditorActionListener { _, actionId, event ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                     actionId == EditorInfo.IME_ACTION_DONE ||
@@ -38,29 +39,25 @@ class PasswordControl @JvmOverloads constructor(
                     event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
                     if (event == null || !event.isShiftPressed) {
-                        newAndGo()
-                        return@OnEditorActionListener true // consume.
+                        if (validatePassword(binding.txtPwd.text.toString()))
+                            password = binding.txtPwd.text.toString()
                     }
                 }
                 false // pass on to other listeners.
             }
-        }
+        )
     }
-    private fun validatePassword(pwd1_: String,pwd2_: String):Boolean {
+    private fun validatePassword(pwd_: String):Boolean {
         val specailCharPatten = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE)
         val UpperCasePatten = Pattern.compile("[A-Z ]")
         val lowerCasePatten = Pattern.compile("[a-z ]")
         val digitCasePatten = Pattern.compile("[0-9 ]")
-        if (pwd1_ != pwd2_) {
-            msgDialog(context, MsgType.MSG_INFO, context.getString(R.string.different_password))
-            return false
-        }
-        else if (pwd1_.isEmpty()) {
+        if (pwd_.isEmpty()) {
             msgDialog(context, MsgType.MSG_INFO, context.getString(R.string.password_is_empty))
             return false;
         }
         /*
-        else if (pwd1_.length < 8) {
+        else if (pwd_.length < 8) {
             showDialog(context,context.getString(R.string.password_too_short))
             return false;
         }
@@ -71,26 +68,7 @@ class PasswordControl @JvmOverloads constructor(
         else if (!digitCasePatten.matcher(pwd1_).find()) {
             showDialog(context, context.getString(R.string.number_is_missing))
             return false;
-        }
-
-         */
+        } */
         return true
-    }
-
-    private fun newAndGo()
-    {
-        val pwd1 = binding.startPassword1.text.toString()
-        val pwd2 = binding.startPassword2.text.toString()
-        MyLog.logInfo("{$pwd1-$pwd2}")
-        if (validatePassword(pwd1, pwd2)) {
-            Toast.makeText(
-                context as MainActivity,
-                "$pwd1-$pwd2",
-                Toast.LENGTH_SHORT
-            ).show()
-            (context as MainActivity).mainPassword = pwd1
-            // (context as MainActivity).manPwdData.newData()
-            findNavController().navigate(R.id.action_to_mainFragment)
-        }
     }
 }

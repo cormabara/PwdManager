@@ -49,7 +49,7 @@ class MainPasswordControl @JvmOverloads constructor(
                 newAndGo()
             }
             binding.startPassword2.setOnEditorActionListener(
-                TextView.OnEditorActionListener { v, actionId, event ->
+                TextView.OnEditorActionListener { _, actionId, event ->
                     if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                         actionId == EditorInfo.IME_ACTION_DONE ||
                         actionId == EditorInfo.IME_ACTION_NEXT ||
